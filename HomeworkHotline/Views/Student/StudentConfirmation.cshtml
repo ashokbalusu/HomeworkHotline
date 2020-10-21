@@ -1,0 +1,81 @@
+﻿@model Repository.StudentModel
+
+@{
+    ViewBag.Title = "Confirm Student";
+}
+
+<style>
+    td {
+        padding-bottom: 12px;
+    }
+</style>
+
+@using (Ajax.BeginForm("ContinueWithCall", "Student",
+    new AjaxOptions { LoadingElementId = "loader", OnSuccess = "onSuccess" }))
+{
+    var test = @ViewBag.Student;
+    <div class="row">
+        <h2>Confirm Student</h2>
+    </div>
+
+    <table style="width:700px;">
+        <tr>
+            <td style="width:30%;">
+                <label for="CodeName">Code Name</label>
+            </td>
+            <td>
+                @Html.DisplayTextFor(model => model.CodeName)
+                
+            </td>
+            <td style="display:none;">
+                @Html.EditorFor(model => model.CodeName)
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Name</label>
+            </td>
+            <td>
+                @Html.DisplayTextFor(model => model.StudentFirstName) @Html.DisplayTextFor(model => model.StudentLastName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Grade</label>
+            </td>
+            <td>
+                @Html.DisplayTextFor(model => model.Grade)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>School</label>
+            </td>
+            <td>
+                @Html.DisplayTextFor(model => model.SchoolName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Language</label>
+            </td>
+            <td>
+                @Html.DisplayName(TempData["language"].ToString())
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+
+        </tr>
+
+    </table>
+    <input type="submit" value="Yes, start call" class="btn btn-info" />
+    @Html.ActionLink("No, add new student option", "Index", "Student", new { @class = "btn btn-default" })
+}
+
+

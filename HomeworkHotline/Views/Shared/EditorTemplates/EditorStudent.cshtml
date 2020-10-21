@@ -1,0 +1,109 @@
+
+@model Repository.StudentModel
+
+@{
+    Layout = null;
+}
+
+
+@Html.HiddenFor(model => model.StudentID)
+
+
+<div id="editWindow" style="width:700px;">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Code Name</label>
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.CodeName)
+                @Html.ValidationMessageFor(model => model.CodeName)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">School</label>
+            <div class="col-sm-8">
+                @Html.DropDownList("SchoolID", new SelectList((System.Collections.IEnumerable)ViewData["schools"], "SchoolID", "SchoolName"), "",new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                @Html.ValidationMessageFor(model => model.SchoolID)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Grade</label>
+            <div class="col-sm-8">
+                @Html.DropDownList("Grade", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="K", Value = "K" },
+                    new SelectListItem{ Text="1", Value = "1" },
+                    new SelectListItem{ Text="2", Value = "2" },
+                    new SelectListItem{ Text="3", Value = "3" },
+                    new SelectListItem{ Text="4", Value = "4" },
+                    new SelectListItem{ Text="5", Value = "5" },
+                    new SelectListItem{ Text="6", Value = "6" },
+                    new SelectListItem{ Text="7", Value = "7" },
+                    new SelectListItem{ Text="8", Value = "8" },
+                    new SelectListItem{ Text="9", Value = "9" },
+                    new SelectListItem{ Text="10", Value = "10" },
+                    new SelectListItem{ Text="11", Value = "11" },
+                    new SelectListItem{ Text="12", Value = "12" },
+                    }, "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format", @style = "width: 10%" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Language</label>
+            <div class="col-sm-8">
+                @Html.DropDownList("HomeLanguageID", new SelectList((System.Collections.IEnumerable)ViewData["languageTypes"], "LanguageID", "LanguageName"), "",new { @class = "k-dropdown-wrap k-state-default k-input" })
+                @Html.ValidationMessageFor(model => model.HomeLanguageID)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Language Other</label>
+            <div class="col-sm-8">
+                @Html.EditorFor(model => model.HomeLanguageOther)
+                @Html.ValidationMessageFor(model => model.HomeLanguageOther)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Referred By</label>
+            <div class="col-sm-8">
+                @Html.DropDownList("ReferredTypeID", new SelectList((System.Collections.IEnumerable)ViewData["referredTypes"], "ReferredTypeID", "Name"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                @Html.ValidationMessageFor(model => model.ReferredTypeID)
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">Has Internet?</label>
+            <div style="padding-top:7px;" class="col-sm-8">
+                @Html.EditorFor(model => model.HasInternet, new { htmlAttributes = new { @class = "k-textbox" } })
+                @Html.ValidationMessageFor(model => model.HasInternet)
+            </div>
+        </div>
+        <div >
+            <h3 style="margin-left:10px;" class="header">Contact Info <small>(optional)</small></h3>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Parent/Guardian Phone #</label>
+                <div class="col-sm-8">@Html.EditorFor(model => model.GuardianContactPhone)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Parent/Guardian Email</label>
+                <div class="col-sm-8">@Html.EditorFor(model => model.GuardianContactEmail)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Parent/Guardian Opt Out of Communications</label>
+                <div style="padding-top:7px;" class="col-sm-7">@Html.EditorFor(model => model.GuardianOptOut, new { htmlAttributes = new { @class = "k-textbox" } })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Student Name</label>
+                <div class="col-sm-8">@Html.EditorFor(model => model.StudentFirstName)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Student Phone #</label>
+                <div class="col-sm-8">@Html.EditorFor(model => model.StudentContactPhone)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-3 control-label">Student Opt Out of Communications</label>
+                <div style="padding-top:7px;" class="col-sm-7">@Html.EditorFor(model => model.StudentOptOut, new { htmlAttributes = new { @class = "k-textbox" } })</div>
+            </div>
+           
+        </div>
+
+    </div>
+
+
+</div>

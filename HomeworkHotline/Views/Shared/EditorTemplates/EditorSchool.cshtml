@@ -1,0 +1,150 @@
+﻿@model Repository.SchoolModel
+
+@{
+    Layout = null;
+}
+
+@Html.HiddenFor(model => model.SchoolID)
+
+
+<div id="editWindow" class="edit-window">
+    <div class="col-lg-11">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">School Name</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.SchoolName)
+                    @Html.ValidationMessageFor(model => model.SchoolName)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">School Type</label>
+                <div class="col-sm-6">
+                    @Html.DropDownList("SchoolTypeID", new SelectList((System.Collections.IEnumerable)ViewData["schoolTypes"], "SchoolTypeID", "SchoolTypeName"), "",new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    @Html.ValidationMessageFor(model => model.SchoolTypeID)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Address 1</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Address1)
+                    @Html.ValidationMessageFor(model => model.Address1)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Address 2</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Address2)
+                    @Html.ValidationMessageFor(model => model.Address2)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">City</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.City)
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">State</label>
+                <div class="col-sm-1">
+                    @Html.DropDownList("State", new SelectList((System.Collections.IEnumerable)ViewData["states"], "StateCode", "StateName"),"", new { @class = "k-dropdown-wrap k-state-default k-input" })
+                    @Html.ValidationMessageFor(model => model.State)
+                </div>
+                <label for="" class="col-sm-1 control-label">Zip</label>
+                <div class="col-sm-1">
+                    @Html.EditorFor(model => model.Zip)
+                    @Html.ValidationMessageFor(model => model.Zip)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">County</label>
+                <div class="col-sm-6">
+                    @Html.DropDownList("CountyID", new SelectList((System.Collections.IEnumerable)ViewData["counties"], "CountyID", "CountyName"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    @Html.ValidationMessageFor(model => model.CountyID)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Quadrant</label>
+                <div class="col-sm-6">
+                    @Html.DropDownList("QuadrantID", new SelectList((System.Collections.IEnumerable)ViewData["quadrants"], "QuadrantID", "QuadrantName"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    @Html.ValidationMessageFor(model => model.QuadrantID)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Phone</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Phone)
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Principal Name</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.PrincipalName)
+                    @Html.ValidationMessageFor(model => model.PrincipalName)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Principal Email</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.PrincipalEmail)
+                    @Html.ValidationMessageFor(model => model.PrincipalEmail)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">PEDS</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.PEDS, new { htmlAttributes = new { @class = "k-textbox" } })%
+                    @Html.ValidationMessageFor(model => model.PEDS)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Census</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Census, new { htmlAttributes = new { @class = "k-textbox" } })
+                    @Html.ValidationMessageFor(model => model.Census)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Predicted # of 3rd Graders</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.PredictedThirdGradeStudents, new { htmlAttributes = new { @class = "k-textbox" } })
+                    @Html.ValidationMessageFor(model => model.PredictedThirdGradeStudents)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">School Board District</label>
+                <div class="col-sm-6">
+                    @Html.DropDownList("SchoolBoardDistrict", new SelectList((System.Collections.IEnumerable)ViewData["schoolDistricts"], "SchoolDistrictID", "DistrictName"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    @Html.ValidationMessageFor(model => model.SchoolBoardDistrict)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">City Council District</label>
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.CityCouncilDistrict, new { htmlAttributes = new { @class = "k-textbox" } })
+                    @Html.ValidationMessageFor(model => model.CityCouncilDistrict)
+                </div>
+            </div>
+            <div style="margin-left:20px;">
+                <div class="form-check form-check-inline">
+                    @Html.EditorFor(model => model.SonicPartner, new { htmlAttributes = new { @class = "form-check-input" } })
+                    @Html.ValidationMessageFor(model => model.SonicPartner)
+                    <label for="" class="form-check-label">Sonic Partner</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.EditorFor(model => model.TitleOneSchool, new { htmlAttributes = new { @class = "form-check-input" } })
+                    @Html.ValidationMessageFor(model => model.TitleOneSchool)
+                    <label for="" class="form-check-label">Title One School</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.EditorFor(model => model.AppalachianRegion, new { htmlAttributes = new { @class = "form-check-input" } })
+                    @Html.ValidationMessageFor(model => model.AppalachianRegion)
+                    <label for="" class="form-check-label">Appalachian Region</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

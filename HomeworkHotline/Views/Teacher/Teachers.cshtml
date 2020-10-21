@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Repository.TeacherModel>
+@{
+    ViewBag.Title = "Teachers";
+    var totalCount = @ViewBag.TotalCount;
+}
+
+@(Html.Kendo().Grid(Model)
+        .Name("grid")
+        .Pageable(p => p.Numeric(false)
+            .PreviousNext(false)
+            .Messages(m => m.Display("Records: {2}")))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.FirstName);
+            columns.Bound(c => c.LastName);
+            columns.Bound(c => c.Email);
+            columns.Bound(c => c.PhoneNumber);
+            columns.Bound(c => c.HireDate).Format("{0: MM/dd/yyyy}").Width(100).Hidden();
+            columns.Bound(c => c.EndDate).Format("{0: MM/dd/yyyy}").Width(100).Hidden();
+            columns.Bound(c => c.MNPSEmployeeNo);
+            columns.Bound(c => c.Volunteer).ClientTemplate(
+            "# if (Volunteer == true) { #" +
+                "<span class=\"k-icon k-i-check\"></span>" +
+            "# } #"
+            ).Width(90).HtmlAttributes(new { style = "text-align:center" });
+            columns.Bound(c => c.MainSubject).Title("Subject");
+            columns.Bound(c => c.SubjectOther).Hidden(true);
+            columns.Bound(c => c.GradeLevel).Width(80);
+            columns.Command(cmd => { cmd.Edit().Text(" "); cmd.Destroy().Text(" "); }).HtmlAttributes(new { style = "text-align:center;" }).Width(170);
+        })
+        .Events(x => x.ExcelExport("excelExport"))
+        .ToolBar(toolBar =>
+        {
+        toolBar.Template(
+            @<text>
+            <div class="add-button">
+                <a class='btn btn-info' href='#' onclick="location.href='@Url.Action("Register", "Account")'"><span class='k-icon k-i-plus'></span>Add Teacher</a>
+                @if (User.IsInRole("Administrator")) {
+                    <a href="" class="btn btn-primary k-grid-excel" id="exportExcel">Export to Excel</a>
+                }
+            </div>
+            <div class="search-box"><input class='k-textbox k-search' value="Search..." onfocus="if (this.value=='Search...') this.value='';" onblur="this.value = this.value==''?'Search...':this.value;" data-field="FirstName,LastName,PhoneNumber,Email" id="searchbox" /><button class="btn btn-default" id="clear-search">Clear</button></div>
+            </text>);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EditorTeacher").Window(w => w.Title("Teacher Details").Width(720)))
+        .Scrollable()
+        .Filterable(filterable => filterable
+            .Operators(operators => operators
+                .ForString(str => str
+                    .Clear()
+                    .Contains("Contains")
+                    .DoesNotContain("Does not contain")
+                    .StartsWith("Starts with")
+                    .EndsWith("Ends with")
+                    .IsEqualTo("Is equal to")
+                    .IsNotEqualTo("Is not equal to")
+                )
+            )
+        )
+        .Excel(excel => excel
+            .FileName("HH-Teachers.xlsx")
+            .Filterable(true)
+            .AllPages(true)
+        )
+        .Sortable(sortable => sortable
+            .AllowUnsort(true)
+            .SortMode(GridSortMode.MultipleColumn)
+            .ShowIndexes(true))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize((int)totalCount)
+            .Events(events => events.Sync("sync_handler"))
+            .Batch(true)
+            .Events(e =>
+            {
+                e.Sync("sync_handler");
+            })
+            .ServerOperation(false)
+            .Model(model =>
+            {
+                model.Id(c => c.UserID);
+            })
+            .Read(read => read.Action("Teachers_Read", "Teacher"))
+            .Sort(sort => sort.Add("LastName").Ascending())
+            .Update(update => update.Action("Teachers_Update", "Teacher"))
+            .Destroy(destroy => destroy.Action("Teachers_Delete", "Teacher"))
+        )
+)
+
+<script type="text/javascript">
+    function sync_handler(e) {
+        this.read();
+    }
+    $("#searchbox").on("keyup change", function () {
+        var filter = { logic: "or", filters: [] };
+        $this = $(this);
+        $searchValue = $this.val();
+        var grid = $("#grid").data("kendoGrid");
+        if ($searchValue) {
+            $.each($this.data("field").split(','), function (index, field) {
+                filter.filters.push({ field: field, operator: "contains", value: $searchValue });
+            });
+        }
+        grid.dataSource.query({ filter: filter });
+    });
+
+    $("#clear-search").on("click", function () {
+        $("#searchbox").val("");
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.filter({});
+    });
+
+
+    //$("#exportExcel").click(function () {
+    //    var grid = $("#grid").data("kendoGrid");
+    //    grid.saveAsExcel();
+    //});
+    function sync_handler(e) {
+        this.read();
+    }
+    var exportFlag = false;
+    function excelExport(e) {
+        var columns = e.sender.columns;
+        if (!exportFlag) {
+            for (var i = 0; i < columns.length; i++) {
+                if (columns[i].hidden)
+                    e.sender.showColumn(i);
+            }
+            e.preventDefault();
+            exportFlag = true;
+            setTimeout(function () {
+                e.sender.saveAsExcel();
+            });
+        } else {
+            for (var i = 0; i < columns.length; i++) {
+                if (typeof columns[i].hidden != "undefined" && !columns[i].hidden)
+                    e.sender.hideColumn(i);
+            }
+            exportFlag = false;
+        }
+    }
+</script>
+

@@ -1,0 +1,1828 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HomeworkHotlineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" />
+          <Property Name="HireDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="MNPSEmployeeNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Volunteer" Type="bit" Nullable="false" />
+          <Property Name="MainSubject" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubjectOther" Type="nvarchar" MaxLength="50" />
+          <Property Name="GradeLevel" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="CallLog">
+          <Key>
+            <PropertyRef Name="CallID" />
+          </Key>
+          <Property Name="CallID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" />
+          <Property Name="LanguageSpokenID" Type="int" Nullable="false" />
+          <Property Name="LanguageSpokenOther" Type="nvarchar" MaxLength="50" />
+          <Property Name="CallStart" Type="datetime" />
+          <Property Name="CallEnd" Type="datetime" />
+          <Property Name="ParentParticipation" Type="bit" Nullable="false" />
+          <Property Name="CallDropped" Type="bit" Nullable="false" />
+          <Property Name="CallTransferred" Type="bit" Nullable="false" />
+          <Property Name="PostTestGiven" Type="bit" Nullable="false" />
+          <Property Name="SubjectID" Type="int" />
+          <Property Name="SkillAssessedNotes" Type="nvarchar(max)" />
+          <Property Name="SessionEvalNotes" Type="nvarchar(max)" />
+          <Property Name="EvalStartID" Type="int" />
+          <Property Name="EvalEndID" Type="int" />
+          <Property Name="Textbook" Type="bit" Nullable="false" />
+          <Property Name="Worksheet" Type="bit" Nullable="false" />
+          <Property Name="Stoodle" Type="bit" Nullable="false" />
+          <Property Name="ImageShare" Type="bit" Nullable="false" />
+          <Property Name="Chat" Type="bit" Nullable="false" />
+          <Property Name="PrizeGiven" Type="datetime" />
+          <Property Name="PrizeID" Type="int" />
+          <Property Name="IsLocked" Type="bit" Nullable="false" />
+          <Property Name="BeatMath" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="PrizeStudentName" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrizeTeacherName" Type="nvarchar" MaxLength="100" />
+          <Property Name="GoogelDocs" Type="bit" Nullable="false" />
+          <Property Name="GoogleDocs" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="County">
+          <Key>
+            <PropertyRef Name="CountyID" />
+          </Key>
+          <Property Name="CountyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StateCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donor">
+          <Key>
+            <PropertyRef Name="DonorID" />
+          </Key>
+          <Property Name="DonorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DonorName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BusinessName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="20" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DonorGiving">
+          <Key>
+            <PropertyRef Name="DonorGivingID" />
+          </Key>
+          <Property Name="DonorGivingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DonorID" Type="int" Nullable="false" />
+          <Property Name="AmountGiven" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DateGiven" Type="datetime" Nullable="false" />
+          <Property Name="InKind" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EvalEnd">
+          <Key>
+            <PropertyRef Name="EvalEndID" />
+          </Key>
+          <Property Name="EvalEndID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EvalEndDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="EvalStart">
+          <Key>
+            <PropertyRef Name="EvalStartID" />
+          </Key>
+          <Property Name="EvalStartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EvalStartDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="LanguageType">
+          <Key>
+            <PropertyRef Name="LanguageID" />
+          </Key>
+          <Property Name="LanguageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LanguageName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LanguageCode" Type="nvarchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MnpsQuadrant">
+          <Key>
+            <PropertyRef Name="QuadrantID" />
+          </Key>
+          <Property Name="QuadrantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuadrantName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" />
+          <Property Name="HireDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Prize">
+          <Key>
+            <PropertyRef Name="PrizeID" />
+          </Key>
+          <Property Name="PrizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrizeName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ReferredType">
+          <Key>
+            <PropertyRef Name="ReferredTypeID" />
+          </Key>
+          <Property Name="ReferredTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="SchoolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchoolName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SchoolTypeID" Type="int" />
+          <Property Name="QuadrantID" Type="int" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="20" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="20" />
+          <Property Name="CountyID" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="PrincipalName" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrincipalEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="PEDS" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Census" Type="int" />
+          <Property Name="PredictedThirdGradeStudents" Type="int" />
+          <Property Name="SchoolBoardDistrict" Type="int" />
+          <Property Name="CityCouncilDistrict" Type="int" />
+          <Property Name="SonicPartner" Type="bit" />
+          <Property Name="TitleOneSchool" Type="bit" />
+          <Property Name="AppalachianRegion" Type="bit" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="FlashCardQty" Type="int" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SchoolDistrict">
+          <Key>
+            <PropertyRef Name="SchoolDistrictID" />
+          </Key>
+          <Property Name="SchoolDistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StateCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SchoolType">
+          <Key>
+            <PropertyRef Name="SchoolTypeID" />
+          </Key>
+          <Property Name="SchoolTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchoolTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="10" />
+          <Property Name="HomeLanguageID" Type="int" />
+          <Property Name="HomeLanguageOther" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasInternet" Type="bit" />
+          <Property Name="SchoolID" Type="int" />
+          <Property Name="ReferredTypeID" Type="int" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="GuardianContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="GuardianContactEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="StudentContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="StudentFirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StudentLastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="StudentOptOut" Type="bit" Nullable="false" />
+          <Property Name="GuardianOptOut" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectTypeID" Type="int" Nullable="false" />
+          <Property Name="SubjectName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubjectType">
+          <Key>
+            <PropertyRef Name="SubjectTypeID" />
+          </Key>
+          <Property Name="SubjectTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeEntry">
+          <Key>
+            <PropertyRef Name="TimeEntryID" />
+          </Key>
+          <Property Name="TimeEntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="IsLocked" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="PayrollDate" Type="datetime" />
+          <Property Name="ActualEndTime" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_PrincipalList">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="CountyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SchoolTypeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrincipalName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Census" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="SchoolName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SchoolID" Type="int" Nullable="false" />
+          <Property Name="PrincipalEmail" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__DonorGivi__Donor__3C34F16F">
+          <End Role="Donor" Type="Self.Donor" Multiplicity="1" />
+          <End Role="DonorGiving" Type="Self.DonorGiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donor">
+              <PropertyRef Name="DonorID" />
+            </Principal>
+            <Dependent Role="DonorGiving">
+              <PropertyRef Name="DonorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallLog_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallLog_Prize">
+          <End Role="Prize" Type="Self.Prize" Multiplicity="0..1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prize">
+              <PropertyRef Name="PrizeID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="PrizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallLog_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_EvalEnd">
+          <End Role="EvalEnd" Type="Self.EvalEnd" Multiplicity="0..1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EvalEnd">
+              <PropertyRef Name="EvalEndID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="EvalEndID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_EvalStart">
+          <End Role="EvalStart" Type="Self.EvalStart" Multiplicity="0..1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EvalStart">
+              <PropertyRef Name="EvalStartID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="EvalStartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_LanguageType">
+          <End Role="LanguageType" Type="Self.LanguageType" Multiplicity="1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageType">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="LanguageSpokenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_Subject1">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="CallLog" Type="Self.CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_County">
+          <End Role="County" Type="Self.County" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="County">
+              <PropertyRef Name="CountyID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="CountyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_MnpsQuadrant">
+          <End Role="MnpsQuadrant" Type="Self.MnpsQuadrant" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MnpsQuadrant">
+              <PropertyRef Name="QuadrantID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="QuadrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_SchoolDistrict">
+          <End Role="SchoolDistrict" Type="Self.SchoolDistrict" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolDistrict">
+              <PropertyRef Name="SchoolDistrictID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="SchoolBoardDistrict" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_SchoolType">
+          <End Role="SchoolType" Type="Self.SchoolType" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolType">
+              <PropertyRef Name="SchoolTypeID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="SchoolTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_LanguageType">
+          <End Role="LanguageType" Type="Self.LanguageType" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageType">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="HomeLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_ReferredType">
+          <End Role="ReferredType" Type="Self.ReferredType" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReferredType">
+              <PropertyRef Name="ReferredTypeID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ReferredTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_School">
+          <End Role="School" Type="Self.School" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="School">
+              <PropertyRef Name="SchoolID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="SchoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subject_SubjectType">
+          <End Role="SubjectType" Type="Self.SubjectType" Multiplicity="1" />
+          <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectType">
+              <PropertyRef Name="SubjectTypeID" />
+            </Principal>
+            <Dependent Role="Subject">
+              <PropertyRef Name="SubjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeEntry_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="TimeEntry" Type="Self.TimeEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntry">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeworkHotlineModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CallLog" EntityType="Self.CallLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="County" EntityType="Self.County" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donor" EntityType="Self.Donor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DonorGiving" EntityType="Self.DonorGiving" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EvalEnd" EntityType="Self.EvalEnd" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EvalStart" EntityType="Self.EvalStart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LanguageType" EntityType="Self.LanguageType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MnpsQuadrant" EntityType="Self.MnpsQuadrant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prize" EntityType="Self.Prize" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReferredType" EntityType="Self.ReferredType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="School" EntityType="Self.School" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolDistrict" EntityType="Self.SchoolDistrict" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SchoolType" EntityType="Self.SchoolType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectType" EntityType="Self.SubjectType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeEntry" EntityType="Self.TimeEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_PrincipalList" EntityType="Self.vw_PrincipalList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_PrincipalList].[CountyName] AS [CountyName], 
+    [vw_PrincipalList].[SchoolTypeName] AS [SchoolTypeName], 
+    [vw_PrincipalList].[PrincipalName] AS [PrincipalName], 
+    [vw_PrincipalList].[Census] AS [Census], 
+    [vw_PrincipalList].[Phone] AS [Phone], 
+    [vw_PrincipalList].[SchoolName] AS [SchoolName], 
+    [vw_PrincipalList].[SchoolID] AS [SchoolID], 
+    [vw_PrincipalList].[PrincipalEmail] AS [PrincipalEmail]
+    FROM [dbo].[vw_PrincipalList] AS [vw_PrincipalList]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__DonorGivi__Donor__3C34F16F" Association="Self.FK__DonorGivi__Donor__3C34F16F">
+            <End Role="Donor" EntitySet="Donor" />
+            <End Role="DonorGiving" EntitySet="DonorGiving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallLog_AspNetUser" Association="Self.FK_CallLog_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallLog_Prize" Association="Self.FK_CallLog_Prize">
+            <End Role="Prize" EntitySet="Prize" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallLog_Student" Association="Self.FK_CallLog_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_EvalEnd" Association="Self.FK_PhoneCall_EvalEnd">
+            <End Role="EvalEnd" EntitySet="EvalEnd" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_EvalStart" Association="Self.FK_PhoneCall_EvalStart">
+            <End Role="EvalStart" EntitySet="EvalStart" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_LanguageType" Association="Self.FK_PhoneCall_LanguageType">
+            <End Role="LanguageType" EntitySet="LanguageType" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_Subject1" Association="Self.FK_PhoneCall_Subject1">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="CallLog" EntitySet="CallLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_County" Association="Self.FK_School_County">
+            <End Role="County" EntitySet="County" />
+            <End Role="School" EntitySet="School" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_MnpsQuadrant" Association="Self.FK_School_MnpsQuadrant">
+            <End Role="MnpsQuadrant" EntitySet="MnpsQuadrant" />
+            <End Role="School" EntitySet="School" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_SchoolDistrict" Association="Self.FK_School_SchoolDistrict">
+            <End Role="SchoolDistrict" EntitySet="SchoolDistrict" />
+            <End Role="School" EntitySet="School" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_SchoolType" Association="Self.FK_School_SchoolType">
+            <End Role="SchoolType" EntitySet="SchoolType" />
+            <End Role="School" EntitySet="School" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_LanguageType" Association="Self.FK_Student_LanguageType">
+            <End Role="LanguageType" EntitySet="LanguageType" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_ReferredType" Association="Self.FK_Student_ReferredType">
+            <End Role="ReferredType" EntitySet="ReferredType" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_School" Association="Self.FK_Student_School">
+            <End Role="School" EntitySet="School" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subject_SubjectType" Association="Self.FK_Subject_SubjectType">
+            <End Role="SubjectType" EntitySet="SubjectType" />
+            <End Role="Subject" EntitySet="Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeEntry_AspNetUsers" Association="Self.FK_TimeEntry_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="TimeEntry" EntitySet="TimeEntry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HomeworkHotlineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="HireDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="MNPSEmployeeNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TimeEntries" Relationship="HomeworkHotlineModel.FK_TimeEntry_AspNetUsers" FromRole="AspNetUser" ToRole="TimeEntry" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_CallLog_AspNetUser" FromRole="AspNetUser" ToRole="CallLog" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Volunteer" Type="Boolean" Nullable="false" />
+          <Property Name="MainSubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectOther" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GradeLevel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="County">
+          <Key>
+            <PropertyRef Name="CountyID" />
+          </Key>
+          <Property Name="CountyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StateCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Schools" Relationship="Self.FK_School_County" FromRole="County" ToRole="School" />
+        </EntityType>
+        <EntityType Name="EvalEnd">
+          <Key>
+            <PropertyRef Name="EvalEndID" />
+          </Key>
+          <Property Name="EvalEndID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EvalEndDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalEnd" FromRole="EvalEnd" ToRole="CallLog" />
+        </EntityType>
+        <EntityType Name="EvalStart">
+          <Key>
+            <PropertyRef Name="EvalStartID" />
+          </Key>
+          <Property Name="EvalStartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EvalStartDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalStart" FromRole="EvalStart" ToRole="CallLog" />
+        </EntityType>
+        <EntityType Name="LanguageType">
+          <Key>
+            <PropertyRef Name="LanguageID" />
+          </Key>
+          <Property Name="LanguageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LanguageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Student_LanguageType" FromRole="LanguageType" ToRole="Student" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_LanguageType" FromRole="LanguageType" ToRole="CallLog" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReferredType">
+          <Key>
+            <PropertyRef Name="ReferredTypeID" />
+          </Key>
+          <Property Name="ReferredTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Student_ReferredType" FromRole="ReferredType" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="SchoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolTypeID" Type="Int32" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CountyID" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PrincipalName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PrincipalEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PEDS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Census" Type="Int32" />
+          <Property Name="PredictedThirdGradeStudents" Type="Int32" />
+          <Property Name="SchoolBoardDistrict" Type="Int32" />
+          <Property Name="CityCouncilDistrict" Type="Int32" />
+          <Property Name="SonicPartner" Type="Boolean" />
+          <Property Name="TitleOneSchool" Type="Boolean" />
+          <Property Name="AppalachianRegion" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="County" Relationship="Self.FK_School_County" FromRole="School" ToRole="County" />
+          <NavigationProperty Name="SchoolType" Relationship="Self.FK_School_SchoolType" FromRole="School" ToRole="SchoolType" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Student_School" FromRole="School" ToRole="Student" />
+          <NavigationProperty Name="SchoolDistrict" Relationship="HomeworkHotlineModel.FK_School_SchoolDistrict" FromRole="School" ToRole="SchoolDistrict" />
+          <Property Name="QuadrantID" Type="Int32" />
+          <NavigationProperty Name="MnpsQuadrant" Relationship="HomeworkHotlineModel.FK_School_MnpsQuadrant" FromRole="School" ToRole="MnpsQuadrant" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="FlashCardQty" Type="Int32" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SchoolType">
+          <Key>
+            <PropertyRef Name="SchoolTypeID" />
+          </Key>
+          <Property Name="SchoolTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Schools" Relationship="Self.FK_School_SchoolType" FromRole="SchoolType" ToRole="School" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HomeLanguageID" Type="Int32" />
+          <Property Name="HomeLanguageOther" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasInternet" Type="Boolean" />
+          <Property Name="SchoolID" Type="Int32" />
+          <Property Name="ReferredTypeID" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="LanguageType" Relationship="HomeworkHotlineModel.FK_Student_LanguageType" FromRole="Student" ToRole="LanguageType" />
+          <NavigationProperty Name="ReferredType" Relationship="HomeworkHotlineModel.FK_Student_ReferredType" FromRole="Student" ToRole="ReferredType" />
+          <NavigationProperty Name="School" Relationship="HomeworkHotlineModel.FK_Student_School" FromRole="Student" ToRole="School" />
+          <Property Name="GuardianContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GuardianContactEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StudentContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StudentFirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StudentLastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_CallLog_Student" FromRole="Student" ToRole="CallLog" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StudentOptOut" Type="Boolean" Nullable="false" />
+          <Property Name="GuardianOptOut" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SubjectType" Relationship="Self.FK_Subject_SubjectType" FromRole="Subject" ToRole="SubjectType" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_Subject1" FromRole="Subject" ToRole="CallLog" />
+        </EntityType>
+        <EntityType Name="SubjectType">
+          <Key>
+            <PropertyRef Name="SubjectTypeID" />
+          </Key>
+          <Property Name="SubjectTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Subject_SubjectType" FromRole="SubjectType" ToRole="Subject" />
+        </EntityType>
+        <EntityType Name="TimeEntry">
+          <Key>
+            <PropertyRef Name="TimeEntryID" />
+          </Key>
+          <Property Name="TimeEntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EntryDate" Type="DateTime" Precision="3" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="PayrollDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="HomeworkHotlineModel.FK_TimeEntry_AspNetUsers" FromRole="TimeEntry" ToRole="AspNetUser" />
+          <Property Name="ActualEndTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_County">
+          <End Role="County" Type="Self.County" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="County">
+              <PropertyRef Name="CountyID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="CountyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_LanguageType">
+          <End Role="LanguageType" Type="Self.LanguageType" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageType">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="HomeLanguageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_ReferredType">
+          <End Role="ReferredType" Type="Self.ReferredType" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReferredType">
+              <PropertyRef Name="ReferredTypeID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ReferredTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School_SchoolType">
+          <End Role="SchoolType" Type="Self.SchoolType" Multiplicity="0..1" />
+          <End Role="School" Type="Self.School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolType">
+              <PropertyRef Name="SchoolTypeID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="SchoolTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_School">
+          <End Role="School" Type="Self.School" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="School">
+              <PropertyRef Name="SchoolID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="SchoolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subject_SubjectType">
+          <End Role="SubjectType" Type="Self.SubjectType" Multiplicity="1" />
+          <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectType">
+              <PropertyRef Name="SubjectTypeID" />
+            </Principal>
+            <Dependent Role="Subject">
+              <PropertyRef Name="SubjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="HomeworkHotlineEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Counties" EntityType="Self.County" />
+          <EntitySet Name="EvalEnds" EntityType="Self.EvalEnd" />
+          <EntitySet Name="EvalStarts" EntityType="Self.EvalStart" />
+          <EntitySet Name="LanguageTypes" EntityType="Self.LanguageType" />
+          <EntitySet Name="Materials" EntityType="Self.Material" />
+          <EntitySet Name="ReferredTypes" EntityType="Self.ReferredType" />
+          <EntitySet Name="Schools" EntityType="Self.School" />
+          <EntitySet Name="SchoolTypes" EntityType="Self.SchoolType" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="SubjectTypes" EntityType="Self.SubjectType" />
+          <EntitySet Name="TimeEntries" EntityType="Self.TimeEntry" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_County" Association="Self.FK_School_County">
+            <End Role="County" EntitySet="Counties" />
+            <End Role="School" EntitySet="Schools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_LanguageType" Association="Self.FK_Student_LanguageType">
+            <End Role="LanguageType" EntitySet="LanguageTypes" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_ReferredType" Association="Self.FK_Student_ReferredType">
+            <End Role="ReferredType" EntitySet="ReferredTypes" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School_SchoolType" Association="Self.FK_School_SchoolType">
+            <End Role="SchoolType" EntitySet="SchoolTypes" />
+            <End Role="School" EntitySet="Schools" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_School" Association="Self.FK_Student_School">
+            <End Role="School" EntitySet="Schools" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subject_SubjectType" Association="Self.FK_Subject_SubjectType">
+            <End Role="SubjectType" EntitySet="SubjectTypes" />
+            <End Role="Subject" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Prizes" EntityType="HomeworkHotlineModel.Prize" />
+          <EntitySet Name="SchoolDistricts" EntityType="HomeworkHotlineModel.SchoolDistrict" />
+          <AssociationSet Name="FK_School_SchoolDistrict" Association="HomeworkHotlineModel.FK_School_SchoolDistrict">
+            <End Role="SchoolDistrict" EntitySet="SchoolDistricts" />
+            <End Role="School" EntitySet="Schools" />
+          </AssociationSet>
+          <EntitySet Name="vw_PrincipalList" EntityType="HomeworkHotlineModel.vw_PrincipalList" />
+          <EntitySet Name="MnpsQuadrants" EntityType="HomeworkHotlineModel.MnpsQuadrant" />
+          <AssociationSet Name="FK_School_MnpsQuadrant" Association="HomeworkHotlineModel.FK_School_MnpsQuadrant">
+            <End Role="MnpsQuadrant" EntitySet="MnpsQuadrants" />
+            <End Role="School" EntitySet="Schools" />
+          </AssociationSet>
+          <EntitySet Name="Donors" EntityType="HomeworkHotlineModel.Donor" />
+          <EntitySet Name="C__MigrationHistory" EntityType="HomeworkHotlineModel.C__MigrationHistory" />
+          <EntitySet Name="People" EntityType="HomeworkHotlineModel.Person" />
+          <AssociationSet Name="FK_TimeEntry_AspNetUsers" Association="HomeworkHotlineModel.FK_TimeEntry_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="TimeEntry" EntitySet="TimeEntries" />
+          </AssociationSet>
+          <EntitySet Name="CallLogs" EntityType="HomeworkHotlineModel.CallLog" />
+          <AssociationSet Name="FK_CallLog_AspNetUser" Association="HomeworkHotlineModel.FK_CallLog_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallLog_Prize" Association="HomeworkHotlineModel.FK_CallLog_Prize">
+            <End Role="Prize" EntitySet="Prizes" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallLog_Student" Association="HomeworkHotlineModel.FK_CallLog_Student">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_EvalEnd" Association="HomeworkHotlineModel.FK_PhoneCall_EvalEnd">
+            <End Role="EvalEnd" EntitySet="EvalEnds" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_EvalStart" Association="HomeworkHotlineModel.FK_PhoneCall_EvalStart">
+            <End Role="EvalStart" EntitySet="EvalStarts" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_LanguageType" Association="HomeworkHotlineModel.FK_PhoneCall_LanguageType">
+            <End Role="LanguageType" EntitySet="LanguageTypes" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneCall_Subject1" Association="HomeworkHotlineModel.FK_PhoneCall_Subject1">
+            <End Role="Subject" EntitySet="Subjects" />
+            <End Role="CallLog" EntitySet="CallLogs" />
+          </AssociationSet>
+          <EntitySet Name="DonorGivings" EntityType="HomeworkHotlineModel.DonorGiving" />
+          <AssociationSet Name="FK__DonorGivi__Donor__46B27FE2" Association="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2">
+            <End Role="Donor" EntitySet="Donors" />
+            <End Role="DonorGiving" EntitySet="DonorGivings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Prize">
+          <Key>
+            <PropertyRef Name="PrizeID" />
+          </Key>
+          <Property Name="PrizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrizeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_CallLog_Prize" FromRole="Prize" ToRole="CallLog" />
+        </EntityType>
+        <EntityType Name="SchoolDistrict">
+          <Key>
+            <PropertyRef Name="SchoolDistrictID" />
+          </Key>
+          <Property Name="SchoolDistrictID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StateCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Schools" Relationship="HomeworkHotlineModel.FK_School_SchoolDistrict" FromRole="SchoolDistrict" ToRole="School" />
+        </EntityType>
+        <Association Name="FK_School_SchoolDistrict">
+          <End Type="HomeworkHotlineModel.SchoolDistrict" Role="SchoolDistrict" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.School" Role="School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SchoolDistrict">
+              <PropertyRef Name="SchoolDistrictID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="SchoolBoardDistrict" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_PrincipalList">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="CountyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PrincipalName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Census" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolID" Type="Int32" Nullable="false" />
+          <Property Name="PrincipalEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MnpsQuadrant">
+          <Key>
+            <PropertyRef Name="QuadrantID" />
+          </Key>
+          <Property Name="QuadrantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuadrantName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Schools" Relationship="HomeworkHotlineModel.FK_School_MnpsQuadrant" FromRole="MnpsQuadrant" ToRole="School" />
+        </EntityType>
+        <Association Name="FK_School_MnpsQuadrant">
+          <End Type="HomeworkHotlineModel.MnpsQuadrant" Role="MnpsQuadrant" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.School" Role="School" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MnpsQuadrant">
+              <PropertyRef Name="QuadrantID" />
+            </Principal>
+            <Dependent Role="School">
+              <PropertyRef Name="QuadrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Donor">
+          <Key>
+            <PropertyRef Name="DonorID" />
+          </Key>
+          <Property Name="DonorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="DonorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DonorGivings" Relationship="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2" FromRole="Donor" ToRole="DonorGiving" />
+        </EntityType>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="HireDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_TimeEntry_AspNetUsers">
+          <End Type="HomeworkHotlineModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="HomeworkHotlineModel.TimeEntry" Role="TimeEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeEntry">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CallLog">
+          <Key>
+            <PropertyRef Name="CallID" />
+          </Key>
+          <Property Name="CallID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageSpokenID" Type="Int32" Nullable="false" />
+          <Property Name="LanguageSpokenOther" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CallStart" Type="DateTime" Precision="3" />
+          <Property Name="CallEnd" Type="DateTime" Precision="3" />
+          <Property Name="ParentParticipation" Type="Boolean" Nullable="false" />
+          <Property Name="CallDropped" Type="Boolean" Nullable="false" />
+          <Property Name="CallTransferred" Type="Boolean" Nullable="false" />
+          <Property Name="PostTestGiven" Type="Boolean" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" />
+          <Property Name="SkillAssessedNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SessionEvalNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EvalStartID" Type="Int32" />
+          <Property Name="EvalEndID" Type="Int32" />
+          <Property Name="Textbook" Type="Boolean" Nullable="false" />
+          <Property Name="Worksheet" Type="Boolean" Nullable="false" />
+          <Property Name="Stoodle" Type="Boolean" Nullable="false" />
+          <Property Name="ImageShare" Type="Boolean" Nullable="false" />
+          <Property Name="Chat" Type="Boolean" Nullable="false" />
+          <Property Name="PrizeGiven" Type="DateTime" Precision="3" />
+          <Property Name="PrizeID" Type="Int32" />
+          <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <Property Name="BeatMath" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="PrizeStudentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PrizeTeacherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="HomeworkHotlineModel.FK_CallLog_AspNetUser" FromRole="CallLog" ToRole="AspNetUser" />
+          <NavigationProperty Name="Prize" Relationship="HomeworkHotlineModel.FK_CallLog_Prize" FromRole="CallLog" ToRole="Prize" />
+          <NavigationProperty Name="Student" Relationship="HomeworkHotlineModel.FK_CallLog_Student" FromRole="CallLog" ToRole="Student" />
+          <NavigationProperty Name="EvalEnd" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalEnd" FromRole="CallLog" ToRole="EvalEnd" />
+          <NavigationProperty Name="EvalStart" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalStart" FromRole="CallLog" ToRole="EvalStart" />
+          <NavigationProperty Name="LanguageType" Relationship="HomeworkHotlineModel.FK_PhoneCall_LanguageType" FromRole="CallLog" ToRole="LanguageType" />
+          <NavigationProperty Name="Subject" Relationship="HomeworkHotlineModel.FK_PhoneCall_Subject1" FromRole="CallLog" ToRole="Subject" />
+          <Property Name="GoogleDocs" Type="Boolean" Nullable="false" />
+          <Property Name="GoogelDocs" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CallLog_AspNetUser">
+          <End Type="HomeworkHotlineModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallLog_Prize">
+          <End Type="HomeworkHotlineModel.Prize" Role="Prize" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prize">
+              <PropertyRef Name="PrizeID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="PrizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallLog_Student">
+          <End Type="HomeworkHotlineModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_EvalEnd">
+          <End Type="HomeworkHotlineModel.EvalEnd" Role="EvalEnd" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EvalEnd">
+              <PropertyRef Name="EvalEndID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="EvalEndID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_EvalStart">
+          <End Type="HomeworkHotlineModel.EvalStart" Role="EvalStart" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EvalStart">
+              <PropertyRef Name="EvalStartID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="EvalStartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_LanguageType">
+          <End Type="HomeworkHotlineModel.LanguageType" Role="LanguageType" Multiplicity="1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguageType">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="LanguageSpokenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneCall_Subject1">
+          <End Type="HomeworkHotlineModel.Subject" Role="Subject" Multiplicity="0..1" />
+          <End Type="HomeworkHotlineModel.CallLog" Role="CallLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="CallLog">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DonorGiving">
+          <Key>
+            <PropertyRef Name="DonorGivingID" />
+          </Key>
+          <Property Name="DonorGivingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DonorID" Type="Int32" Nullable="false" />
+          <Property Name="AmountGiven" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DateGiven" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InKind" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Donor" Relationship="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2" FromRole="DonorGiving" ToRole="Donor" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__DonorGivi__Donor__46B27FE2">
+          <End Type="HomeworkHotlineModel.Donor" Role="Donor" Multiplicity="1" />
+          <End Type="HomeworkHotlineModel.DonorGiving" Role="DonorGiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donor">
+              <PropertyRef Name="DonorID" />
+            </Principal>
+            <Dependent Role="DonorGiving">
+              <PropertyRef Name="DonorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HomeworkHotlineModelStoreContainer" CdmEntityContainer="HomeworkHotlineEntities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="GradeLevel" ColumnName="GradeLevel" />
+                <ScalarProperty Name="SubjectOther" ColumnName="SubjectOther" />
+                <ScalarProperty Name="MainSubject" ColumnName="MainSubject" />
+                <ScalarProperty Name="Volunteer" ColumnName="Volunteer" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="MNPSEmployeeNo" ColumnName="MNPSEmployeeNo" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Counties">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.County">
+              <MappingFragment StoreEntitySet="County">
+                <ScalarProperty Name="CountyID" ColumnName="CountyID" />
+                <ScalarProperty Name="CountyName" ColumnName="CountyName" />
+                <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EvalEnds">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.EvalEnd">
+              <MappingFragment StoreEntitySet="EvalEnd">
+                <ScalarProperty Name="EvalEndID" ColumnName="EvalEndID" />
+                <ScalarProperty Name="EvalEndDescription" ColumnName="EvalEndDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EvalStarts">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.EvalStart">
+              <MappingFragment StoreEntitySet="EvalStart">
+                <ScalarProperty Name="EvalStartID" ColumnName="EvalStartID" />
+                <ScalarProperty Name="EvalStartDescription" ColumnName="EvalStartDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LanguageTypes">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.LanguageType">
+              <MappingFragment StoreEntitySet="LanguageType">
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReferredTypes">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.ReferredType">
+              <MappingFragment StoreEntitySet="ReferredType">
+                <ScalarProperty Name="ReferredTypeID" ColumnName="ReferredTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schools">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.School">
+              <MappingFragment StoreEntitySet="School">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="FlashCardQty" ColumnName="FlashCardQty" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="QuadrantID" ColumnName="QuadrantID" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+                <ScalarProperty Name="SchoolTypeID" ColumnName="SchoolTypeID" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="CountyID" ColumnName="CountyID" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="PrincipalName" ColumnName="PrincipalName" />
+                <ScalarProperty Name="PrincipalEmail" ColumnName="PrincipalEmail" />
+                <ScalarProperty Name="PEDS" ColumnName="PEDS" />
+                <ScalarProperty Name="Census" ColumnName="Census" />
+                <ScalarProperty Name="PredictedThirdGradeStudents" ColumnName="PredictedThirdGradeStudents" />
+                <ScalarProperty Name="SchoolBoardDistrict" ColumnName="SchoolBoardDistrict" />
+                <ScalarProperty Name="CityCouncilDistrict" ColumnName="CityCouncilDistrict" />
+                <ScalarProperty Name="SonicPartner" ColumnName="SonicPartner" />
+                <ScalarProperty Name="TitleOneSchool" ColumnName="TitleOneSchool" />
+                <ScalarProperty Name="AppalachianRegion" ColumnName="AppalachianRegion" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchoolTypes">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.SchoolType">
+              <MappingFragment StoreEntitySet="SchoolType">
+                <ScalarProperty Name="SchoolTypeID" ColumnName="SchoolTypeID" />
+                <ScalarProperty Name="SchoolTypeName" ColumnName="SchoolTypeName" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.State">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="GuardianOptOut" ColumnName="GuardianOptOut" />
+                <ScalarProperty Name="StudentOptOut" ColumnName="StudentOptOut" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="StudentLastName" ColumnName="StudentLastName" />
+                <ScalarProperty Name="StudentFirstName" ColumnName="StudentFirstName" />
+                <ScalarProperty Name="StudentContactNumber" ColumnName="StudentContactNumber" />
+                <ScalarProperty Name="GuardianContactEmail" ColumnName="GuardianContactEmail" />
+                <ScalarProperty Name="GuardianContactNumber" ColumnName="GuardianContactNumber" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="CodeName" ColumnName="CodeName" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="HomeLanguageID" ColumnName="HomeLanguageID" />
+                <ScalarProperty Name="HomeLanguageOther" ColumnName="HomeLanguageOther" />
+                <ScalarProperty Name="HasInternet" ColumnName="HasInternet" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="ReferredTypeID" ColumnName="ReferredTypeID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectTypes">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.SubjectType">
+              <MappingFragment StoreEntitySet="SubjectType">
+                <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+                <ScalarProperty Name="SubjectTypeName" ColumnName="SubjectTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeEntries">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.TimeEntry">
+              <MappingFragment StoreEntitySet="TimeEntry">
+                <ScalarProperty Name="ActualEndTime" ColumnName="ActualEndTime" />
+                <ScalarProperty Name="PayrollDate" ColumnName="PayrollDate" />
+                <ScalarProperty Name="TimeEntryID" ColumnName="TimeEntryID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="HomeworkHotlineModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Prizes">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Prize">
+              <MappingFragment StoreEntitySet="Prize">
+                <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />
+                <ScalarProperty Name="PrizeID" ColumnName="PrizeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SchoolDistricts">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.SchoolDistrict">
+              <MappingFragment StoreEntitySet="SchoolDistrict">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="SchoolDistrictID" ColumnName="SchoolDistrictID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_PrincipalList">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.vw_PrincipalList">
+              <MappingFragment StoreEntitySet="vw_PrincipalList">
+                <ScalarProperty Name="PrincipalEmail" ColumnName="PrincipalEmail" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Census" ColumnName="Census" />
+                <ScalarProperty Name="PrincipalName" ColumnName="PrincipalName" />
+                <ScalarProperty Name="SchoolTypeName" ColumnName="SchoolTypeName" />
+                <ScalarProperty Name="CountyName" ColumnName="CountyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MnpsQuadrants">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.MnpsQuadrant">
+              <MappingFragment StoreEntitySet="MnpsQuadrant">
+                <ScalarProperty Name="QuadrantName" ColumnName="QuadrantName" />
+                <ScalarProperty Name="QuadrantID" ColumnName="QuadrantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donors">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Donor">
+              <MappingFragment StoreEntitySet="Donor">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="DonorName" ColumnName="DonorName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="DonorID" ColumnName="DonorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CallLogs">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.CallLog">
+              <MappingFragment StoreEntitySet="CallLog">
+                <ScalarProperty Name="GoogelDocs" ColumnName="GoogelDocs" />
+                <ScalarProperty Name="GoogleDocs" ColumnName="GoogleDocs" />
+                <ScalarProperty Name="PrizeTeacherName" ColumnName="PrizeTeacherName" />
+                <ScalarProperty Name="PrizeStudentName" ColumnName="PrizeStudentName" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BeatMath" ColumnName="BeatMath" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="PrizeID" ColumnName="PrizeID" />
+                <ScalarProperty Name="PrizeGiven" ColumnName="PrizeGiven" />
+                <ScalarProperty Name="Chat" ColumnName="Chat" />
+                <ScalarProperty Name="ImageShare" ColumnName="ImageShare" />
+                <ScalarProperty Name="Stoodle" ColumnName="Stoodle" />
+                <ScalarProperty Name="Worksheet" ColumnName="Worksheet" />
+                <ScalarProperty Name="Textbook" ColumnName="Textbook" />
+                <ScalarProperty Name="EvalEndID" ColumnName="EvalEndID" />
+                <ScalarProperty Name="EvalStartID" ColumnName="EvalStartID" />
+                <ScalarProperty Name="SessionEvalNotes" ColumnName="SessionEvalNotes" />
+                <ScalarProperty Name="SkillAssessedNotes" ColumnName="SkillAssessedNotes" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="PostTestGiven" ColumnName="PostTestGiven" />
+                <ScalarProperty Name="CallTransferred" ColumnName="CallTransferred" />
+                <ScalarProperty Name="CallDropped" ColumnName="CallDropped" />
+                <ScalarProperty Name="ParentParticipation" ColumnName="ParentParticipation" />
+                <ScalarProperty Name="CallEnd" ColumnName="CallEnd" />
+                <ScalarProperty Name="CallStart" ColumnName="CallStart" />
+                <ScalarProperty Name="LanguageSpokenOther" ColumnName="LanguageSpokenOther" />
+                <ScalarProperty Name="LanguageSpokenID" ColumnName="LanguageSpokenID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="CallID" ColumnName="CallID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DonorGivings">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.DonorGiving">
+              <MappingFragment StoreEntitySet="DonorGiving">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="InKind" ColumnName="InKind" />
+                <ScalarProperty Name="DateGiven" ColumnName="DateGiven" />
+                <ScalarProperty Name="AmountGiven" ColumnName="AmountGiven" />
+                <ScalarProperty Name="DonorID" ColumnName="DonorID" />
+                <ScalarProperty Name="DonorGivingID" ColumnName="DonorGivingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

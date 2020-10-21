@@ -1,0 +1,283 @@
+﻿@model IEnumerable<Repository.CallLogModel>
+@using Repository;
+
+@{
+    ViewBag.Title = "Call Logs";
+    var totalCount = @ViewBag.TotalCount;
+}
+
+<style>
+    .k-grid tbody .k-button {
+        min-width:0;
+    } 
+
+</style>
+
+@(Html.Kendo().Grid(Model)
+
+        .Name("grid")
+        .Pageable(p => p.Numeric(false)
+            .PreviousNext(false)
+            .Messages(m => m.Display("Records: {2}")))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.CodeName).Width(125);
+            columns.Bound(c => c.CallStart).Format("{0:d}").Title("Call Date");
+            columns.Bound(c => c.CallStart).Format("{0:hh:mm tt }").Filterable(false).Width(80);
+            columns.Bound(c => c.CallEnd).Format("{0:hh:mm tt }").Filterable(false).Width(80);
+            columns.Bound(c => c.Duration).ClientTemplate("#=timeConversion(data) #").HtmlAttributes(new { style = "text-align:right" }).Width(80).Filterable(false);
+            columns.Bound(c => c.TeacherName).Title("Teacher");
+            columns.Bound(c => c.StudentGrade).Hidden(true);
+            columns.Bound(c => c.StudentSchool).Hidden(true);
+            columns.Bound(c => c.StudentSchoolCounty).Title("County");
+            columns.Bound(c => c.StudentHasInternet).Hidden(true);
+            columns.Bound(c => c.StudentTotalCalls).Hidden(true);
+            columns.Bound(c => c.LanguageName).Hidden(true);
+            columns.Bound(c => c.LanguageSpokenOther).Hidden(true);
+            columns.Bound(c => c.BeatMath).Hidden(true);
+            columns.Bound(c => c.ParentParticipation).Hidden(true);
+            columns.Bound(c => c.CallDropped).Title("Drop").ClientTemplate(
+                            "# if (CallDropped == true) { #" +
+                                "<span class=\"k-icon k-i-check\"></span>" +
+                            "# } #").HtmlAttributes(new { style = "text-align:center" }).Width(80);
+            columns.Bound(c => c.CallTransferred).Title("Transfer").ClientTemplate(
+                            "# if (CallTransferred == true) { #" +
+                                "<span class=\"k-icon k-i-check\"></span>" +
+                            "# } #").HtmlAttributes(new { style = "text-align:center" }).Width(90);
+            columns.Bound(c => c.StudentNeedsPrize).Title("Prize").ClientTemplate(
+                            "# if (StudentNeedsPrize == true) { #" +
+                                "<span class=\"k-icon k-i-check\"></span>" +
+                            "# } #").HtmlAttributes(new { style = "text-align:center" }).Width(80);
+            columns.Command(cmd => { cmd.Edit().Text(" "); cmd.Destroy().Text(" ").Visible("IsAdmin"); }).HtmlAttributes(new { style = "text-align:center;" }).Width(140);
+
+            columns.Bound(c => c.SubjectName).Hidden(true);
+            columns.Bound(c => c.SkillAssessedNotes).Hidden(true);
+
+            columns.Bound(c => c.EvalStartDescription).Hidden(true);
+            columns.Bound(c => c.PostTestGiven).Hidden(true);
+            columns.Bound(c => c.EvalEndDescription).Hidden(true);
+
+            columns.Bound(c => c.Textbook).Hidden(true);
+            columns.Bound(c => c.Worksheet).Hidden(true);
+            columns.Bound(c => c.Stoodle).Hidden(true);
+            columns.Bound(c => c.ImageShare).Hidden(true);
+            columns.Bound(c => c.Chat).Hidden(true);
+            columns.Bound(c => c.GoogleDocs).Hidden(true);
+            columns.Bound(c => c.SessionEvalNotes).Hidden(true);
+
+            columns.Bound(c => c.PrizeName).Hidden(true);
+            columns.Bound(c => c.PrizeStudentName).Hidden(true);
+            columns.Bound(c => c.PrizeTeacherName).Hidden(true);
+            columns.Bound(c => c.PrizeGiven).Hidden(true);
+
+        })
+.Events(x => x.ExcelExport("excelExport"))
+.ToolBar(toolBar =>
+{
+
+toolBar.Template(@<text>
+
+            <div class="add-button">
+                @if (User.IsInRole("Administrator"))
+                        {
+                    <a href="" style="margin-right:10px;" class="btn btn-primary k-grid-excel" id="exportExcel">Export to Excel</a><a href="" class="btn btn-warning" id="prizeLetters">Generate Prize Letters</a>
+                }
+            </div>
+            <div class="search-box"><input class='k-textbox k-search' value="Search..." onfocus="if (this.value=='Search...') this.value='';" onblur="this.value = this.value==''?'Search...':this.value;" data-field="CodeName,TeacherName,StudentSchoolCounty" id="searchbox" /><button class="btn btn-default" id="clear-search">Clear</button></div></text>);
+
+})
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EditorCallLog").Window(w => w.Title("Call Log Details").Width(720)))
+        .Events(e => {
+            e.Save("onSave");
+        })
+        .Scrollable()
+        .Filterable(filterable => filterable
+            .Operators(operators => operators
+                .ForString(str => str
+                    .Clear()
+                    .Contains("Contains")
+                    .DoesNotContain("Does not contain")
+                    .StartsWith("Starts with")
+                    .EndsWith("Ends with")
+                    .IsEqualTo("Is equal to")
+                    .IsNotEqualTo("Is not equal to")
+            )
+            .ForDate(dte => dte.Clear()
+                    .IsGreaterThanOrEqualTo("After or Equal to")
+                    .IsGreaterThan("After")
+                    .IsLessThanOrEqualTo("Before or Equal to")
+                    .IsLessThan("Before")
+                )
+        )
+        )
+        .Excel(excel => excel
+            .FileName("HH-CallLog.xlsx")
+            .Filterable(true)
+            .AllPages(true)
+        )
+        .Sortable(sortable => sortable
+            .AllowUnsort(true)
+            .SortMode(GridSortMode.MultipleColumn)
+            .ShowIndexes(true))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Filter(f => f.Add(a => a.CallStart).IsGreaterThanOrEqualTo(DateTime.Today.AddDays(-30)))
+            .PageSize((int)totalCount)
+            .Events(e =>
+            {
+                e.Change("onChange");
+                e.Sync("sync_handler");
+            })
+            .Batch(true)
+            .ServerOperation(false)
+            .Model(model =>
+            {
+                model.Id(c => c.CallID);
+                model.Field(c => c.PrizeStudentName);
+            })
+            .Read(read => read.Action("CallLogs_Read", "CallLog"))
+            .Sort(sort => sort.Add("CallStart").Descending())
+            .Update(update => update.Action("CallLogs_Update", "CallLog"))
+            .Destroy(destroy => destroy.Action("CallLogs_Delete", "CallLog"))
+        )
+)
+
+<script type="text/javascript">
+    function sync_handler(e) {
+        this.read();
+    }
+    $("#searchbox").on("keyup change", function () {
+        var filter = { logic: "or", filters: [] };
+        $this = $(this);
+        $searchValue = $this.val();
+        var grid = $("#grid").data("kendoGrid");
+        if ($searchValue) {
+            $.each($this.data("field").split(','), function(index, field){
+               filter.filters.push({ field: field, operator: "contains", value: $searchValue });
+            });
+        }
+        grid.dataSource.query({ filter: filter });
+    });
+
+    $("#clear-search").on("click", function () {
+        $("#searchbox").val("");
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.filter({});
+    });
+
+    $("#prizeLetters").on("click", function () {
+        $.ajax({
+            dataType: "json",
+            url: "/CallLog/GeneratePrizeLetter",
+            type: 'POST',
+            success: function (file) {
+                var response = file;
+                window.location = '/CallLog/Download?fileGuid=' + response.FileGuid
+                    + '&filename=' + response.FileName;
+            },
+            error: function (error) {
+            }
+        });
+    });
+
+    function timeConversion(data) {
+        var hrs = parseInt(Number(data.Duration));
+        var min = (Math.round((Number(data.Duration)-hrs) * 60)).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        return hrs +':'+ min;
+    }
+
+    function timeGroupConversion(data) {
+        var hrs = parseInt(Number(data));
+        var min = (Math.round((Number(data)-hrs) * 60)).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        return hrs +':'+ min;
+    }
+
+    function timeToDecimal(t) {
+        var arr = t.split(':');
+        var dec = parseInt((arr[1]/6)*10, 10);
+
+        return parseFloat(parseInt(arr[0], 10) + '.' + (dec<10?'0':'') + dec);
+    }
+
+    function onChange(e) {
+        if (e.action == "itemchange" && e.field == "CallEnd"){
+            if (e.items[0].CallEnd < e.items[0].CallStart) {
+                alert("Call End cannot be before Call Start.")
+                e.preventDefault();
+                return false;
+            }
+        }
+    }
+
+    function onSave(e) {
+        if (e.model.CallEnd < e.model.CallStart) {
+            alert("Call End cannot be before Call Start.")
+            e.preventDefault();
+            return false;
+        }
+
+        var confirmUpdate = confirm("Are you sure you want to edit this Call Log?");
+        if (!confirmUpdate)
+        {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    function IsAdmin(dataItem) {
+        var isAdmin = @ViewBag.IsAdmin.ToString().ToLower();
+        return isAdmin;
+    }
+
+    function excelExport(e) {
+        var sheet = e.workbook.sheets[0];
+
+        for (var rowIndex = 1; rowIndex < sheet.rows.length; rowIndex++) {
+            var row = sheet.rows[rowIndex];
+            if (row.cells[1] != undefined) row.cells[1].format = "MM/dd/yyyy"
+            if (row.cells[2] != undefined && row.cells[2].value != null) {
+                row.cells[2].value = addSeconds(row.cells[2].value, 5);
+                row.cells[2].format = "hh:mm AM/PM"
+            }
+            if (row.cells[3] != undefined && row.cells[3].value != null) {
+                row.cells[3].value = addSeconds(row.cells[3].value, 5);
+                row.cells[3].format = "hh:mm AM/PM"
+            }
+        }
+    }
+
+    // Google UTC update that is not handled in Kendo control so have to add seconds for export to show accurate data
+    function addSeconds(date, seconds) {
+        return new Date(date.getTime() + seconds*1000);
+    }
+
+    $(function () {
+        var exportFlag = false;
+        $("#grid").data("kendoGrid").bind("excelExport",
+            function (e) {
+                var columns = e.sender.columns;
+                if (!exportFlag) {
+                    for (var i = 0; i < columns.length; i++) {
+                        if (columns[i].hidden)
+                            e.sender.showColumn(i);
+                    } 
+                    e.preventDefault();
+                    exportFlag = true;
+                    setTimeout(function () {
+                        e.sender.saveAsExcel();
+                    });
+                } else {
+                    for (var i = 0; i < columns.length; i++) {
+                        if (typeof columns[i].hidden != "undefined" && !columns[i].hidden)
+                            e.sender.hideColumn(i);
+                    }
+                    exportFlag = false;
+                }
+            });
+    });
+
+</script>
+
+
+

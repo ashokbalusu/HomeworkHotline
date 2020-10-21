@@ -1,0 +1,370 @@
+﻿@using Repository
+@model IEnumerable<Repository.SessionsByGrade>
+@{
+    ViewBag.Title = "AdminDashboard";
+}
+
+
+@*<div class="row">
+    <div class="col-md-6">
+        <div id="example">
+            <h4>Date <small>(results include 30 days prior to selected date)</small></h4>
+            <input onchange="change(this)" id="datepicker" style="width: 100%" />
+
+        </div>
+
+    </div>
+</div>*@
+
+
+<div class="row">
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="sessions block">
+                    <h2>SESSIONS</h2><h1 class="sessionsh1">@ViewBag.TotalCalls</h1>
+                    @*<span class="icon-up-arrow"></span>
+                        <h4 class="prevsessions">2</h4>*@
+                    <div id="sessions"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sessions block">
+                    <h2>COMPLETED ASSIGNMENT</h2><h1>@ViewBag.CompletedAssignment %</h1>
+                    @*<span class="icon-up-arrow"></span>
+                        <h4>50%</h4>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="sessions block">
+                    <h2>HOURS TUTORED</h2><h1 class="sessionsh1">@ViewBag.TotalMinutes</h1>
+                    @*<span class="icon-up-arrow"></span>
+                        <h4 class="prevsessions">2</h4>*@
+                    <div id="hours"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sessions block">
+                    <h2>PROVED MASTERY</h2><h1>@ViewBag.MasteredMaterial %</h1>
+                    @*<span class="icon-up-arrow"></span>
+                        <h4>50%</h4>*@
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="sessions block">
+                    <h2>MATERIALS</h2>
+                    <div id="features_div"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sessions block">
+                    <h2>NUMBER OF STUDENTS</h2><h1>@ViewBag.AllStudentsdeName</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="sessions block">
+                    <h2>SUBJECTS</h2>
+                    <div id="donutchart"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sessions block">
+                    <h2>BEAT MATH SESSIONS</h2><h1>@ViewBag.BeatMath</h1>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="sessions block">
+                    <h2>COUNTY COUNT</h2>
+                    <div id="county_div"></div>
+                </div>
+            </div>
+            
+            <div class="col-sm-4">
+                <div class="sessions block">
+                    <h2>CALLS IN A FOREIGN LANGUAGE</h2><h1>@ViewBag.ForeignLanguage</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <table class="table">
+            <tr>
+                <th>Grade</th>
+                <th>Sessions</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Grade</td>
+                    <td>@item.Sessions</td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            google.charts.load('current', {
+                'callback': function () {
+                    drawCount();
+                    drawHours();
+                    drawSubject();
+                },
+                'packages': ['corechart'],
+            });
+        }, 3000);
+
+
+        function drawCount() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'Calls']
+                @ViewBag.DailyTotalCalls
+            ]);
+            var options = {
+                legend: 'none',
+                curveType: 'function',
+                lineWidth: 2,
+                height: 50,
+                width: 555,
+                animation: {
+                    duration: 500,
+                    easing: 'inAndOut',
+                    startup: true
+                },
+                chartArea: {
+                    top: '0',
+                    width: '100%'
+                },
+                series: { 0: { color: '#65ef96' } },
+                vAxis: {
+                    gridlines: { color: 'transparent' },
+                    baselineColor: 'transparent',
+                    textPosition: 'none',
+                },
+                hAxis: {
+                    gridlines: { color: 'transparent' },
+                    baselineColor: 'transparent',
+                    textPosition: 'none'
+                },
+                backgroundColor: '#efefef',
+                fontSize: 9,
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('sessions'));
+
+            chart.draw(data, options);
+        }
+
+        function drawHours() {
+            var data = google.visualization.arrayToDataTable([
+              ['Date', 'Hours']
+                @ViewBag.DailyTotalHours
+            ]);
+            var options = {
+                legend: 'none',
+                curveType: 'function',
+                lineWidth: 2,
+                height: 50,
+                width: 555,
+                animation: {
+                    duration: 500,
+                    easing: 'inAndOut',
+                    startup: true
+                },
+                chartArea: {
+                    top: '0',
+                    width: '100%'
+                },
+                series: { 0: { color: '#65ef96' } },
+                vAxis: {
+                    gridlines: { color: 'transparent' },
+                    baselineColor: 'transparent',
+                    textPosition: 'none',
+                },
+                hAxis: {
+                    gridlines: { color: 'transparent' },
+                    baselineColor: 'transparent',
+                    textPosition: 'none'
+                },
+                backgroundColor: '#efefef',
+                fontSize: 9,
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('hours'));
+
+            chart.draw(data, options);
+        }
+
+        function drawSubject() {
+            var data = google.visualization.arrayToDataTable([
+              ['Subject', '# of Calls']
+                 @ViewBag.CallPerSubject
+            ]);
+            var options = {
+                legend: { textStyle: { color: 'black' } },
+                lineWidth: 2,
+                pieSliceBorderColor: "transparent",
+                pieSliceText: 'none',
+                colors: ['#00bdfe', '#eac73e', '#ff8b32', '#e93d50', '#9b7ffe'],
+                animation: {
+                    duration: 100,
+                    easing: 'inAndOut',
+                    startup: true
+                },
+                chartArea: {
+                    height: '80%',
+                    width: '100%',
+                },
+                backgroundColor: { fill: '#efefef' },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    });
+    $(document).ready(function () {
+        $('#nav-icon3').click(function () {
+            $(this).toggleClass('open');
+            if ($(this).hasClass('open')) {
+                $('.topbar').animate({
+                    "left": "200px"
+                }, 300);
+                $('.left,.bottomleft,.topleft').animate({
+                    "left": "0px"
+                }, 300);
+                $('.parent').animate({
+                    "width": "-=200px",
+                    "left": "200px"
+                }, 300);
+            } else {
+                $('.topbar').animate({
+                    "left": "0px"
+                }, 300);
+                $('.left,.bottomleft').animate({
+                    "left": "-200px"
+                }, 300);
+                $('.parent').animate({
+                    "width": "100%",
+                    "left": "0px"
+                }, 300);
+            }
+        });
+    });
+
+    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.setOnLoadCallback(drawCounty);
+    google.charts.setOnLoadCallback(drawFeatures);
+
+    function drawCounty() {
+        debugger;
+        var data = google.visualization.arrayToDataTable([
+             ['COUNTY', 'COUNT']
+             @ViewBag.CountyCall
+        ]);
+
+        var options = {
+            legend: 'none',
+            hAxis: {
+                minValue: 0
+            },
+            chartArea: { height: 400 },
+            height:450,
+            colors: ['#00bdfe', '#eac73e', '#ff8b32', '#e93d50', '#9b7ffe'],
+            backgroundColor: { fill: '#efefef' },
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('county_div'));
+
+        chart.draw(data, options);
+    }
+
+    function drawFeatures() {
+
+        var data = google.visualization.arrayToDataTable([
+             ['Features', 'Used']
+              @ViewBag.FeaturesUsed
+        ]);
+
+        var options = {
+            legend: 'none',
+            hAxis: {
+                minValue: 0
+            },
+            colors: ['#00bdfe', '#eac73e', '#ff8b32', '#e93d50', '#9b7ffe'],
+            backgroundColor: { fill: '#efefef' },
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('features_div'));
+
+        chart.draw(data, options);
+    }
+
+
+    function change(e) {
+
+        var dado = e.value
+        var d = new Date();
+        var currentYear = d.getFullYear();
+        $.ajax({
+            type: "POST",
+            url: "/CallLog/AdminDashboard", //url
+            traditional: false,
+            async: false,
+            beforeSend: function () {
+            },
+            data: { startDate: dado },
+            success: function (response) {
+                $("body").html(response);
+                $("#datepicker").kendoDatePicker({
+                    value: e.value,
+                    min: new Date(currentYear, 0, 1),
+                    max: new Date(currentYear, 11, 31)
+                });
+            },
+            error: function (e) {
+                alert(e.value);
+            }
+        })
+    }
+    $(document).ready(function () {
+        var startDate = new Date();
+        var d = new Date();
+        var currentYear = d.getFullYear();
+        $("#datepicker").kendoDatePicker({
+            value: startDate,
+            min: new Date(currentYear, 0, 1),
+            max: new Date(currentYear, 11, 31)
+        });
+
+    });
+
+
+
+
+</script>
+
+
+<style>
+    html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>

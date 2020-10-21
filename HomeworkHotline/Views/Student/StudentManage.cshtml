@@ -1,0 +1,114 @@
+@model Repository.StudentModel
+
+@{
+    ViewBag.Title = "Manage Student";
+}
+
+<style>
+    td {
+        padding-bottom: 12px;
+    }
+</style>
+
+@using (Ajax.BeginForm("Update", "Student",
+                new AjaxOptions { LoadingElementId = "loader", OnSuccess = "onSuccess" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="row">
+        
+        <div class="form-horizontal">
+            <div class="col-lg-6">
+                <h3 class="header">Student Details</h3>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Code Name</label>
+                    <div class="col-sm-8">@Html.EditorFor(model => model.CodeName)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">School</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("SchoolID", new SelectList((System.Collections.IEnumerable)ViewData["schools"], "SchoolID", "SchoolName"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Grade</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("Grade", new List<SelectListItem>
+                        {
+                            new SelectListItem{ Text="K", Value = "K" },
+                            new SelectListItem{ Text="1", Value = "1" },
+                            new SelectListItem{ Text="2", Value = "2" },
+                            new SelectListItem{ Text="3", Value = "3" },
+                            new SelectListItem{ Text="4", Value = "4" },
+                            new SelectListItem{ Text="5", Value = "5" },
+                            new SelectListItem{ Text="6", Value = "6" },
+                            new SelectListItem{ Text="7", Value = "7" },
+                            new SelectListItem{ Text="8", Value = "8" },
+                            new SelectListItem{ Text="9", Value = "9" },
+                            new SelectListItem{ Text="10", Value = "10" },
+                            new SelectListItem{ Text="11", Value = "11" },
+                            new SelectListItem{ Text="12", Value = "12" },
+                            }, "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format", @style = "width: 15%" }) 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Language</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownList("HomeLanguageID", new SelectList((System.Collections.IEnumerable)ViewData["languageTypes"], "LanguageID", "LanguageName"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Language Other</label>
+                    <div class="col-sm-8"> @Html.EditorFor(model => model.HomeLanguageOther)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Referred BY</label>
+                    <div class="col-sm-8">@Html.DropDownList("ReferredTypeID", new SelectList((System.Collections.IEnumerable)ViewData["referredTypes"], "ReferredTypeID", "Name"),"", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Has Internet?</label>
+                    <div class="col-sm-8"> @Html.EditorFor(model => model.HasInternet, new { htmlAttributes = new { @class = "k-textbox" } })</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="header">Contact Info <small>(optional)</small></h3>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Parent/Guardian Phone #</label>
+                    <div class="col-sm-7">@Html.EditorFor(model => model.GuardianContactPhone)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Parent/Guardian Email</label>
+                    <div class="col-sm-7">@Html.EditorFor(model => model.GuardianContactEmail)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Parent/Guardian Opt Out of Communications</label>
+                    <div class="col-sm-7">@Html.EditorFor(model => model.GuardianOptOut, new { htmlAttributes = new { @class = "k-textbox" } })</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Student Name</label>
+                    <div class="col-sm-7">@Html.EditorFor(model => model.StudentFirstName)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Student Phone #</label>
+                    <div class="col-sm-7">@Html.EditorFor(model => model.StudentContactPhone)</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Student Opt Out of Communications</label>
+                    <div style="padding-top:7px;" class="col-sm-7">@Html.EditorFor(model => model.StudentOptOut, new { htmlAttributes = new { @class = "k-textbox" } })</div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <input type="submit" value="Save Student" class="btn btn-info" />
+            <a href="javascript: history.go(-1)" class="btn btn-default">Cancel</a>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

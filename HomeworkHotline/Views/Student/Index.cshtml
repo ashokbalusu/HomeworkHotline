@@ -1,0 +1,37 @@
+﻿@model Repository.StudentModel
+
+@{
+    ViewBag.Title = "Student";
+}
+
+
+<style>
+    td {
+        padding-bottom: 12px;
+    }
+</style>
+@using (Ajax.BeginForm("ConfirmStudent", "Student",
+                new AjaxOptions { LoadingElementId = "loader", OnSuccess = "onSuccess" }))
+
+{
+    @Html.ValidationSummary(true,"", new { @class = "text-danger" })
+    <div class="row">
+        <div></div>
+    </div>
+
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="CodeName">Code Name:</label>
+            @Html.EditorFor(model => model.CodeName)<br />
+            
+
+        </div>
+        <input type="submit" value="Find Student" class="k-button" onclick="$('.text-danger').empty();" />
+    </div>
+    @Html.ValidationMessageFor(model => model.CodeName, "", new { @class = "text-danger" })
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

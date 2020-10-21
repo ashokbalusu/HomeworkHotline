@@ -1,0 +1,161 @@
+﻿@model Repository.CallLogModel
+
+@{
+    Layout = null;
+}
+
+
+@Html.HiddenFor(model => model.CallID)
+
+
+<div id="editWindow" class="edit-window">
+    <div class="col-lg-11">
+        <div class="form-horizontal">
+            <h3 class="header ml-10">Student Info</h3>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Code Name</label>
+                <div class="col-sm-6 mt-7">${CodeName}</div>
+            </div>
+            @*<div class="form-group">
+                <label for="" class="col-sm-4 control-label">Student Name</label>
+                <div class="col-sm-6 mt-7">${StudentFirstName} ${StudentLastName}</div>
+            </div>*@ 
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">School</label>
+                <div class="col-sm-6 mt-7">${StudentSchool}</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">School County</label>
+                <div class="col-sm-6 mt-7">${StudentSchoolCounty}</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Grade</label>
+                <div class="col-sm-6 mt-7">${StudentGrade}</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Has Internet</label>
+                <div class="col-sm-6 mt-7">${StudentHasInternet}</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Total Calls</label>
+                <div class="col-sm-6 mt-7">${StudentTotalCalls}</div>
+            </div>
+
+            <!--  Call Details  -->
+            <h3 class="header ml-10">Call Details</h3>
+            @if(@ViewBag.IsAdmin) {
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Start Time</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.CallStart, new { @class = "datepicker", @type="time" })</div>
+            </div>
+            }
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">End Time</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.CallEnd, new { @class = "datepicker", @type="time" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Spoken Language</label>
+                <div class="col-sm-6">@Html.DropDownList("LanguageSpokenID", new SelectList((System.Collections.IEnumerable)ViewData["languageTypes"], "LanguageID", "LanguageName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Spoken Language Other</label>
+                <div class="col-sm-6">@Html.EditorFor(model => model.LanguageSpokenOther)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Beat Math</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.BeatMath)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Parent Participation</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.ParentParticipation)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Call Dropped</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.CallDropped)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Call Transferred</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.CallTransferred)</div>
+            </div>
+            
+
+            <!--  Materials Covered  -->
+            <h3 class="header ml-10">Materials Covered</h3>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Subject</label>
+                <div class="col-sm-6">@Html.DropDownList("SubjectID", new SelectList((System.Collections.IEnumerable)ViewData["subjects"], "SubjectID", "SubjectName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Skill Assessed</label>
+                <div class="col-sm-6">@Html.TextAreaFor(model => model.SkillAssessedNotes, new { rows = "6", cols = "100" })</div>
+            </div>
+
+            <!--  Session Evaluation  -->
+            <h3 class="header ml-10">Session Evaluation</h3>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Understanding at Session Start</label>
+                <div class="col-sm-6">@Html.DropDownList("EvalStartID", new SelectList((System.Collections.IEnumerable)ViewData["evalStartItems"], "EvalStartID", "EvalStartDescription"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Understanding at Session End</label>
+                <div class="col-sm-6">@Html.DropDownList("EvalEndID", new SelectList((System.Collections.IEnumerable)ViewData["evalEndItems"], "EvalEndID", "EvalEndDescription"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Post-Test Given</label>
+                <div class="col-sm-6 mt-7">@Html.EditorFor(model => model.PostTestGiven)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Notes</label>
+                <div class="col-sm-6">@Html.TextAreaFor(model => model.SessionEvalNotes, new { rows = "6", cols = "100" })</div>
+            </div>
+
+            <!--  Materials  -->
+            <h3 class="header ml-10">Materials</h3>
+            <div class="row">
+                <div class="col-lg-11">
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.Textbook, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="textbook" for="Textbook">Textbook</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.Worksheet, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="worksheet" for="Worksheet">Worksheet</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.Stoodle, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="stoodle" for="Stoodle">Online Whiteboard</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.ImageShare, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="imageshare" for="Image Share">Image Share</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.Chat, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="chat" for="Chat">Chat</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.EditorFor(model => model.GoogleDocs, new { @class = "form-check-input" })
+                        <label class="form-check-label" id="googleDocs" for="GoogleDocs">Google Docs</label>
+                    </div>
+                </div>
+            </div>
+
+            <!--  Prize  -->
+            <h3 class="header ml-10">Prize</h3>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Prize Type</label>
+                <div class="col-sm-6">@Html.DropDownList("PrizeID", new SelectList((System.Collections.IEnumerable)ViewData["prizes"], "PrizeID", "PrizeName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Student Name</label>
+                <div class="col-sm-6">@Html.EditorFor(model => model.PrizeStudentName)</div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Teacher Name</label>
+                <div class="col-sm-6">@Html.EditorFor(model => model.PrizeTeacherName)</div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿
+@(Html.Kendo().Grid<Repository.CallLog>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.LanguageSpokenOther);
+          columns.Bound(c => c.ParentParticipation);
+          columns.Bound(c => c.CallDropped);
+          columns.Bound(c => c.CallTransferred);
+          columns.Bound(c => c.PostTestGiven);
+          columns.Bound(c => c.SkillAssessedNotes);
+          columns.Bound(c => c.SessionEvalNotes);
+          columns.Bound(c => c.Textbook);
+          columns.Bound(c => c.Worksheet);
+          columns.Bound(c => c.Stoodle);
+          columns.Bound(c => c.ImageShare);
+          columns.Bound(c => c.Chat);
+          columns.Bound(c => c.GoogleDocs);
+          columns.Bound(c => c.PrizeStudentName);
+          columns.Bound(c => c.PrizeTeacherName);
+          columns.Bound(c => c.PrizeGiven);
+          columns.Bound(c => c.CallStart);
+          columns.Bound(c => c.CallEnd);
+          columns.Command(command => { command.Edit(); command.Destroy(); }).Width(180);
+      })
+      .ToolBar(toolbar => {
+          toolbar.Create();
+          toolbar.Excel();
+          toolbar.Pdf();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.PopUp))
+      .Pageable()
+      .Sortable(sortable => {
+          sortable.SortMode(GridSortMode.SingleColumn);
+      })
+      .Filterable()
+      .Scrollable()
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Model(model => model.Id(p => p.CallID))
+          .Read(read => read.Action("CallLogs_Read", "Grid"))
+          .Create(create => create.Action("CallLogs_Create", "Grid"))
+          .Update(update => update.Action("CallLogs_Update", "Grid"))
+          .Destroy(destroy => destroy.Action("CallLogs_Destroy", "Grid"))
+      )
+)

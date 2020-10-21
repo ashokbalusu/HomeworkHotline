@@ -1,0 +1,274 @@
+﻿
+@model IEnumerable<Repository.TimeEntryModel>
+@using Repository;
+
+@{
+    ViewBag.Title = "Timesheets";
+    var totalCount = @ViewBag.TotalCount;
+}
+<div style="margin-top:-75px; margin-bottom:50px;">
+    @if (User.IsInRole("Teacher") || User.IsInRole("Administrator"))
+    {
+        <div><a style="margin:auto; width:165px;"  href="@Url.Action("Index", "Student", new { area = "" })" class="btn btn-block take-a-call">Take a Call</a></div>
+    }
+</div>
+
+@(Html.Kendo().Grid(Model)
+
+        .Name("timeEntry")
+        .Pageable(p => p.Numeric(false)
+            .PreviousNext(false)
+            .Messages(m => m.Display("Records: {2}")))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.FullName).ClientGroupHeaderTemplate("#= value#").Hidden();
+            columns.Bound(c => c.MNPSEmployeeNo).Hidden(@ViewBag.IsAdmin);
+            columns.Bound(c => c.Volunteer).ClientTemplate(
+            "# if (Volunteer == true) { #" +
+                "<span class=\"k-icon k-i-check\"></span>" +
+            "# } #"
+            ).Width(120).HtmlAttributes(new { style = "text-align:center" }); ;
+            columns.Bound(c => c.EntryDate).Format("{0:d}");
+            columns.Bound(c => c.StartTime).Format("{0:t}").EditorTemplateName("Time").Filterable(false);
+            columns.Bound(c => c.EndTime).Format("{0:t}").EditorTemplateName("Time").Filterable(false);
+            columns.Bound(c => c.Duration).Filterable(false).ClientTemplate("#=timeConversion(data) #").ClientGroupFooterTemplate("<div style='text-align: right'>#=kendo.toString(timeGroupConversion(sum), '0.00')#</div>").HtmlAttributes(new { style = "text-align:right" }).Width(100);
+            columns.Bound(c => c.IsLocked).Title("Locked").ClientTemplate(
+            "# if (IsLocked == true) { #" +
+                "<span class=\"k-icon k-i-check\"></span>" +
+            "# } #").HtmlAttributes(new { style = "text-align:center" }).Width(120);
+            columns.Command(command => { command.Edit().Text(" "); command.Destroy().Text(" "); }).HtmlAttributes(new { style = "text-align:center;" }).Width(170).Hidden(@ViewBag.IsAdmin);
+        })
+        .ToolBar(toolBar =>
+        {
+        toolBar.Template(@<text>
+            <div class="add-button">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="" style="margin-right:10px;" class="btn btn-primary" id="exportExcel">Export Excel</a><a href="" class="btn btn-warning" id="runPayroll">Conduct Payroll</a>
+                    @*<a>
+                        <input type="checkbox" id="isMNPSFilter" class="k-checkbox">
+                        <label class="k-checkbox-label" for="isMNPSFilter">Check here to conduct payroll for MNPS Employees only</label>
+                    </a>*@
+                }
+            </div>
+        </text>);
+        })
+        .Events(e => e.DataBound("onDataBound"))
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Sortable()
+        .Filterable(filterable => filterable
+            .Operators(operators => operators
+                .ForString(str => str.Clear()
+                    .Contains("Contains")
+                    .IsEqualTo("Is equal to")
+                    .IsNotNull("Is Not Empty")
+                    .IsNull("Is Empty")
+                )
+                .ForDate(dte => dte.Clear()
+                    .IsGreaterThanOrEqualTo("After or Equal to")
+                    .IsGreaterThan("After")
+                    .IsLessThanOrEqualTo("Before or Equal to")
+                    .IsLessThan("Before")
+                )
+            )
+        )
+        .Excel(excel => excel.AllPages(true))
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize((int)totalCount)
+            .Filter(f => f.Add(a => a.IsLocked).IsEqualTo(false))
+            .Model(model =>
+            {
+                model.Id(c => c.TimeEntryID);
+                model.Field(p => p.FullName).Editable(false);
+                model.Field(p => p.EntryDate).Editable(false);
+                model.Field(p => p.Duration).Editable(false);
+                model.Field(p => p.PayrollDate).Editable(false);
+                model.Field(p => p.MNPSEmployeeNo).Editable(false);
+                model.Field(p => p.IsLocked).Editable(false);
+            })
+            .Aggregates(aggregates =>
+            {
+                aggregates.Add(p => p.Duration).Sum();
+            })
+            .Group(groups =>
+            {
+                if (!@ViewBag.IsAdmin)
+                {
+                    groups.Add(p => p.FullName);
+                }
+            })
+
+        .Read(read => read.Action("EditingInline_Read", "Timesheet"))
+        .Sort(sort => sort.Add("Fullname").Ascending())
+        .Sort(sort => sort.Add("EntryDate").Descending())
+        .Update(update => update.Action("EditingInline_Update", "Timesheet"))
+        .Destroy(destroy => destroy.Action("EditingInline_Destroy", "Timesheet"))
+        .Events(events => events.Sync("sync_handler"))
+    )
+)
+
+
+<script type="text/javascript">
+    function onDataBound (e) {
+        var grid = e.sender;
+        var gridEl = grid.element;
+        var filterElem = gridEl.find("[data-field='FullName']").find(".k-grid-filter");
+        var myFilterPlaceholder = gridEl.find("th.k-group-cell.k-header");
+        if(myFilterPlaceholder[0].innerHTML.includes("nbsp"))
+            myFilterPlaceholder[0].innerHTML = myFilterPlaceholder[0].innerHTML.replace(/&nbsp;/g,'');
+        myFilterPlaceholder.append(filterElem);
+        grid.hideColumn("FullName");
+    }
+
+    function IsAdmin(dataItem) {
+        var isAdmin = @ViewBag.IsAdmin.ToString().ToLower();
+        return !isAdmin;
+    }
+    function sync_handler(e) {
+        this.read();
+    }
+
+    $("#exportExcel").click(function () {
+        var grid = $("#timeEntry").data("kendoGrid");
+
+        grid.bind("excelExport", function(e) {
+            var d = new Date();
+            e.workbook.fileName = "Timesheets.xlsx";
+
+            var sheet = e.workbook.sheets[0];
+
+            for (var i = 1; i < sheet.rows.length; i++) {
+
+                var row = sheet.rows[i];
+
+                if (row.type == "group-footer" || row.type == "footer") {
+                    for (var ci = 0; ci < row.cells.length; ci++) {
+                        var cell = row.cells[ci];
+                        if (cell.value) {
+                            cell.value = timeToDecimal($(cell.value).text());
+                            cell.hAlign = "right";
+                        }
+                    }
+                }
+
+                if (row.cells[2] != undefined) {
+                    row.cells[2].value = row.cells[3].value;
+                }
+                if (row.cells[3] != undefined && row.cells[3].value != null) {
+                    row.cells[3].value = addSeconds(row.cells[3].value, 5);
+                    row.cells[3].format = "hh:mm AM/PM"
+                }
+                if (row.cells[4] != undefined && row.cells[4].value != null) {
+                    row.cells[4].value = addSeconds(row.cells[4].value, 5);
+                    row.cells[4].format = "hh:mm AM/PM"
+                }
+            }
+        });
+
+        grid.saveAsExcel();
+    });
+
+
+    $("#runPayroll").click(function () {
+        var confirmPayroll = confirm("Are you sure you want to Conduct Payroll?")
+        if(confirmPayroll){
+            var grid = $("#timeEntry").data("kendoGrid");
+            parameterMap = grid.dataSource.transport.parameterMap;
+            var data = parameterMap({ filter: grid.dataSource.filter() });
+            var isMNPSFilter = document.getElementById('isMNPSFilter').checked;
+            //filters
+            var addedFilter = [];
+            addedFilter.push({field: "EndTime", operator: "isnotnull"});
+            if (isMNPSFilter){
+                addedFilter.push({field: "MNPSEmployeeNo", operator: "isnotnull"});
+            }
+            var gridFilter = grid.dataSource.filter();
+            var filters = [];
+            if (gridFilter != null) {
+                filters = gridFilter.filters;
+            }
+            filters.push({ logic: "and", filters: addedFilter });
+            grid.dataSource.filter({ logic: "and", filters: filters });
+            //Excel Export function
+            grid.bind("excelExport", function(e) {
+                var d = new Date();
+                e.workbook.fileName = "HH-Payroll-"+ d +".xlsx";
+
+                var sheet = e.workbook.sheets[0];
+
+                for (var i = 1; i < sheet.rows.length; i++) {
+
+                    var row = sheet.rows[i];
+
+                    if (row.type == "group-footer" || row.type == "footer") {
+                        for (var ci = 0; ci < row.cells.length; ci++) {
+                            var cell = row.cells[ci];
+                            if (cell.value) {
+                                cell.value = timeToDecimal($(cell.value).text());
+                                cell.hAlign = "right";
+                            }
+                        }
+                    }
+
+                    if (row.cells[2] != undefined) {
+                        row.cells[2].value = row.cells[3].value;
+                    }
+
+                    if (row.cells[3] != undefined && row.cells[3].value != null) {
+                        row.cells[3].value = addSeconds(row.cells[3].value, 5);
+                        row.cells[3].format = "hh:mm AM/PM"
+                    }
+                    if (row.cells[4] != undefined && row.cells[4].value != null) {
+                        row.cells[4].value = addSeconds(row.cells[4].value, 5);
+                        row.cells[4].format = "hh:mm AM/PM"
+                    }
+                }
+            });
+
+            grid.saveAsExcel();
+                //Update records for payroll
+                $.ajax({
+                    data: data,
+                    dataType: "json",
+                    url: "/Timesheet/ConductPayroll",
+                    type: 'POST',
+                });
+            grid.dataSource.filter({ logic: "and", filters: filters });
+        } else {
+            e.preventDefault();
+        }
+    });
+
+    function addSeconds(date, seconds) {
+        return new Date(date.getTime() + seconds*1000);
+    }
+
+    function timeConversion(data) {
+        var hrs = parseInt(Number(data.Duration));
+        var min = (Math.round((Number(data.Duration)-hrs) * 60)).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        return hrs +':'+ min;
+    }
+
+    function timeGroupConversion(data) {
+        var hrs = parseInt(Number(data));
+        var min = (Math.round((Number(data)-hrs) * 60)).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        return hrs +':'+ min;
+    }
+
+    function timeToDecimal(t) {
+        var arr = t.split(':');
+        var dec = Math.round(parseFloat((arr[1]/6)*10, 10));
+
+        return parseFloat(parseInt(arr[0], 10) + '.' + (dec<10?'0':'') + dec);
+    } 
+</script>
+
+
+
+
+
+
+

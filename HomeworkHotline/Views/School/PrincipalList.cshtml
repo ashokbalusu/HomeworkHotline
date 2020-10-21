@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Repository.PrincipalModel>
+@{
+    ViewBag.Title = "Principal List";
+    var totalCount = @ViewBag.TotalPrincipalCount;
+
+}
+
+@(Html.Kendo().Grid(Model)
+                    .Name("grid")
+                        .Pageable(p => p.Numeric(false)
+                            .PreviousNext(false)
+                            .Messages(m => m.Display("Records: {2}")))
+                    .Columns(columns =>
+                    {
+                        columns.Bound(c => c.PrincipalName).Title("Principal");
+                        columns.Bound(c => c.Phone);
+                        columns.Bound(c => c.SchoolName).Title("School");
+                        columns.Bound(c => c.SchoolTypeName).Title("School Type");
+                        columns.Bound(c => c.CountyName).Title("County");
+                        columns.Bound(c => c.PrincipalEmail).Title("Email");
+                    })
+                    .ToolBar(toolBar =>
+                    {
+                        toolBar.Template(
+                        @<text>
+                        <div class="add-button">
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a href="" class="btn btn-primary" id="exportExcel">Export to Excel</a>
+                            }
+                        </div>
+                        <div class="search-box"><input class='k-textbox k-search' value="Search..." onfocus="if (this.value=='Search...') this.value='';" onblur="this.value = this.value==''?'Search...':this.value;" data-field="SchoolName,SchoolTypeName,CountyName" id="searchbox" /><button class="btn btn-default" id="clear-search">Clear</button></div></text>);
+                    })
+                    .HtmlAttributes(new { style = "height: 550px;" })
+                    .Scrollable()
+                    .Sortable(sortable => sortable
+                        .AllowUnsort(true)
+                        .SortMode(GridSortMode.MultipleColumn)
+                        .ShowIndexes(true))
+                    .Filterable(filterable => filterable
+                        .Operators(operators => operators
+                            .ForString(str => str
+                                .Clear()
+                                .Contains("Contains")
+                                .DoesNotContain("Does not contain")
+                                .StartsWith("Starts with")
+                                .EndsWith("Ends with")
+                                .IsEqualTo("Is equal to")
+                                .IsNotEqualTo("Is not equal to")
+                            )
+                        )
+                    )
+                    .Excel(excel => excel
+                        .FileName("HH-Principals.xlsx")
+                        .Filterable(true)
+                        .AllPages(true)
+                    )
+                    .AutoBind(true)
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize((int)totalCount)
+                        .Batch(true)
+                        .ServerOperation(false)
+                        .Model(model => { model.Id(c => c.SchoolID); })
+                        .Read(read => read.Action("GetAllPrincipals", "School"))
+                        .Sort(sort => sort.Add("PrincipalName").Ascending())
+                    )
+)
+
+<script type="text/javascript">
+    $("#searchbox").on("keyup blur change", function () {
+        var filter = { logic: "or", filters: [] };
+        $this = $(this);
+        $searchValue = $this.val();
+        var grid = $("#grid").data("kendoGrid");
+        if ($searchValue) {
+            $.each($this.data("field").split(','), function(index, field){
+               filter.filters.push({ field: field, operator: "contains", value: $searchValue });
+            });
+        }
+        grid.dataSource.query({ filter: filter });
+    });
+
+    $("#clear-search").on("click", function () {
+        $("#searchbox").val("");
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.filter({});
+    });
+
+    $("#exportExcel").click(function () {
+        var grid = $("#grid").data("kendoGrid");
+        grid.saveAsExcel();
+    });
+</script>

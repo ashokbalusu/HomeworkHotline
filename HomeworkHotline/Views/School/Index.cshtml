@@ -1,0 +1,212 @@
+﻿@model IEnumerable<Repository.SchoolModel>
+@using Repository;
+
+@{
+    ViewBag.Title = "Schools";
+    var totalCount = @ViewBag.TotalCount;
+}
+
+@(Html.Kendo().Grid(Model)
+    .Name("grid")
+    .Pageable(p => p.Numeric(false)
+        .PreviousNext(false)
+        .Messages(m => m.Display("Records: {2}")))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.SchoolName).Width(220);
+        columns.Bound(c => c.SchoolTypeName).Title("Type").Width(110).Filterable(ftb => ftb.Multi(true).Search(true));
+        columns.Bound(c => c.CountyName).Title("County").Width(220);
+        columns.Bound(c => c.Census).Width(70);
+        columns.Bound(c => c.PredictedThirdGradeStudents).Title("3rd").Width(70);
+        columns.Bound(c => c.SonicPartner).ClientTemplate(
+            "# if (SonicPartner == true) { #" +
+                "<span class=\"k-icon k-i-check\"></span>" +
+            "# } #"
+            ).Width(120).HtmlAttributes(new { style = "text-align:center" });
+        columns.Bound(c => c.TitleOneSchool).Title("Title 1").ClientTemplate(
+            "# if (TitleOneSchool == true) { #" +
+                "<span class=\"k-icon k-i-check\"></span>" +
+            "# } #"
+            ).Width(70).HtmlAttributes(new { style = "text-align:center" });
+        columns.Command(cmd => { cmd.Edit().Text(" "); cmd.Destroy().Text(" "); }).HtmlAttributes(new { style = "text-align:center;" }).Width(160);
+        columns.Bound(c => c.Address1).Hidden(true);
+        columns.Bound(c => c.Address2).Hidden(true);
+        columns.Bound(c => c.City).Hidden(true);
+        columns.Bound(c => c.State).Hidden(true);
+        columns.Bound(c => c.Zip).Hidden(true);
+        columns.Bound(c => c.Phone).Hidden(true);
+        columns.Bound(c => c.DistrictName).Hidden(true);
+        columns.Bound(c => c.QuadrantName).Hidden(true);
+        columns.Bound(c => c.PEDS).Hidden(true);
+        columns.Bound(c => c.AppalachianRegion).Hidden(true);
+        columns.Bound(c => c.CreateDate).Hidden();
+        columns.Bound(c => c.CreatedByFullName).Title("Created By").Hidden();
+        columns.Bound(c => c.CreateBy).Hidden();
+        columns.Bound(c => c.ModifiedDate).Hidden();
+        columns.Bound(c => c.ModifiedByFullName).Title("Modified By").Hidden();
+        columns.Bound(c => c.ModifiedBy).Hidden();
+
+
+    })
+    .Events(x => x.ExcelExport("excelExport"))
+    .ToolBar(toolBar =>
+    {
+    toolBar.Template(@<text>
+            <div class="add-button">
+                <a class='btn btn-info k-grid-add' href='#'><span class='k-icon k-i-plus'></span>Add School</a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="" class="btn btn-primary k-grid-excel" id="exportExcel">Export to Excel</a>
+                }
+                <button onclick="getLabelOptions();" class="btn btn-warning">Print school labels</button>
+                <button onclick="window.location.href='@Url.Action("BulkEditSchoolList", "school", new { area = "" })' " class="btn btn-success">Bulk Edit</button>
+            </div>
+            <div class="search-box"><input class='k-textbox k-search' value="Search..." onfocus="if (this.value=='Search...') this.value='';" onblur="this.value = this.value==''?'Search...':this.value;" data-field="SchoolName,SchoolTypeName,CountyName" id="searchbox" /><button class="btn btn-default" id="clear-search">Clear</button></div></text>);
+    })
+    .HtmlAttributes(new { style = "height: 550px;" })
+    .Scrollable()
+    .Sortable(sortable => sortable
+        .AllowUnsort(true)
+        .SortMode(GridSortMode.MultipleColumn)
+        .ShowIndexes(true))
+    .Filterable(filterable => filterable
+        .Operators(operators => operators
+            .ForString(str => str
+                .Clear()
+                .Contains("Contains")
+                .DoesNotContain("Does not contain")
+                .StartsWith("Starts with")
+                .EndsWith("Ends with")
+                .IsEqualTo("Is equal to")
+                .IsNotEqualTo("Is not equal to")
+            )
+        )
+    )
+    .Excel(excel => excel
+        .FileName("HH-Schools.xlsx")
+        .Filterable(true)
+        .AllPages(true)
+    )
+    .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EditorSchool").Window(w => w.Title("School Details").Width(720)))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize((int)totalCount)
+        .Events(events => events.Sync("sync_handler"))
+        .Batch(true)
+        .ServerOperation(false)
+        .Model(model => { model.Id(c => c.SchoolID); })
+        .Read(read => read.Action("Schools_Read", "School"))
+        .Sort(sort => sort.Add("SchoolName").Ascending())
+        .Create(create => create.Action("Schools_Create", "School"))
+        .Update(update => update.Action("Schools_Update", "School"))
+        .Destroy(destroy => destroy.Action("Schools_Delete", "School"))
+    )
+)
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select additional info to display</h4>
+            </div>
+            <div class="modal-body">
+                <form id="displaySettings">
+                    <input type="checkbox" id="principal" name="display1" value="Principal"> Show principal name<br>
+                    <input type="checkbox" id="countyStudent" name="display2" value="CountyStudent"> Show county and # of students in school<br>
+                    <input type="checkbox" id="countyFlashcard" name="display3" value="CountyFlashcard"> Show County and Flashcard numbers for Sonic Partner schools<br>
+                    <br />
+                    <input id="modal-submit" type="submit" value="Submit" class="btn btn-primary" onclick="printLabels();" />
+                    <button type="button" id="btn-close" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#searchbox").on("keyup change", function () {
+        var filter = { logic: "or", filters: [] };
+        $this = $(this);
+        $searchValue = $this.val();
+        var grid = $("#grid").data("kendoGrid");
+        if ($searchValue) {
+            $.each($this.data("field").split(','), function (index, field) {
+                filter.filters.push({ field: field, operator: "contains", value: $searchValue });
+            });
+        }
+        grid.dataSource.query({ filter: filter });
+    });
+
+    $("#clear-search").on("click", function () {
+        $("#searchbox").val("");
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.filter({});
+    });
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function getLabelOptions() {
+        $("#myModal").modal();
+    }
+
+    function printLabels() {
+        var dataSource = $("#grid").data("kendoGrid").dataSource;
+        var filters = dataSource.filter();
+        var allData = dataSource.data();
+        var sorts = dataSource.sort();
+        var query = new kendo.data.Query(allData);
+        var data = query.filter(filters).sort(sorts).data;
+        var displaySelections = [];
+        if (document.getElementById("principal").checked) { displaySelections.push(document.getElementById("principal").value)};
+        if (document.getElementById("countyStudent").checked) { displaySelections.push(document.getElementById("countyStudent").value) };
+        if (document.getElementById("countyFlashcard").checked) { displaySelections.push(document.getElementById("countyFlashcard").value)};
+        var displayOptions = JSON.stringify(displaySelections);
+        data = JSON.stringify(data);
+        $.ajax({
+            url: "/School/PrintLabels",
+            type: 'POST',
+            data: { "id": data, "filterArray": displayOptions },
+            dataType: 'text',
+            success: function (file) {
+                var response = JSON.parse(file);
+                window.location = '/School/Download?fileGuid=' + response.FileGuid
+                    + '&filename=' + response.FileName;
+                $('#myModal').modal('hide');
+                $('#displaySettings')[0].reset();
+            },
+            error: function (error) {
+            }
+        });
+    }
+
+
+    var exportFlag = false;
+    function excelExport(e) {
+        var columns = e.sender.columns;
+        if (!exportFlag) {
+            for (var i = 0; i < columns.length; i++) {
+                if (columns[i].hidden)
+                    e.sender.showColumn(i);
+                if (columns[i].field == "ModifiedBy" || columns[i].field == "CreateBy" ) 
+                    e.sender.hideColumn(i);
+            }
+            e.preventDefault();
+            exportFlag = true;
+            setTimeout(function () {
+                e.sender.saveAsExcel();
+            });
+        } else {
+            for (var i = 0; i < columns.length; i++) {
+                if (typeof columns[i].hidden != "undefined" && !columns[i].hidden)
+                    e.sender.hideColumn(i);
+            }
+            exportFlag = false;
+        }
+    }
+</script>
+

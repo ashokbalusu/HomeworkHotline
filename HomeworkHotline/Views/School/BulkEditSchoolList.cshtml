@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Repository.SchoolModel>
+@using Repository;
+@{
+    ViewBag.Title = "BulkEditSchoolList";
+    var totalCount = @ViewBag.TotalCount;
+
+}
+
+<div style="margin-top:15px; margin-bottom:15px;">
+    <div></div>
+</div>
+@(Html.Kendo().Grid(Model)
+    .Name("grid")
+     .Pageable(p => p.Numeric(false)
+        .PreviousNext(false)
+        .Messages(m => m.Display("Records: {2}")))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.SchoolName).Width(220);
+        columns.Bound(c => c.CountyName).Title("County").Width(180);
+        columns.Bound(c => c.Phone).Width(120);
+        columns.Bound(c => c.PrincipalName);
+        columns.Bound(c => c.PrincipalEmail);
+        columns.Bound(c => c.PEDS).Width(90);
+        columns.Bound(c => c.Census).Width(90);
+        columns.Bound(c => c.PredictedThirdGradeStudents).Title("3rd").Width(90);
+    })
+    .Navigatable()
+    .ToolBar(toolbar =>
+    {
+    toolbar.Save();
+    toolbar.Custom().Text("Return to schools").Action("Index", "School");
+    })
+    .HtmlAttributes(new { style = "height: 550px;" })
+    .Scrollable()
+    .Sortable(sortable => sortable
+        .AllowUnsort(true)
+        .SortMode(GridSortMode.MultipleColumn)
+        .ShowIndexes(true))
+    .Filterable()
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize((int)totalCount)
+        .Batch(true)
+        .ServerOperation(false)
+        .Model(model =>
+        {
+            model.Id(c => c.SchoolID);
+            model.Field(p => p.SchoolName).Editable(false);
+            model.Field(p => p.CountyName).Editable(false);
+        })
+        .Read(read => read.Action("Schools_Read", "School"))
+        .Sort(sort => sort.Add("SchoolName").Ascending())
+        .Update(update => update.Action("Schools_Update", "School"))
+        .Events(events => events.Sync("sync_handler"))
+    )
+)
+<script type="text/javascript">
+    function sync_handler(e) {
+        this.read();
+    }
+    var currentCell;
+    $(document).keypress(function (e) {
+        if (e.target.value != "" && e.target != currentCell) {
+            e.target.value = "";
+        }
+        currentCell = e.target;
+
+    });
+
+    $(document).keyup(function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == 13) {
+            var grid = $("#grid").data("kendoGrid");
+            var curCell = grid.current();
+            var curIndex = curCell.index();
+            var nextRow = $(curCell).closest('tr').next('tr');
+            var nextCell = nextRow.find('td:eq(' + curIndex + ')');
+            grid.current(nextCell);
+            grid.editCell(nextCell);
+        }
+    });
+
+    $(window).on('beforeunload', function () {
+        if ($('.k-dirty-cell').length) {
+            return 'You haven\'t saved your changes.';
+        }
+    });
+</script>

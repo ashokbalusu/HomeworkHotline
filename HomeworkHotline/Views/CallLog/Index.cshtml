@@ -1,0 +1,335 @@
+﻿@model Repository.CallLogModel
+
+@{
+    ViewBag.Title = "Call Log";
+
+}
+
+<style>
+    td {
+        padding-bottom: 12px;
+    }
+
+        td.tight {
+            padding-bottom: 0px;
+        }
+
+    textarea {
+        max-width: 400px !important;
+    }
+    .missing-fields {
+        color:red;
+        font-size:17px;
+        display:block;
+    }
+</style>
+<script>
+    function CloseModal() {
+        $('#myModal').modal('hide');
+    }
+    function ConfirmFormSubmission() {
+        var emptyCheckboxes = [];
+        var unlist = document.getElementById("modal-list");
+        $(unlist).empty();
+        $('.k-checkbox').each(function (i, obj) {
+            if (obj.checked == false) {
+                var obj = obj.name.toLowerCase();
+                var elementName = document.getElementById(obj);
+                var name = "";
+                if (elementName != null)
+                    name = elementName.innerHTML;
+                emptyCheckboxes.push(name);
+            }
+        });
+        if (emptyCheckboxes.length > 0) {
+            emptyCheckboxes.forEach(function (item) {
+                var li = document.createElement('li');
+                unlist.appendChild(li);
+
+                li.innerHTML += item;
+            });
+            $("#myModal").modal();
+            return false;
+           }
+    }
+
+    var sessionEndVarToCheck = "Passed post-test"
+    function sessionEndChanged() {
+        var evalEndId = document.getElementById("EvalEndID");
+        var postTestGivenChecked = document.getElementById("PostTestGiven").checked;
+        var selectedOption = evalEndId.options[evalEndId.selectedIndex].text;
+        if (selectedOption == sessionEndVarToCheck && !postTestGivenChecked) {
+            alert('You must check "Post - Test Given" to select ' +  '"' + sessionEndVarToCheck + '"');
+            evalEndId.options.selectedIndex = 0;
+        }
+    };
+
+    $(document).ready(function () {
+        $('#PostTestGiven').on("change", function () {
+            var postTestGivenChecked = document.getElementById("PostTestGiven").checked;
+            var evalEndId = document.getElementById("EvalEndID");
+            if (!postTestGivenChecked && evalEndId.options[evalEndId.selectedIndex].text == sessionEndVarToCheck) {
+                alert('To deselect "Post - Test Given", you must select an"Understanding at Session End" option other than ' + '"' + sessionEndVarToCheck +'"');
+            evalEndId.options.selectedIndex = 0;
+            }
+        });
+    });
+</script>
+
+@using (Ajax.BeginForm("Update", "CallLog", new AjaxOptions { HttpMethod = "Post" }))
+{
+    @Html.HiddenFor(model => model.CallID)
+    @Html.HiddenFor(model => model.StudentID)
+    @Html.HiddenFor(model => model.CallStart)
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.CallEnd)
+
+    if (ViewBag.IsEdit)
+    {
+        <div class="alert alert-warning" role="alert">Editing Call!</div>
+    }
+    <hr />
+    <div class="row">
+        <div class="col-sm-6"><h3 class="header">Student Details</h3></div>
+        <div class="col-sm-6 text-right">
+            @if (!ViewBag.IsEdit)
+            {
+                @Html.ActionLink("Cancel & Delete Call", "DeleteCall", "CallLog", new { callID = Model.CallID }, new { @OnClick = "return confirm('Are you sure you to delete this call?');", @class = "btn btn-danger" })
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <tr>
+                    <td style="width:40%;" class="tight"><label>Code Name</label></td>
+                    <td style="width:60%;" class="tight">@ViewBag.StudentModel.CodeName</td>
+                </tr>
+                @*<tr>
+                    <td style="width:40%;" class="tight"><label>Name</label></td>
+                    <td style="width:60%;" class="tight">@(ViewBag.StudentModel.StudentFirstName + " " + ViewBag.StudentModel.StudentLastName)</td>
+                </tr>*@
+                <tr>
+                    <td class="tight"><label>Grade</label></td>
+                    <td class="tight">@ViewBag.StudentModel.Grade</td>
+                </tr>
+                <tr>
+                    <td class="tight"><label>County</label></td>
+                    <td class="tight">@ViewBag.StudentModel.CountyName</td>
+                </tr>
+                <tr>
+                    <td class="tight"><label>School</label> </td>
+                    <td class="tight">@ViewBag.StudentModel.SchoolName</td>
+                </tr>
+                <tr>
+                    <td class="tight"><label>Internet</label></td>
+                    <td class="tight">@ViewBag.StudentModel.HasInternetString</td>
+                </tr>
+                <tr>
+                    <td class="tight"><label># of Times Called</label></td>
+                    <td class="tight">
+                        @if (Convert.ToInt32(ViewBag.StudentModel.TotalCalls) > 4)
+                        {
+                            <span class="danger"><strong>@ViewBag.StudentModel.TotalCalls</strong></span>
+                        }
+                        else
+                        {
+                            @ViewBag.StudentModel.TotalCalls
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"> &nbsp;</td>
+                </tr>
+                <tr>
+                    <td><h3 class="header">Call Details</h3></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td><label>Spoken Language</label></td>
+                    <td>
+                        @Html.DropDownList("LanguageSpokenID", new SelectList((System.Collections.IEnumerable)ViewData["languageTypes"], "LanguageID", "LanguageName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                        @Html.ValidationMessageFor(model => model.LanguageSpokenID, "", new { @class = "missing-fields" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Spoken Language Other</label></td>
+                    <td>
+                        @Html.EditorFor(model => model.LanguageSpokenOther)
+                    </td>
+                </tr>
+                <tr>
+                    <td><label id="beatmath"> Beat Math</label></td>
+                    <td>@Html.EditorFor(model => model.BeatMath)</td>
+                </tr>
+                <tr>
+                    <td><label id="parentparticipation"> Parent Participation</label></td>
+                    <td>@Html.EditorFor(model => model.ParentParticipation)</td>
+                </tr>
+                <tr>
+                    <td><label id="calldropped"> Call Dropped</label></td>
+                    <td>@Html.EditorFor(model => model.CallDropped)</td>
+                </tr>
+                <tr>
+                    <td><label id="calltransferred"> Call Transferred</label></td>
+                    <td>@Html.EditorFor(model => model.CallTransferred)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"> &nbsp;</td>
+                </tr>
+                <tr>
+                    <td><h3 class="header">Materials Covered</h3></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                <tr>
+                    <td><label>Subject</label></td>
+                    <td>
+                        @Html.DropDownList("SubjectID", new SelectList((System.Collections.IEnumerable)ViewData["subjects"], "SubjectID", "SubjectName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                        @Html.ValidationMessageFor(model => model.SubjectID, "", new { @class = "missing-fields" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Skill Assessed</label></td>
+                    <td>
+                        @Html.TextAreaFor(model => model.SkillAssessedNotes, new { rows = "6", cols = "100" })
+                        @Html.ValidationMessageFor(model => model.SkillAssessedNotes, "", new { @class = "missing-fields" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"> &nbsp;</td>
+                </tr>
+                <tr>
+                    <td><h3 class="header">Session Evaluation</h3></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td><label>Understanding at Session Start</label></td>
+                    <td style="width:600px;">
+                        @Html.DropDownList("EvalStartID", new SelectList((System.Collections.IEnumerable)ViewData["evalStartItems"], "EvalStartID", "EvalStartDescription"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                        @Html.ValidationMessageFor(model => model.EvalStartID, "", new { @class = "missing-fields" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><label id="posttestgiven"> Post - Test Given</label></td>
+                    <td>@Html.EditorFor(model => model.PostTestGiven)</td>
+                </tr>
+                <tr>
+                    <td><label>Understanding at Session End</label></td>
+                    <td style="width:600px;">
+                        @Html.DropDownList("EvalEndID", new SelectList((System.Collections.IEnumerable)ViewData["evalEndItems"], "EvalEndID", "EvalEndDescription"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format", onchange = "sessionEndChanged()" })
+                        @Html.ValidationMessageFor(model => model.EvalEndID, "", new { @class = "missing-fields" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Notes</label></td>
+                    <td>
+                        @Html.TextAreaFor(model => model.SessionEvalNotes, new { rows = "6", cols = "100" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"> &nbsp;</td>
+                </tr>
+                <tr>
+                    <td><h3 class="header">Materials</h3></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.Textbook, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="textbook" for="Textbook">Textbook</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.Worksheet, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="worksheet" for="Worksheet">Worksheet</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.Stoodle, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="stoodle" for="Stoodle">Online Whiteboard</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.ImageShare, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="imageshare" for="Image Share">Image Share</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.Chat, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="chat" for="Chat">Chat</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.EditorFor(model => model.GoogleDocs, new { @class = "form-check-input" })
+                            <label class="form-check-label" id="googledocs" for="GoogleDocs">Google Docs</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h3 class="header">Prize</h3></td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                @*<tr>
+            <td><label>Prize Given?</label></td>
+            <td>@Html.EditorFor(model => model.PrizeGiven)</td>
+        </tr>*@
+                <tr>
+                    <td><label>Prize Type</label></td>
+                    <td>
+                        @Html.DropDownList("PrizeID", new SelectList((System.Collections.IEnumerable)ViewData["prizes"], "PrizeID", "PrizeName"), "", new { @class = "k-dropdown-wrap k-state-default k-input dd-format" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Student Name</label></td>
+                    <td>@Html.EditorFor(model => model.PrizeStudentName)</td>
+                </tr>
+                <tr>
+                    <td><label>Teacher Name</label></td>
+                    <td>@Html.EditorFor(model => model.PrizeTeacherName)</td>
+                </tr>
+                @*<tr>
+            <td>&nbsp;</td>
+            <td>@Html.ActionLink("Generate Prize Letter", "GeneratePrizeLetter", "CallLog", new { callID = Model.CallID }, null)</td>
+        </tr>*@
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if (ViewBag.IsEdit)
+                        {
+                            <input type="submit" value="Save Edited Call" class="btn btn-info" onclick="return confirm('Are you sure you want to edit this call?');" />
+                            @Html.ActionLink("Cancel", "List", "CallLog", new { @class = "btn btn-default" })
+                        }
+                        else
+                        {
+                            <input type="submit" value="Finish Call" class="btn btn-info" onclick="javascript: return ConfirmFormSubmission();" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Are you sure you meant to leave these unchecked?</h4>
+                </div>
+                <div class="modal-body">
+                    <ul id="modal-list"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-close" class="btn btn-default" data-dismiss="modal">No, I want to make changes</button>
+                    <input id="modal-submit" type="submit" value="Yes, continue with save" class="btn btn-primary" onclick="CloseModal();"/>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

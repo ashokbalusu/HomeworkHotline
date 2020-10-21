@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html> 
+    <head>
+        <title>@ViewBag.Title - Homework Hotline</title>
+        <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
+        @* Content-box fixes as per http://docs.telerik.com/kendo-ui/third-party/using-kendo-with-twitter-bootstrap article  *@
+        <link href="@Url.Content("~/Content/box-sizing-fixes.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+    	<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://kendo.cdn.telerik.com/2018.2.516/js/jquery.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2018.2.516/js/jszip.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js"></script>
+	<script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.aspnetmvc.min.js"></script>
+	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+</head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div id="responsive-panel" class="navbar-left">                  
+                    @(Html.Kendo().Menu()
+                                .Name("Menu")
+                                .Items(items =>
+                                {
+                                    items.Add().Text("Dashboard").Action("AdminDashboard", "CallLog", new { area = "" });
+                                    items.Add().Text("Schools").Action("Index", "School", new { area = "" });
+                                    items.Add().Text("Principals").Action("PrincipalList", "School", new { area = "" });
+                                    items.Add().Text("Teachers").Action("Teachers", "Teacher", new { area = "" });
+                                    items.Add().Text("Students").Action("List", "Student", new { area = "" });
+                                    items.Add().Text("Donors").Action("Index", "Donor", new { area = "" });
+                                    items.Add().Text("Call Logs").Action("List", "CallLog", new { area = "" });
+                                    items.Add().Text("Timesheets").Action("Index", "Timesheet", new { area = "" });
+                                    items.Add().Text("Reports").Action("Index", "Report", new { area = "" });
+                                })
+                    )
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" style="margin:25px 0;">
+                <div class="col-sm-5"><a href="@Url.Action("Index","Home")"><img src="~/Images/hhLogo.png" style="width:200px;"></a></div>
+               @if (User.IsInRole("Teacher") || User.IsInRole("Administrator"))
+                {
+                <div class="col-sm-2 text-right"></div>
+                }
+                <div class="col-sm-5">@Html.Partial("_LoginPartial")</div>
+            </div>
+            <div class="container"> @RenderBody() </div> 
+        </div>
+        <footer class="clearfix">
+            <hr />
+            <div class="container">Copyright &copy; @DateTime.Now.Year Homework Hotline. All Rights Reserved.</div>
+        </footer>
+
+        <script>
+            $(document).ready(function () {
+                $("#responsive-panel").kendoResponsivePanel({
+                    breakpoint: 768,
+                    autoClose: false,
+                    orientation: "top"
+                });
+            });
+            function onclick(e) {
+                $("#responsive-panel").getKendoResponsivePanel().toggle();
+            }
+        </script>
+
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

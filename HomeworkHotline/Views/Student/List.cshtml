@@ -1,0 +1,194 @@
+﻿@model IEnumerable<Repository.StudentModel>
+@using Repository;
+
+@{
+    ViewBag.Title = "Students";
+    var totalCount = @ViewBag.TotalCount;
+}
+
+@(Html.Kendo().Grid(Model)
+        .Name("grid")
+        .Pageable(p => p.Numeric(false)
+            .PreviousNext(false)
+            .Messages(m => m.Display("Records: {2}")))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.CodeName);
+            columns.Bound(c => c.Grade);
+            columns.Bound(c => c.LanguageName);
+            columns.Bound(c => c.SchoolName);
+            columns.Bound(c => c.ReferredTypeName);
+            columns.Bound(c => c.CountyName);
+            columns.Bound(c => c.HasInternet).ClientTemplate(
+                            "# if (HasInternet == true) { #" +
+                                "<span class=\"k-icon k-i-check\"></span>" +
+                            "# } #").Width(120).HtmlAttributes(new { style = "text-align:center" });
+            columns.Bound(c => c.GuardianContactEmail).Title("Guardian Email").Hidden();
+            columns.Bound(c => c.GuardianContactPhone).Title("Guardian Phone").Hidden();
+            columns.Bound(c => c.StudentFirstName).Title("Student Name").Hidden(true);
+            columns.Bound(c => c.StudentContactPhone).Title("Student Phone").Hidden();
+            columns.Bound(c => c.CreateDate).Hidden();
+            columns.Bound(c => c.CreateBy).Hidden();
+            columns.Bound(c => c.ModifiedDate).Hidden();
+            columns.Bound(c => c.ModifiedBy).Hidden();
+            columns.Command(cmd => { cmd.Edit().Text(" "); cmd.Destroy().Text(" ").Visible("IsAdmin"); }).HtmlAttributes(new { style = "text-align:center;" }).Width(170);
+        })
+        .Events(x => x.ExcelExport("excelExport"))
+        .ToolBar(toolBar =>
+        {
+        toolBar.Template(
+            @<text>
+            <div class="add-button">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a class='btn btn-info' href='#' onclick="location.href='@Url.Action("StudentManage", "Student", new { addStudentOnly = true })'"><span class='k-icon k-i-plus'></span>Add Student</a>
+                    <a href="" class="btn btn-primary k-grid-excel" id="exportExcel">Export to Excel</a>
+                }
+            </div>
+            <div class="search-box"><input class='k-textbox k-search' value="Search..." onfocus="if (this.value=='Search...') this.value='';" onblur="this.value = this.value==''?'Search...':this.value;" id='searchbox' data-field="CodeName,Grade,SchoolName,LanguageName,ReferredTypeName,CountyName" /><button class="btn btn-default" id="clear-search">Clear</button></div></text>);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("EditorStudent").Window(w => w.Title("Student Details").Width(720)))
+        .Scrollable()
+        .Filterable(filterable => filterable
+            .Operators(operators => operators
+                .ForString(str => str
+                    .Clear()
+                    .Contains("Contains")
+                    .DoesNotContain("Does not contain")
+                    .StartsWith("Starts with")
+                    .EndsWith("Ends with")
+                    .IsEqualTo("Is equal to")
+                    .IsNotEqualTo("Is not equal to")
+                )
+            )
+        )
+        .Excel(excel => excel
+            .FileName("HH-Students.xlsx")
+            .Filterable(true)
+            .AllPages(true)
+        )
+        .Sortable(sortable => sortable
+            .AllowUnsort(true)
+            .SortMode(GridSortMode.MultipleColumn)
+            .ShowIndexes(true))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize((int)totalCount)
+            .Events(e =>
+                {
+                    e.Sync("sync_handler");
+                    e.Change("onChange");
+                    e.RequestEnd("onRequestEnd");
+                })
+        .Batch(true)
+        .ServerOperation(false)
+        .Model(model =>
+        {
+            model.Id(c => c.StudentID);
+        })
+        .Read(read => read.Action("Students_Read", "Student"))
+        .Sort(sort => sort.Add("CodeName").Ascending())
+        .Update(update => update.Action("Students_Update", "Student"))
+        .Destroy(destroy => destroy.Action("Students_Delete", "Student"))
+    )
+)
+
+<input type="hidden" value="@ViewBag.Message" id="hdnFlag" />
+<script type="text/javascript">
+    $("#searchbox").on("keyup change", function () {
+        var filter = { logic: "or", filters: [] };
+        $this = $(this);
+        $searchValue = $this.val();
+        var grid = $("#grid").data("kendoGrid");
+        if ($searchValue) {
+            $.each($this.data("field").split(','), function (index, field) {
+                filter.filters.push({ field: field, operator: "contains", value: $searchValue });
+            });
+        }
+        grid.dataSource.query({ filter: filter });
+    });
+
+    $("#clear-search").on("click", function () {
+        $("#searchbox").val("");
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.filter({});
+    });
+
+    function sync_handler(e) {
+        this.read();
+    }
+
+    function onRequestEnd(e) {
+        if (e.field == "CodeName"){
+            if (arrayIsDuplicate(studentArray)) {
+                alert("That codename is already assigned to another student.");
+                return false;
+            }
+        }
+    }
+    var studentArray = [];
+
+    function arrayIsDuplicate(array) {
+        var valueArr = array.map(function (item) { return item.CodeName });
+        var isDuplicate = valueArr.some(function (item, idx) {
+            return valueArr.indexOf(item) != idx
+        });
+        return isDuplicate;
+    }
+
+    function onChange(e) {
+        var isDuplicate = false;
+        if (e.action == "itemchange" && e.field == "CodeName") {
+             isDuplicate = arrayIsDuplicate(studentArray)
+        }
+        if (e.action != "itemchange") {
+            studentArray = [];
+            for (var i = 0; i < e.items.length; i++) {
+                var dup = studentArray.includes(e.items[i]);
+                if (!dup) {
+                    studentArray.push((e.items[i]));
+                }
+            }
+        }
+        if (isDuplicate) {
+            alert("That codename is already assigned to another student.");
+            return false;
+        }
+        else
+            return true;
+    }
+
+    function IsAdmin(dataItem) {
+        var isAdmin = @ViewBag.IsAdmin.ToString().ToLower();
+        return isAdmin;
+    }
+
+    //$("#exportExcel").click(function () {
+    //    var grid = $("#grid").data("kendoGrid");
+    //    grid.saveAsExcel();
+    //});
+
+    var exportFlag = false;
+    function excelExport(e) {
+        var columns = e.sender.columns;
+        if (!exportFlag) {
+            for (var i = 0; i < columns.length; i++) {
+                if (columns[i].hidden)
+                    e.sender.showColumn(i);
+            }
+            e.preventDefault();
+            exportFlag = true;
+            setTimeout(function () {
+                e.sender.saveAsExcel();
+            });
+        } else {
+            for (var i = 0; i < columns.length; i++) {
+                if (typeof columns[i].hidden != "undefined" && !columns[i].hidden)
+                    e.sender.hideColumn(i);
+            }
+            exportFlag = false;
+        }
+    }
+
+</script>
