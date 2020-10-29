@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class ChartModel
+    public class SchoolSessionStudentGrid
     {
         public int CountyId { get; set; }
         public string CountyName { get; set; }
-        public string ChartElementName { get; set; }
-        public double ChartElementValue { get; set; }
+        public string Grade { get; set; }
+        public int GradeCount { get; set; }
     }
 }

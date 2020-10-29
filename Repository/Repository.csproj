@@ -93,6 +93,7 @@
     <Compile Include="CallLogs.cs" />
     <Compile Include="CallLogService.cs" />
     <Compile Include="CallLogStudentModel.cs" />
+    <Compile Include="SchoolSessionStudentGrid.cs" />
     <Compile Include="SchoolSessionsStudentGrid.cs" />
     <Compile Include="County.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>

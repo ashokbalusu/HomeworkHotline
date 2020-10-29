@@ -8,8 +8,8 @@ namespace Repository
 {
     public class ReportModel
     {
-        public int EntityId { get; set; }
-        public string EntityName { get; set; }
+        public int CountyId { get; set; }
+        public string CountyName { get; set; }
         public string TotalMinutes { get; set; }
         public string TotalDollars { get; set; }
         public int SeesionsPreviousYearComparison { get; set; }
@@ -32,6 +32,6 @@ namespace Repository
         public List<ChartModel> SessionResults { get; set; }
         public List<ChartModel> SubjectBreakdown { get; set; }
         public List<ChartModel> SessionsPerGrade { get; set; }
-        public List<ChartModel> SchoolSessionsStudentGrid { get; set; }
+        public List<SchoolSessionStudentGrid> SchoolSessionsStudentGrid { get; set; }
     }
 }
