@@ -222,6 +222,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OverallReportParametersViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
@@ -322,6 +323,8 @@
     <Content Include="Views\Shared\EditorTemplates\EditorDonor.cshtml" />
     <Content Include="Views\School\BulkEditSchoolList.cshtml" />
     <Content Include="Web.config.example" />
+    <Content Include="Views\Report\OverallReport.cshtml" />
+    <None Include="Web.config" />
     <None Include="Web.Debug.config" />
     <None Include="Web.Release.config" />
   </ItemGroup>

@@ -1,27 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 
-using System.Data.SqlClient;
 using Microsoft.Reporting.WebForms;
-using System.Configuration;
 using System.Data;
 using System.Web.UI.WebControls;
+using HomeworkHotline.Models;
+using Repository;
 
 namespace HomeworkHotline.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class ReportController : Controller
     {
+        private readonly HomeworkHotlineEntities _homeworkHotlineEntities;
+
+        public ReportController()
+        {
+            _homeworkHotlineEntities = new HomeworkHotlineEntities();
+        }
+
         // GET: Report
         public ActionResult Index()
         {
             return View();
         }
 
-    //    MyDataSet ds = new MyDataSet();
+        private void GetCountiesDropdownData()
+        {
+            ViewData["Counties"] = _homeworkHotlineEntities
+                .Counties
+                .Select(c => new CountyModel
+                {
+                    CountyID = c.CountyID,
+                    CountyName = c.CountyName,
+                    StateCode = c.StateCode
+                })
+                .OrderBy(c => c.CountyName);
+        }
+
+        public ActionResult OverallReport()
+        {
+            GetCountiesDropdownData();
+
+            var parameters = new OverallReportParametersViewModel();
+
+            return View(parameters);
+        }
+
+        [HttpPost]
+        public ActionResult OverallReport(OverallReportParametersViewModel parameters)
+        {
+            GetCountiesDropdownData();
+
+            return View();
+        }
+
+        //    MyDataSet ds = new MyDataSet();
         public ActionResult ShowReport()
         {
             ReportViewer reportViewer = new ReportViewer();
@@ -30,15 +64,15 @@ namespace HomeworkHotline.Controllers
             reportViewer.Width = Unit.Percentage(900);
             reportViewer.Height = Unit.Percentage(900);
 
-      //      var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //      var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
 
-         //   SqlConnection conx = new SqlConnection(connectionString); SqlDataAdapter adp = new SqlDataAdapter("SELECT * FROM Employee_tbt", conx);
+            //   SqlConnection conx = new SqlConnection(connectionString); SqlDataAdapter adp = new SqlDataAdapter("SELECT * FROM Employee_tbt", conx);
 
-       //     adp.Fill(ds, ds.Employee_tbt.TableName);
+            //     adp.Fill(ds, ds.Employee_tbt.TableName);
 
             reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\Donors.rdl";
-          //  reportViewer.LocalReport.DataSources.Add(new ReportDataSource("MyDataSet", ds.Tables[0]));
+            //  reportViewer.LocalReport.DataSources.Add(new ReportDataSource("MyDataSet", ds.Tables[0]));
 
 
             ViewBag.ReportViewer = reportViewer;

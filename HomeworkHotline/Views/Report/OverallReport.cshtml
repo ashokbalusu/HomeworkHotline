@@ -1,0 +1,63 @@
+﻿@model HomeworkHotline.Models.OverallReportParametersViewModel
+@{
+    ViewBag.Title = "Where the Magic Happens";
+}
+
+
+
+@using (Html.BeginForm("OverallReport", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>@ViewBag.Title</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>@Html.LabelFor(m => m.StartDate, new { @class = "control-label" })</div>
+                @Html.Kendo().DatePickerFor(m => m.StartDate)
+                <div>
+                    @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>@Html.LabelFor(m => m.EndDate, new { @class = "control-label" })</div>
+                @Html.Kendo().DatePickerFor(m => m.EndDate)
+                <div>
+                    @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @*<div class="col-md-4">
+                @Html.LabelFor(m => m.Districts)
+                @Html.Kendo().MultiSelectFor(model => model.Districts).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Districts"], "SchoolDistrictID", "DistrictName")).Placeholder("Select Districts...").Name("Districts")
+            </div>*@
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Counties, new { @class = "control-label" })
+                @Html.Kendo().MultiSelectFor(model => model.Counties).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Counties"], "CountyId", "CountyName")).Placeholder("Select Counties").Name("Counties").AutoClose(false)
+                @Html.ValidationMessageFor(m => m.Counties, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="col-md-4">
+                @Html.LabelFor(m => m.Teachers)
+                @Html.Kendo().MultiSelectFor(model => model.Teachers).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Teachers"], "UserId", "FullName")).Placeholder("Select Teachers").Name("Teachers")
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div>@Html.LabelFor(m => m.AggregationType, new { @class = "control-label" })</div>
+                @Html.EnumDropDownListFor(m => m.AggregationType, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AggregationType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <button type="reset" class="btn btn-default">Reset</button>
+    <button type="submit" class="btn btn-primary">Generate Report</button>
+}
