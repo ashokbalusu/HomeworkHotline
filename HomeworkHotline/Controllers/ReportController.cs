@@ -56,7 +56,8 @@ namespace HomeworkHotline.Controllers
 
             var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
 
-            var reportZipStream = _reportService.GetReportZip(reportData);
+            string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
+            var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
 
             return File(reportZipStream, "application/zip", "Reports.zip");
         }
