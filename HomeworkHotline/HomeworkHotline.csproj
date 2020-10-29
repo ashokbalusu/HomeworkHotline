@@ -235,11 +235,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\box-sizing-fixes.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\hhLogo.png" />
     <Content Include="Images\Signature.png" />
     <Content Include="packages.config" />
@@ -249,9 +253,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Images\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Images\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Images\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -334,7 +340,6 @@
     <Content Include="Images\heroAccent.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\box-sizing-fixes.css" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Project_Readme.html" />
   </ItemGroup>
