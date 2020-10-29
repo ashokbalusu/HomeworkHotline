@@ -322,7 +322,6 @@
     <Content Include="Views\Shared\EditorTemplates\EditorDonor.cshtml" />
     <Content Include="Views\School\BulkEditSchoolList.cshtml" />
     <Content Include="Web.config.example" />
-    <None Include="Web.config" />
     <None Include="Web.Debug.config" />
     <None Include="Web.Release.config" />
   </ItemGroup>
