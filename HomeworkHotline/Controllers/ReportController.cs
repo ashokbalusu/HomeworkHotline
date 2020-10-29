@@ -13,10 +13,12 @@ namespace HomeworkHotline.Controllers
     public class ReportController : Controller
     {
         private readonly HomeworkHotlineEntities _homeworkHotlineEntities;
+        private readonly ReportService _reportService;
 
         public ReportController()
         {
             _homeworkHotlineEntities = new HomeworkHotlineEntities();
+            _reportService = new ReportService(new HomeworkHotlineEntities());
         }
 
         // GET: Report
@@ -52,7 +54,11 @@ namespace HomeworkHotline.Controllers
         {
             GetCountiesDropdownData();
 
-            return View();
+            var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
+
+            var reportZipStream = _reportService.GetReportZip(reportData);
+
+            return File(reportZipStream, "application/zip", "Reports.zip");
         }
 
         //    MyDataSet ds = new MyDataSet();

@@ -30,7 +30,7 @@ namespace Repository
             this.entities = entities;
         }
 
-        public List<ReportModel> GetReportData(string startDate, string endDate, List<int> countyIds = null)
+        public List<ReportModel> GetReportData(DateTime startDate, DateTime endDate, List<int> countyIds = null)
         {
             var reportData = new List<ReportModel>();
             entities.Database.Initialize(force: false);
@@ -41,11 +41,11 @@ namespace Repository
             cmd.CommandTimeout = 10000;
 
             var startDateParam = new SqlParameter("StartDate", SqlDbType.DateTime);
-            startDateParam.Value = Convert.ToDateTime(startDate);
+            startDateParam.Value = startDate;
             cmd.Parameters.Add(startDateParam);
 
             var endDateParam = new SqlParameter("EndDate", SqlDbType.DateTime);
-            endDateParam.Value = Convert.ToDateTime(endDate);
+            endDateParam.Value = endDate;
             cmd.Parameters.Add(endDateParam);
 
             if (countyIds != null && countyIds.Count > 0)
