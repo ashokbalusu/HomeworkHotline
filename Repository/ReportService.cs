@@ -16,6 +16,7 @@ using System.IO;
 using System.IO.Compression;
 using DocumentFormat.OpenXml.Packaging;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Repository
 {
@@ -102,6 +103,7 @@ namespace Repository
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
+                    studentChartData = new ChartModel();
 
                     columnOrdinal = reader.GetOrdinal("CountyID");
                     studentChartData.CountyId = reader.GetInt32(columnOrdinal);
@@ -122,6 +124,7 @@ namespace Repository
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
+                    sessionChartData = new ChartModel();
 
                     columnOrdinal = reader.GetOrdinal("CountyID");
                     sessionChartData.CountyId = reader.GetInt32(columnOrdinal);
@@ -142,6 +145,7 @@ namespace Repository
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
+                    subjectBreakdownChartData = new ChartModel();
 
                     columnOrdinal = reader.GetOrdinal("CountyID");
                     subjectBreakdownChartData.CountyId = reader.GetInt32(columnOrdinal);
@@ -159,10 +163,17 @@ namespace Repository
                 }
 
                 reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
 
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
+                    schoolSessionStudentGridData = new SchoolSessionStudentGrid();
 
                     columnOrdinal = reader.GetOrdinal("CountyID");
                     schoolSessionStudentGridData.CountyId = reader.GetInt32(columnOrdinal);
@@ -215,7 +226,7 @@ namespace Repository
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 outStream.Close();
             }
@@ -228,7 +239,8 @@ namespace Repository
             var docxStream = new MemoryStream();
 
             string fileName = "Report_Template.docx";
-            var filepath = System.IO.Path.Combine("..//Documents/", fileName);
+            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var filepath = Path.Combine(assemblyFolder + "/Documents/", fileName);
 
             using (WordprocessingDocument wordDoc =
                     WordprocessingDocument.Open(filepath, true))
