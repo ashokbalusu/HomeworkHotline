@@ -181,7 +181,7 @@ namespace Repository
                     columnOrdinal = reader.GetOrdinal("CountyName");
                     schoolSessionStudentGridData.CountyName = reader.GetString(columnOrdinal);
 
-                    columnOrdinal = reader.GetOrdinal("Count of Student Grade");
+                    columnOrdinal = reader.GetOrdinal("CountOfStudentGrade");
                     schoolSessionStudentGridData.GradeCount = reader.GetInt32(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("Grade");
@@ -206,7 +206,7 @@ namespace Repository
             return reportData;
         }
 
-        public Stream GetReportZip(List<ReportModel> reportData) {
+        public Stream GetReportZip(List<ReportModel> reportData, string filePath) {
             var outStream = new MemoryStream();
 
             try
@@ -217,7 +217,7 @@ namespace Repository
                     foreach (var countyId in countyIds)
                     {
                         var reportCountyData = reportData.Where(r => r.CountyId == countyId).Single();
-                        var docxStream = GenerateReportDocX(reportCountyData);
+                        var docxStream = GenerateReportDocX(reportCountyData, filePath);
                         var zipEntry = archive.CreateEntry("HH Report" + reportCountyData.CountyName + ".docx");
                         using (var zipEntryStream = zipEntry.Open())
                         {
@@ -234,16 +234,12 @@ namespace Repository
             return outStream;
         }
 
-        public Stream GenerateReportDocX(ReportModel reportData)
+        public Stream GenerateReportDocX(ReportModel reportData, string filePath)
         {
             var docxStream = new MemoryStream();
 
-            string fileName = "Report_Template.docx";
-            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var filepath = Path.Combine(assemblyFolder + "/Documents/", fileName);
-
             using (WordprocessingDocument wordDoc =
-                    WordprocessingDocument.Open(filepath, true))
+                    WordprocessingDocument.Open(filePath, true))
             {
                 string docText = null;
                 using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
