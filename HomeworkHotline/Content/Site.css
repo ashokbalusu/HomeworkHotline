@@ -223,8 +223,8 @@ p .k-button {
 .take-a-call {
     background-color:#65ef96;
     border:none;
-    margin-top:10px;
     color:#073045;
+    margin-bottom: 15px;
 }
 
 .container .row { margin-bottom: 15px; }
