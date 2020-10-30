@@ -410,7 +410,7 @@ namespace Repository
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
                     report.SessionResults = sessionsResultsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SubjectBreakdown = subjectBreakdownsChartData.Where(c => c.CountyId == report.CountyId).ToList();
-                    report.SessionsPerGrade = sessionsPerGradeChartData.Where(c => c.CountyId == report.CountyId).ToList();
+                    report.SessionsPerGrade = sessionsPerGradeChartData.Where(c => c.CountyId == report.CountyId).OrderBy(c => TryGetInt(c.ChartElementName)).ToList();
                     report.Schools = schools.Where(s => s.CountyId == report.CountyId).ToList();
 
                     var ytd = ytds.First();
@@ -486,7 +486,7 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: string.Format("{0:n}", reportCountyData.DistirctPromotionalItemRate), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: string.Format("{0:n}", reportCountyData.DistrictPromotionalItemCost), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph_percent]", replace: string.Format("{0:n}", reportCountyData.DistrictPhonesPercentOfUsage), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "$[#dist_percent_usage]", replace: string.Format("{0:n}", reportCountyData.DistrictPhonesCost), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_percent_usage]", replace: string.Format("{0:n}", reportCountyData.DistrictPhonesCost), matchCase: false);
                                 #endregion
 
                                 #region Charts
@@ -576,6 +576,13 @@ namespace Repository
             }
 
             return outStream;
+        }
+
+        public int? TryGetInt(string item)
+        {
+            int i;
+            bool success = int.TryParse(item, out i);
+            return success ? (int?)i : (int?)null;
         }
 
         public void Dispose()
