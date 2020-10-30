@@ -242,14 +242,11 @@ namespace Repository
                     columnOrdinal = reader.GetOrdinal("GreenSessions");
                     greenSection.Sessions = reader.GetInt32(columnOrdinal);
 
-                    columnOrdinal = reader.GetOrdinal("GreenStudentsParents");
-                    greenSection.StudentsParents = reader.GetInt32(columnOrdinal);
-
                     columnOrdinal = reader.GetOrdinal("GreenStudents");
-                    greenSection.Students = reader.GetInt32(columnOrdinal);
+                    greenSection.Students = reader.GetInt64(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("GreenParents");
-                    greenSection.Parents = reader.GetInt32(columnOrdinal);
+                    greenSection.Parents = reader.GetInt64(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("GreenMinutes");
                     greenSection.Minutes = reader.GetDouble(columnOrdinal);

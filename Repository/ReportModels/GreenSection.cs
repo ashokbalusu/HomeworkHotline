@@ -10,9 +10,8 @@ namespace Repository.ReportModels
     {
         public string ThroughDate { get; set; }
         public int Sessions { get; set; }
-        public int StudentsParents { get; set; }
-        public int Students { get; set; }
-        public int Parents { get; set; }
+        public long Students { get; set; }
+        public long Parents { get; set; }
         public double Minutes { get; set; }
         public int TeacherPositionsPerWeek { get; set; }
     }
