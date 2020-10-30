@@ -366,6 +366,8 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: reportCountyData.DistrictPromotionalItemCost.ToString(), matchCase: false);
                                 #endregion
 
+                                #region Charts
+
                                 var dummySeries = new string[] { "dummy" };
 
                                 var studentsSessionsChartData = new ChartData
@@ -397,12 +399,16 @@ namespace Repository
                                 };
 
                                 ChartUpdater.UpdateChart(wordDoc, "Chart4", sessionsPerGradeChartData);
-                              
+
+                                #endregion
+
+                                #region Table
                                 AddTable(wordDoc, new string[,]
                                         { { "Texas", "TX" },
                                         { "California", "CA" },
                                         { "New York", "NY" },
                                         { "Massachusetts", "MA" } });
+                                #endregion
 
                                 wordDoc.Save();
                                 wordDoc.SaveAs(generatedFilePath).Close();
