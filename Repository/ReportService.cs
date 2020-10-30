@@ -229,6 +229,7 @@ namespace Repository
                                 wordDoc.Save();
 
                                 wordDoc.SaveAs("ReportGenerated.docx").Close();
+                                wordDoc.Close();
                             }
 
                         }
@@ -239,6 +240,7 @@ namespace Repository
                             var generatedWordDocumentBytes = File.ReadAllBytes("ReportGenerated.docx");
                             var generatedMemoryStream = new MemoryStream();
                             generatedMemoryStream.Write(generatedWordDocumentBytes, 0, (int)generatedWordDocumentBytes.Length);
+                            generatedMemoryStream.Seek(0, SeekOrigin.Begin);
                             generatedMemoryStream.CopyTo(zipEntryStream);
                         }
                     }
