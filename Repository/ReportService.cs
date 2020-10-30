@@ -197,7 +197,11 @@ namespace Repository
                     sessionResultsChartData.ChartElementValue = reader.GetDouble(columnOrdinal) / 100.0;
 
                     sessionsResultsChartData.Add(sessionResultsChartData);
+                    
                     sessionResultsChartData = new ChartModel();
+                    
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    sessionResultsChartData.CountyId = reader.GetInt32(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("PostTestPassed");
                     sessionResultsChartData.ChartElementName = "Post-Test Passed";
@@ -308,7 +312,7 @@ namespace Repository
                     int columnOrdinal = 0;
                     sessionPerGradeChartData = new ChartModel();
 
-                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    columnOrdinal = reader.GetOrdinal("CountyId");
                     sessionPerGradeChartData.CountyId = reader.GetInt32(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("CountyName");
@@ -349,6 +353,7 @@ namespace Repository
                     {
                         report.DistrictPromotionalItemCost = district.TotalPromotionalItems;
                         report.DistrictTutoringHourCost = string.Format("{0:n}", district.TotalTutoringHours);
+                        report.DistrictPromotionalItemStudents = district.CurrentYearStudents;
                     }
 
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
@@ -406,9 +411,9 @@ namespace Repository
 
                                 #region District Total Section
                                 //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: reportCountyData.Tut, matchCase: false);
-                                //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours] ", replace: reportCountyData., matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: reportCountyData.DistirctPromotionalItemStudents.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: reportCountyData.DistirctPromotionalItemRate.ToString("{0:F1}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours] ", replace: reportCountyData.DistrictTutoringHourCost, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: reportCountyData.DistrictPromotionalItemStudents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: reportCountyData.DistirctPromotionalItemRate.ToString(), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: reportCountyData.DistrictPromotionalItemCost.ToString(), matchCase: false);
                                 #endregion
 
@@ -425,6 +430,16 @@ namespace Repository
                                 };
 
                                 ChartUpdater.UpdateChart(wordDoc, "Chart1", studentsSessionsChartData);
+
+                                var sessionResultsChartData = new ChartData
+                                {
+                                    SeriesNames = dummySeries,
+                                    CategoryDataType = ChartDataType.String,
+                                    CategoryNames = reportCountyData.SessionResults.Select(s => s.ChartElementName).ToArray(),
+                                    Values = new double[][] { reportCountyData.SessionResults.Select(s => s.ChartElementValue).ToArray() }
+                                };
+
+                                ChartUpdater.UpdateChart(wordDoc, "Chart2", sessionResultsChartData);
 
                                 var subjectBreakdownChartData = new ChartData
                                 {
@@ -449,11 +464,7 @@ namespace Repository
                                 #endregion
 
                                 #region Table
-                                AddTable(wordDoc, new string[,]
-                                        { { "Texas", "TX" },
-                                        { "California", "CA" },
-                                        { "New York", "NY" },
-                                        { "Massachusetts", "MA" } });
+
                                 #endregion
 
                                 wordDoc.Save();
