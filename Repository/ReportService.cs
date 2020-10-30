@@ -431,7 +431,8 @@ namespace Repository
 
                                 #region District Total Section
                                 //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: reportCountyData.Tut, matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours] ", replace: reportCountyData.DistrictTutoringHourCost, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours]", replace: reportCountyData.DistrictTutoringHourCost, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[dist_tutoring_rate]", replace: reportCountyData.DistrictTutoringHourlyRate, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: string.Format("{0:n0}", reportCountyData.DistrictPromotionalItemStudents), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: string.Format("{0:n0}", reportCountyData.DistirctPromotionalItemRate), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: string.Format("{0:n}", reportCountyData.DistrictPromotionalItemCost), matchCase: false);
