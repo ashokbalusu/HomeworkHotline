@@ -6,6 +6,7 @@ using System.Data;
 using System.Web.UI.WebControls;
 using HomeworkHotline.Models;
 using Repository;
+using System.Collections.Generic;
 
 namespace HomeworkHotline.Controllers
 {
@@ -44,7 +45,11 @@ namespace HomeworkHotline.Controllers
         {
             GetCountiesDropdownData();
 
-            var parameters = new OverallReportParametersViewModel();
+            var parameters = new OverallReportParametersViewModel() {
+                StartDate = new System.DateTime(2020, 1, 1),
+                EndDate = new System.DateTime(2020, 12, 31),
+                Counties = new List<int>() { 10, 96 } // Bristol City and Sumner County
+            };
 
             return View(parameters);
         }

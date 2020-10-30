@@ -96,6 +96,8 @@
     <Compile Include="CallLogs.cs" />
     <Compile Include="CallLogService.cs" />
     <Compile Include="CallLogStudentModel.cs" />
+    <Compile Include="ReportModels\GreenSection.cs" />
+    <Compile Include="ReportModels\Total.cs" />
     <Compile Include="SchoolSessionStudentGrid.cs" />
     <Compile Include="County.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>

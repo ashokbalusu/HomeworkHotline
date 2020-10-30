@@ -18,6 +18,8 @@ using DocumentFormat.OpenXml.Packaging;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using OpenXmlPowerTools;
+using Repository.ReportModels;
+using iTextSharp.text.pdf.parser.clipper;
 
 namespace Repository
 {
@@ -99,8 +101,37 @@ namespace Repository
                 var schoolSessionsStudentGridData = new List<SchoolSessionStudentGrid>();
                 var schoolSessionStudentGridData = new SchoolSessionStudentGrid();
 
+                var totals = new List<Total>();
+                var greenSection = new GreenSection();
+
+                #region Result Set 1 - Totals
+
+                while (reader.Read())
+                {
+                    int columnOrdinal = 0;
+
+                    var total = new Total();
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    total.CountyId = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("CountyName");
+                    total.CountyName = reader.GetString(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("MinutesVar");
+                    total.MinutesVar = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("Tutoring");
+                    total.Tutoring = reader.GetDouble(columnOrdinal);
+
+                    totals.Add(total);
+                }
+
                 reader.NextResult();
 
+                #endregion
+
+                #region Result Set 2 - Students and Sessions Chart (Students Count)
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -113,7 +144,7 @@ namespace Repository
                     studentChartData.CountyName = reader.GetString(columnOrdinal);
 
                     studentChartData.ChartElementName = "Students";
-                    
+
                     columnOrdinal = reader.GetOrdinal("StudentsChart1");
                     studentChartData.ChartElementValue = reader.GetInt32(columnOrdinal);
 
@@ -122,6 +153,9 @@ namespace Repository
 
                 reader.NextResult();
 
+                #endregion
+
+                #region Result Set 3 - Students and Sessions Chart (Sessions Count)
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -143,6 +177,37 @@ namespace Repository
 
                 reader.NextResult();
 
+                #endregion
+
+                #region Result Set 4 - Sessions Results Chart
+
+                while (reader.Read())
+                {
+                    int columnOrdinal = 0;
+
+                    sessionResultsChartData = new ChartModel();
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    sessionResultsChartData.CountyId = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("CompletedAssignment");
+                    sessionResultsChartData.ChartElementName = "Completed Assignment";
+                    sessionResultsChartData.ChartElementValue = reader.GetDouble(columnOrdinal) / 100.0;
+
+                    sessionsResultsChartData.Add(sessionResultsChartData);
+                    sessionResultsChartData = new ChartModel();
+
+                    columnOrdinal = reader.GetOrdinal("PostTestPassed");
+                    sessionResultsChartData.ChartElementName = "Post-Test Passed";
+                    sessionResultsChartData.ChartElementValue = reader.GetDouble(columnOrdinal) / 100.0;
+
+                    sessionsResultsChartData.Add(sessionResultsChartData);
+                }
+
+                reader.NextResult();
+                #endregion
+
+                #region Result Set 5 - Subject Breakdown Chart
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -162,17 +227,46 @@ namespace Repository
 
                     subjectBreakdownsChartData.Add(subjectBreakdownChartData);
                 }
+                reader.NextResult();
+                #endregion
+                #region Result Set 6 - Green Section
+
+                while (reader.Read())
+                {
+                    var columnOrdinal = 0;
+
+                    columnOrdinal = reader.GetOrdinal("GreenThroughDate");
+                    var greenThroughDate = reader.GetString(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("GreenSessions");
+                    greenSection.Sessions = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("GreenStudentsParents");
+                    greenSection.StudentsParents = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("GreenStudents");
+                    greenSection.Students = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("GreenParents");
+                    greenSection.Parents = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("GreenMinutes");
+                    greenSection.Minutes = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("TeacherPositionsPerWeek");
+                    greenSection.TeacherPositionsPerWeek = reader.GetInt32(columnOrdinal);
+                }
 
                 reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
-                reader.NextResult();
+                #endregion
+                #region Result Set 7 - Total District Tutoring Hours
 
+                reader.NextResult();
+                #endregion
+                #region Result Set 8 - Total District Promotional Items and Current Year Students
+                reader.NextResult();
+                #endregion
+                #region Result Set 9 - Sessions per Grade Chart
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -193,10 +287,29 @@ namespace Repository
                     schoolSessionsStudentGridData.Add(schoolSessionStudentGridData);
                 }
 
+                reader.NextResult();
+                #endregion
+                #region Result Set 10 - School Table
+
+
+                reader.NextResult();
+                #endregion
+
                 reportData = studentsChartData.Select(s => new ReportModel() { CountyId = s.CountyId, CountyName = s.CountyName }).ToList();
                 foreach (var report in reportData)
                 {
+                    report.TotalMinutes = string.Format("{0:n}", totals.SingleOrDefault(c => c.CountyId == report.CountyId).MinutesVar);
+                    report.TutoringProvided = string.Format("{0:n}", totals.SingleOrDefault(c => c.CountyId == report.CountyId).Tutoring);
+
+                    report.ThroughDate = greenSection.ThroughDate;
+                    report.TotalSessions = greenSection.Sessions;
+                    report.TotalIndividualStudents = greenSection.Students;
+                    report.TotalIndividualParents = greenSection.Parents;
+                    report.TotalMinutesFreeTutoring = Convert.ToInt32(greenSection.Minutes);
+                    report.TotalTeacherPositionsPerWeek = greenSection.TeacherPositionsPerWeek;
+
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
+                    report.SessionResults = sessionsResultsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SubjectBreakdown = subjectBreakdownsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SchoolSessionsStudentGrid = schoolSessionsStudentGridData.Where(c => c.CountyId == report.CountyId).ToList();
                 }
@@ -209,7 +322,8 @@ namespace Repository
             return reportData;
         }
 
-        public Stream GetReportZip(List<ReportModel> reportData, string filePath) {
+        public Stream GetReportZip(List<ReportModel> reportData, string filePath)
+        {
             var outStream = new MemoryStream();
             var generatedFilePath = filePath.Replace("\\Documents\\Report_Template.docx", "") + "\\ReportGenerated.docx";
 
