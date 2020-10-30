@@ -20,12 +20,14 @@ namespace Repository
         public int TotalSessions { get; set; }
         public int TotalIndividualStudents { get; set; }
         public int TotalIndividualParents { get; set; }
+        public long TotalIndividualStudentsParents { get { return TotalIndividualParents + TotalIndividualStudents; } }
         public int TotalMinutesFreeTutoring { get; set; }
         public int TotalTeacherPositionsPerWeek { get; set; }
         public string DistrictTutoringHourCost { get; set; }
         public string DistrictTutoringHourlyRate { get; set; }
         public int DistirctPromotionalItemStudents { get; set; }
-        public string DistrictPromotionalItemCost { get; set; }
+        public double DistrictPromotionalItemCost { get; set; }
+        public double DistirctPromotionalItemRate { get { return DistrictPromotionalItemCost / DistirctPromotionalItemStudents; } }
         public double DistrictPhonesPercentOfUsage { get; set; }
         public double DistrictPhonesCost { get; set; }
         public List<ChartModel> StudentsAndSessions { get; set; }
