@@ -9,14 +9,14 @@ namespace HomeworkHotline.Models
 {
     public class OverallReportParametersViewModel
     {
-        [Required(ErrorMessage = "Please Select a Date")]
+        [Required(ErrorMessage = "Please select a date")]
         [Display(Name = "From Date")]
         public DateTime? StartDate { get; set; }
-        [Required(ErrorMessage = "Please Select a Date")]
+        [Required(ErrorMessage = "Please select a date")]
         [Display(Name = "To Date")]
         public DateTime? EndDate { get; set; }
         [Display(Name = "Counties")]
-        [Required(ErrorMessage = "Please Select One or More Counties")]
+        [Required(ErrorMessage = "Please select one or more counties")]
         public List<int> Counties { get; set; }
         [Display(Name = "Report Aggregation")]
         public OverallReportAggregationType AggregationType { get; set; }

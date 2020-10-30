@@ -3,8 +3,6 @@
     ViewBag.Title = "Where the Magic Happens";
 }
 
-
-
 @using (Html.BeginForm("OverallReport", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -25,7 +23,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <div>@Html.LabelFor(m => m.EndDate, new { @class = "control-label" })</div>
-                @Html.Kendo().DatePickerFor(m => m.EndDate)
+                @Html.Kendo().DatePickerFor(m => m.EndDate).DisableDates()
                 <div>
                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                 </div>
