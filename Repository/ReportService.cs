@@ -358,8 +358,8 @@ namespace Repository
                 reportData = studentsChartData.Select(s => new ReportModel() { CountyId = s.CountyId, CountyName = s.CountyName }).ToList();
                 foreach (var report in reportData)
                 {
-                    report.TotalMinutes = string.Format("{0:n}", totals.SingleOrDefault(c => c.CountyId == report.CountyId).MinutesVar);
-                    report.TutoringProvided = string.Format("{0:n}", totals.SingleOrDefault(c => c.CountyId == report.CountyId).Tutoring);
+                    report.TotalMinutes = string.Format("{0:n}", Math.Round(totals.SingleOrDefault(c => c.CountyId == report.CountyId).MinutesVar));
+                    report.TutoringProvided = string.Format("{0:n}", Math.Round(totals.SingleOrDefault(c => c.CountyId == report.CountyId).Tutoring));
 
                     report.ThroughDate = greenSection.ThroughDate;
                     report.TotalSessions = greenSection.Sessions;
@@ -421,20 +421,20 @@ namespace Repository
 
                                 #region Green Total Section
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_through_date]", replace: reportCountyData.ThroughDate, matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_sessions]", replace: reportCountyData.TotalSessions.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_total_sp]", replace: reportCountyData.TotalIndividualStudentsParents.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_stu]", replace: reportCountyData.TotalIndividualStudents.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_par]", replace: reportCountyData.TotalIndividualStudents.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_minutes]", replace: reportCountyData.TotalMinutesFreeTutoring.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_teacher_posit]", replace: reportCountyData.TotalTeacherPositionsPerWeek.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_sessions]", replace: reportCountyData.TotalSessions.ToString("{0:n}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_total_sp]", replace: reportCountyData.TotalIndividualStudentsParents.ToString("{0:n}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_stu]", replace: reportCountyData.TotalIndividualStudents.ToString("{0:n}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_par]", replace: reportCountyData.TotalIndividualParents.ToString("{0:n}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_minutes]", replace: reportCountyData.TotalMinutesFreeTutoring.ToString("{0:n}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_teacher_posit]", replace: reportCountyData.TotalTeacherPositionsPerWeek.ToString("{0:n}"), matchCase: false);
                                 #endregion
 
                                 #region District Total Section
                                 //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: reportCountyData.Tut, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours] ", replace: reportCountyData.DistrictTutoringHourCost, matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: reportCountyData.DistrictPromotionalItemStudents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: reportCountyData.DistrictPromotionalItemStudents.ToString("{0:n}"), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: reportCountyData.DistirctPromotionalItemRate.ToString(), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: reportCountyData.DistrictPromotionalItemCost.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: reportCountyData.DistrictPromotionalItemCost.ToString("{0:0.00}"), matchCase: false);
                                 #endregion
 
                                 #region Charts

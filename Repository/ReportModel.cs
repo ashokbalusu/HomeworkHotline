@@ -28,7 +28,7 @@ namespace Repository
         public string DistrictTutoringHourlyRate { get; set; }
         public long DistrictPromotionalItemStudents { get; set; }
         public double DistrictPromotionalItemCost { get; set; }
-        public double DistirctPromotionalItemRate { get { return DistrictPromotionalItemCost > 0 && DistrictPromotionalItemStudents > 0 ? DistrictPromotionalItemCost / DistrictPromotionalItemStudents : 0; } }
+        public double DistirctPromotionalItemRate { get { return 100 * DistrictPromotionalItemCost > 0 && DistrictPromotionalItemStudents > 0 ? DistrictPromotionalItemCost / DistrictPromotionalItemStudents : 0; } }
         public double DistrictPhonesPercentOfUsage { get; set; }
         public double DistrictPhonesCost { get; set; }
         public List<ChartModel> StudentsAndSessions { get; set; }
