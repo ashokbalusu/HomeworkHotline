@@ -170,6 +170,8 @@ namespace Repository
                 reader.NextResult();
                 reader.NextResult();
                 reader.NextResult();
+                reader.NextResult();
+                reader.NextResult();
 
                 while (reader.Read())
                 {
@@ -209,6 +211,7 @@ namespace Repository
 
         public Stream GetReportZip(List<ReportModel> reportData, string filePath) {
             var outStream = new MemoryStream();
+            var generatedFilePath = filePath.Replace("\\Documents\\Report_Template.docx", "") + "\\ReportGenerated.docx";
 
             try
             {
@@ -236,10 +239,20 @@ namespace Repository
                                     Values = new double[][] { reportCountyData.StudentsAndSessions.Select(s => s.ChartElementValue).ToArray() }
                                 };
 
-                                var chartUpdated = ChartUpdater.UpdateChart(wordDoc, "Chart1", studentsSessionsChartData);
-                                
+                                ChartUpdater.UpdateChart(wordDoc, "Chart1", studentsSessionsChartData);
+
+                                var subjectBreakdownChartData = new ChartData
+                                {
+                                    SeriesNames = dummySeries,
+                                    CategoryDataType = ChartDataType.String,
+                                    CategoryNames = reportCountyData.SubjectBreakdown.Select(s => s.ChartElementName).ToArray(),
+                                    Values = new double[][] { reportCountyData.SubjectBreakdown.Select(s => s.ChartElementValue).ToArray() }
+                                };
+
+                                ChartUpdater.UpdateChart(wordDoc, "Chart3", subjectBreakdownChartData);
+
                                 wordDoc.Save();
-                                wordDoc.SaveAs("ReportGenerated.docx").Close();
+                                wordDoc.SaveAs(generatedFilePath).Close();
                                 wordDoc.Close();
                             }
 
@@ -248,7 +261,7 @@ namespace Repository
                         var zipEntry = archive.CreateEntry("HH Report " + reportCountyData.CountyName + ".docx");
                         using (var zipEntryStream = zipEntry.Open())
                         {
-                            var generatedWordDocumentBytes = File.ReadAllBytes("ReportGenerated.docx");
+                            var generatedWordDocumentBytes = File.ReadAllBytes(generatedFilePath);
                             var generatedMemoryStream = new MemoryStream();
                             generatedMemoryStream.Write(generatedWordDocumentBytes, 0, (int)generatedWordDocumentBytes.Length);
                             generatedMemoryStream.Seek(0, SeekOrigin.Begin);
