@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repository.ReportModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,5 +36,6 @@ namespace Repository
         public List<ChartModel> SubjectBreakdown { get; set; }
         public List<ChartModel> SessionsPerGrade { get; set; }
         public List<SchoolSessionStudentGrid> SchoolSessionsStudentGrid { get; set; }
+        public List<ReportModels.School> Schools { get; set; }
     }
 }

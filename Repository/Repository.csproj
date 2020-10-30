@@ -98,6 +98,7 @@
     <Compile Include="CallLogStudentModel.cs" />
     <Compile Include="ReportModels\District.cs" />
     <Compile Include="ReportModels\GreenSection.cs" />
+    <Compile Include="ReportModels\School.cs" />
     <Compile Include="ReportModels\Total.cs" />
     <Compile Include="SchoolSessionStudentGrid.cs" />
     <Compile Include="County.cs">

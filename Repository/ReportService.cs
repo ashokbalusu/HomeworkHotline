@@ -105,6 +105,7 @@ namespace Repository
                 var totals = new List<Total>();
                 var greenSection = new GreenSection();
                 var districts = new List<District>();
+                var schools = new List<ReportModels.School>();
 
                 #region Result Set 1 - Totals
 
@@ -327,6 +328,25 @@ namespace Repository
                 #endregion
                 #region Result Set 10 - School Table
 
+                while (reader.Read())
+                {
+                    var columnOrdinal = 0;
+                    var school = new ReportModels.School();
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    school.CountyId = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("SchoolName");
+                    school.Name = reader.GetString(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("NoOfSessions");
+                    school.NumberOfSessions = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("NoOfStudents");
+                    school.NumberOfStudents = reader.GetInt32(columnOrdinal);
+
+                    schools.Add(school);
+                }
 
                 reader.NextResult();
                 #endregion
@@ -355,6 +375,7 @@ namespace Repository
                     report.SessionResults = sessionsResultsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SubjectBreakdown = subjectBreakdownsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SchoolSessionsStudentGrid = schoolSessionsStudentGridData.Where(c => c.CountyId == report.CountyId).ToList();
+                    report.Schools = schools.Where(s => s.CountyId == report.CountyId).ToList();
                 }
             }
             finally
