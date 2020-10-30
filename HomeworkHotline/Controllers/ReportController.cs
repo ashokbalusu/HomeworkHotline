@@ -55,7 +55,7 @@ namespace HomeworkHotline.Controllers
         {
             if (ModelState.IsValid)
             {
-                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
+                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties, parameters.AggregationType == OverallReportAggregationType.Aggregate);
 
                 string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
                 var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);

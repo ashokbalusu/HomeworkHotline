@@ -34,7 +34,7 @@ namespace Repository
             this.entities = entities;
         }
 
-        public List<ReportModel> GetReportData(DateTime startDate, DateTime endDate, List<int> countyIds = null)
+        public List<ReportModel> GetReportData(DateTime startDate, DateTime endDate, List<int> countyIds = null, bool isAggregate = false)
         {
             var reportData = new List<ReportModel>();
             entities.Database.Initialize(force: false);
@@ -51,6 +51,10 @@ namespace Repository
             var endDateParam = new SqlParameter("EndDate", SqlDbType.DateTime);
             endDateParam.Value = endDate;
             cmd.Parameters.Add(endDateParam);
+
+            var aggregateParam = new SqlParameter("Aggregate", SqlDbType.Bit);
+            aggregateParam.Value = isAggregate;
+            cmd.Parameters.Add(aggregateParam);
 
             if (countyIds != null && countyIds.Count > 0)
             {
