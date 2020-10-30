@@ -226,8 +226,19 @@ namespace Repository
                             using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(mem, true))
                             {
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName, matchCase: false);
-                                wordDoc.Save();
+                                var dummySeries = new string[] { "dummy" };
 
+                                var studentsSessionsChartData = new ChartData
+                                {
+                                    SeriesNames = dummySeries,
+                                    CategoryDataType = ChartDataType.String,
+                                    CategoryNames = reportCountyData.StudentsAndSessions.Select(s => s.ChartElementName).ToArray(),
+                                    Values = new double[][] { reportCountyData.StudentsAndSessions.Select(s => s.ChartElementValue).ToArray() }
+                                };
+
+                                var chartUpdated = ChartUpdater.UpdateChart(wordDoc, "Chart1", studentsSessionsChartData);
+                                
+                                wordDoc.Save();
                                 wordDoc.SaveAs("ReportGenerated.docx").Close();
                                 wordDoc.Close();
                             }
