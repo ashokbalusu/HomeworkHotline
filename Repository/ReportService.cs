@@ -484,7 +484,19 @@ namespace Repository
                                 #endregion
 
                                 #region Table
+                                Body bod = wordDoc.MainDocumentPart.Document.Body;
 
+                                foreach (DocumentFormat.OpenXml.Wordprocessing.Table t in bod.Descendants<DocumentFormat.OpenXml.Wordprocessing.Table>().Where(tbl => tbl.InnerText.Contains("# of sessions")))
+                                {
+                                    foreach (var school in reportCountyData.Schools)
+                                    {
+                                        var tableRow = new OpenXmlElement[] { new DocumentFormat.OpenXml.Wordprocessing.TableRow(new DocumentFormat.OpenXml.Wordprocessing.TableCell(new Paragraph(new Run(new Text(school.Name)))),
+                                                                                new DocumentFormat.OpenXml.Wordprocessing.TableCell(new Paragraph(new Run(new Text(school.NumberOfSessions.ToString())))),
+                                                                                new DocumentFormat.OpenXml.Wordprocessing.TableCell(new Paragraph(new Run(new Text(school.NumberOfStudents.ToString()))))) };
+
+                                        t.Append(tableRow);
+                                    }
+                                }
                                 #endregion
 
                                 wordDoc.Save();
@@ -512,71 +524,6 @@ namespace Repository
             }
 
             return outStream;
-        }
-
-        // Take the data from a two-dimensional array and build a table at the 
-        // end of the supplied document.
-        public static void AddTable(WordprocessingDocument document, string[,] data)
-        {
-            var doc = document.MainDocumentPart.Document;
-
-            DocumentFormat.OpenXml.Wordprocessing.Table table = new DocumentFormat.OpenXml.Wordprocessing.Table();
-
-            TableProperties props = new TableProperties(
-                new TableBorders(
-                new TopBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                },
-                new BottomBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                },
-                new LeftBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                },
-                new RightBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                },
-                new InsideHorizontalBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                },
-                new InsideVerticalBorder
-                {
-                    Val = new EnumValue<BorderValues>(BorderValues.Single),
-                    Size = 12
-                }),
-                new WrapNone());
-
-            table.AppendChild<TableProperties>(props);
-
-            for (var i = 0; i <= data.GetUpperBound(0); i++)
-            {
-                var tr = new DocumentFormat.OpenXml.Wordprocessing.TableRow();
-                for (var j = 0; j <= data.GetUpperBound(1); j++)
-                {
-                    var tc = new DocumentFormat.OpenXml.Wordprocessing.TableCell();
-                    tc.Append(new Paragraph(new Run(new Text(data[i, j]))));
-
-                    // Assume you want columns that are automatically sized.
-                    tc.Append(new TableCellProperties(
-                        new TableCellWidth { Type = TableWidthUnitValues.Auto }));
-
-                    tr.Append(tc);
-                }
-                table.Append(tr);
-            }
-
-            doc.Body.Append((IEnumerable<OpenXmlElement>)table);
-            doc.Save();
         }
 
         public void Dispose()
