@@ -239,7 +239,7 @@ namespace Repository
                     var columnOrdinal = 0;
 
                     columnOrdinal = reader.GetOrdinal("GreenThroughDate");
-                    var greenThroughDate = reader.GetString(columnOrdinal);
+                    greenSection.ThroughDate = reader.GetString(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("GreenSessions");
                     greenSection.Sessions = reader.GetInt32(columnOrdinal);
