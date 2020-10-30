@@ -35,7 +35,6 @@ namespace Repository
         public List<ChartModel> SessionResults { get; set; }
         public List<ChartModel> SubjectBreakdown { get; set; }
         public List<ChartModel> SessionsPerGrade { get; set; }
-        public List<SchoolSessionStudentGrid> SchoolSessionsStudentGrid { get; set; }
         public List<ReportModels.School> Schools { get; set; }
     }
 }
