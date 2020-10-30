@@ -385,8 +385,33 @@ namespace Repository
                             mem.Write(byteArray, 0, (int)byteArray.Length);
                             using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(mem, true))
                             {
+
+                                #region Header and Body
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName.ToUpper(), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_lcase]", replace: reportCountyData.CountyName, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#scholl_total]", replace: reportCountyData.TotalMinutes, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#tutoring_provided]", replace: reportCountyData.TutoringProvided, matchCase: false);
+                                #endregion
+
+                                #region Green Total Section
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_through_date]", replace: reportCountyData.ThroughDate, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_sessions]", replace: reportCountyData.TotalSessions.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_total_sp]", replace: reportCountyData.TotalIndividualStudentsParents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_stu]", replace: reportCountyData.TotalIndividualStudents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_par]", replace: reportCountyData.TotalIndividualStudents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_minutes]", replace: reportCountyData.TotalMinutesFreeTutoring.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#green_teacher_posit]", replace: reportCountyData.TotalTeacherPositionsPerWeek.ToString(), matchCase: false);
+                                #endregion
+
+                                #region District Total Section
+                                //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: reportCountyData.Tut, matchCase: false);
+                                //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours] ", replace: reportCountyData., matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: reportCountyData.DistirctPromotionalItemStudents.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: reportCountyData.DistirctPromotionalItemRate.ToString("{0:F1}"), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: reportCountyData.DistrictPromotionalItemCost.ToString(), matchCase: false);
+                                #endregion
+
+                                #region Charts
 
                                 var dummySeries = new string[] { "dummy" };
 
@@ -420,11 +445,15 @@ namespace Repository
 
                                 ChartUpdater.UpdateChart(wordDoc, "Chart4", sessionsPerGradeChartData);
 
+                                #endregion
+
+                                #region Table
                                 AddTable(wordDoc, new string[,]
                                         { { "Texas", "TX" },
                                         { "California", "CA" },
                                         { "New York", "NY" },
                                         { "Massachusetts", "MA" } });
+                                #endregion
 
                                 wordDoc.Save();
                                 wordDoc.SaveAs(generatedFilePath).Close();
