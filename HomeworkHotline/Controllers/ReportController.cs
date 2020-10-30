@@ -58,7 +58,7 @@ namespace HomeworkHotline.Controllers
 
             string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
             var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
-
+            reportZipStream.Seek(0, System.IO.SeekOrigin.Begin);
             return File(reportZipStream, "application/zip", "Reports.zip");
         }
 

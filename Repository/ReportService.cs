@@ -17,6 +17,7 @@ using System.IO.Compression;
 using DocumentFormat.OpenXml.Packaging;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using OpenXmlPowerTools;
 
 namespace Repository
 {
@@ -217,11 +218,28 @@ namespace Repository
                     foreach (var countyId in countyIds)
                     {
                         var reportCountyData = reportData.Where(r => r.CountyId == countyId).Single();
-                        var docxStream = GenerateReportDocX(reportCountyData, filePath);
-                        var zipEntry = archive.CreateEntry("HH Report" + reportCountyData.CountyName + ".docx");
+
+                        byte[] byteArray = File.ReadAllBytes(filePath);
+                        using (MemoryStream mem = new MemoryStream())
+                        {
+                            mem.Write(byteArray, 0, (int)byteArray.Length);
+                            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(mem, true))
+                            {
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName, matchCase: false);
+                                wordDoc.Save();
+
+                                wordDoc.SaveAs("ReportGenerated.docx").Close();
+                            }
+
+                        }
+
+                        var zipEntry = archive.CreateEntry("HH Report " + reportCountyData.CountyName + ".docx");
                         using (var zipEntryStream = zipEntry.Open())
                         {
-                            docxStream.CopyTo(zipEntryStream);
+                            var generatedWordDocumentBytes = File.ReadAllBytes("ReportGenerated.docx");
+                            var generatedMemoryStream = new MemoryStream();
+                            generatedMemoryStream.Write(generatedWordDocumentBytes, 0, (int)generatedWordDocumentBytes.Length);
+                            generatedMemoryStream.CopyTo(zipEntryStream);
                         }
                     }
                 }
@@ -232,26 +250,6 @@ namespace Repository
             }
 
             return outStream;
-        }
-
-        public Stream GenerateReportDocX(ReportModel reportData, string filePath)
-        {
-            var docxStream = new MemoryStream();
-
-            using (WordprocessingDocument wordDoc =
-                    WordprocessingDocument.Open(filePath, true))
-            {
-                string docText = null;
-                using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
-                {
-                    docText = sr.ReadToEnd();
-                }
-
-                Regex regexText = new Regex("[#countyschools_ucase]");
-                docText = regexText.Replace(docText, reportData.CountyName);
-            }
-
-            return docxStream;
         }
 
         public void Dispose()
