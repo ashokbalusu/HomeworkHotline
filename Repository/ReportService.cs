@@ -99,8 +99,8 @@ namespace Repository
                 var subjectBreakdownsChartData = new List<ChartModel>();
                 var subjectBreakdownChartData = new ChartModel();
 
-                var schoolSessionsStudentGridData = new List<SchoolSessionStudentGrid>();
-                var schoolSessionStudentGridData = new SchoolSessionStudentGrid();
+                var sessionsPerGradeChartData = new List<ChartModel>();
+                var sessionPerGradeChartData = new ChartModel();
 
                 var totals = new List<Total>();
                 var greenSection = new GreenSection();
@@ -306,21 +306,21 @@ namespace Repository
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
-                    schoolSessionStudentGridData = new SchoolSessionStudentGrid();
+                    sessionPerGradeChartData = new ChartModel();
 
                     columnOrdinal = reader.GetOrdinal("CountyID");
-                    schoolSessionStudentGridData.CountyId = reader.GetInt32(columnOrdinal);
+                    sessionPerGradeChartData.CountyId = reader.GetInt32(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("CountyName");
-                    schoolSessionStudentGridData.CountyName = reader.GetString(columnOrdinal);
+                    sessionPerGradeChartData.CountyName = reader.GetString(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("CountOfStudentGrade");
-                    schoolSessionStudentGridData.GradeCount = reader.GetInt32(columnOrdinal);
+                    sessionPerGradeChartData.ChartElementValue = reader.GetInt32(columnOrdinal);
 
                     columnOrdinal = reader.GetOrdinal("Grade");
-                    schoolSessionStudentGridData.Grade = reader.GetString(columnOrdinal);
+                    sessionPerGradeChartData.ChartElementName = reader.GetString(columnOrdinal);
 
-                    schoolSessionsStudentGridData.Add(schoolSessionStudentGridData);
+                    sessionsPerGradeChartData.Add(sessionPerGradeChartData);
                 }
 
                 reader.NextResult();
@@ -354,7 +354,8 @@ namespace Repository
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
                     report.SessionResults = sessionsResultsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SubjectBreakdown = subjectBreakdownsChartData.Where(c => c.CountyId == report.CountyId).ToList();
-                    report.SchoolSessionsStudentGrid = schoolSessionsStudentGridData.Where(c => c.CountyId == report.CountyId).ToList();
+                    report.SessionsPerGrade = sessionsPerGradeChartData.Where(c => c.CountyId == report.CountyId).ToList();
+                    
                 }
             }
             finally
