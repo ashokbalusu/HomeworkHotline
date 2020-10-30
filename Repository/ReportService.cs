@@ -461,8 +461,8 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#schoolYear_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#firstSemester_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
 
-                                var relativeModifier = reportCountyData.TotalSessions < 0 ? "fewer" : "more";
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#hotline_usage]", replace: $"{reportCountyData.SessionsPreviousYearComparison} {relativeModifier}", matchCase: false);
+                                var relativeModifier = reportCountyData.SessionsPreviousYearComparison < 0 ? "fewer" : "more";
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#hotline_usage]", replace: $"{ Math.Abs(reportCountyData.SessionsPreviousYearComparison)} {relativeModifier}", matchCase: false);
 
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#quarter]", replace: reportCountyData.QuarterMidYearName, matchCase: false);
 
