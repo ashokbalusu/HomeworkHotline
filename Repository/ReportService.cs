@@ -134,7 +134,12 @@ namespace Repository
 
                 #endregion
 
-                #region Result Set 2 - Students and Sessions Chart (Students Count)
+                #region Result Set 2 - SessionsFromYTD
+
+                reader.NextResult();
+                #endregion
+
+                #region Result Set 3 - Students and Sessions Chart (Students Count)
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -158,7 +163,7 @@ namespace Repository
 
                 #endregion
 
-                #region Result Set 3 - Students and Sessions Chart (Sessions Count)
+                #region Result Set 4 - Students and Sessions Chart (Sessions Count)
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -182,7 +187,7 @@ namespace Repository
 
                 #endregion
 
-                #region Result Set 4 - Sessions Results Chart
+                #region Result Set 5 - Sessions Results Chart
 
                 while (reader.Read())
                 {
@@ -198,9 +203,9 @@ namespace Repository
                     sessionResultsChartData.ChartElementValue = reader.GetDouble(columnOrdinal) / 100.0;
 
                     sessionsResultsChartData.Add(sessionResultsChartData);
-                    
+
                     sessionResultsChartData = new ChartModel();
-                    
+
                     columnOrdinal = reader.GetOrdinal("CountyID");
                     sessionResultsChartData.CountyId = reader.GetInt32(columnOrdinal);
 
@@ -214,7 +219,7 @@ namespace Repository
                 reader.NextResult();
                 #endregion
 
-                #region Result Set 5 - Subject Breakdown Chart
+                #region Result Set 6 - Subject Breakdown Chart
                 while (reader.Read())
                 {
                     int columnOrdinal = 0;
@@ -237,7 +242,7 @@ namespace Repository
                 reader.NextResult();
                 #endregion
 
-                #region Result Set 6 - Green Section
+                #region Result Set 7 - Green Section
 
                 while (reader.Read())
                 {
@@ -265,7 +270,7 @@ namespace Repository
                 reader.NextResult();
                 #endregion
 
-                #region Result Set 7 - Total District Tutoring Hours
+                #region Result Set 8 - Total District Tutoring Hours
 
                 while (reader.Read())
                 {
@@ -279,34 +284,30 @@ namespace Repository
                     columnOrdinal = reader.GetOrdinal("TotalDistrictTutoringHours");
                     district.TotalTutoringHours = reader.GetDouble(columnOrdinal);
 
+                    columnOrdinal = reader.GetOrdinal("TutoringHours");
+                    district.TutoringHours = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("PhonesPercent");
+                    district.PhonesPercent = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("PhoneUsageRate");
+                    district.PhoneUsageRate = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("TotalDistrictPromotionalItems");
+                    district.TotalPromotionalItems = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("PromotionalItemCostsCents");
+                    district.PromotionalItemCostCents = reader.GetDouble(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("CurrentYearStudents");
+                    district.CurrentYearStudents = reader.GetInt64(columnOrdinal);
+
                     districts.Add(district);
                 }
 
                 reader.NextResult();
                 #endregion
-                #region Result Set 8 - Total District Promotional Items and Current Year Students
-                while (reader.Read())
-                {
-                    var columnOrdinal = 0;
 
-                    columnOrdinal = reader.GetOrdinal("CountyID");
-                    var district = districts.SingleOrDefault(d => d.CountyId == reader.GetInt32(columnOrdinal));
-
-                    if (district != null)
-                    {
-                        columnOrdinal = reader.GetOrdinal("DistrictName");
-                        district.DistrictName = reader.GetString(columnOrdinal);
-
-                        columnOrdinal = reader.GetOrdinal("TotalDistrictPromotionalItems");
-                        district.TotalPromotionalItems = reader.GetDouble(columnOrdinal);
-
-                        columnOrdinal = reader.GetOrdinal("CurrentYearStudents");
-                        district.CurrentYearStudents = reader.GetInt64(columnOrdinal);
-                    }
-                }
-
-                reader.NextResult();
-                #endregion
                 #region Result Set 9 - Sessions per Grade Chart
                 while (reader.Read())
                 {
@@ -330,6 +331,7 @@ namespace Repository
 
                 reader.NextResult();
                 #endregion
+
                 #region Result Set 10 - School Table
 
                 while (reader.Read())
@@ -372,8 +374,12 @@ namespace Repository
                     if (district != null)
                     {
                         report.DistrictPromotionalItemCost = district.TotalPromotionalItems;
-                        report.DistrictTutoringHourCost = string.Format("{0:n}", district.TotalTutoringHours);
+                        report.DistrictTutoringHourCost = district.TotalTutoringHours;
+                        report.DistrictTutoringHours = district.TutoringHours;
                         report.DistrictPromotionalItemStudents = district.CurrentYearStudents;
+                        report.DistrictPhonesPercentOfUsage = district.PhonesPercent;
+                        report.DistrictPhonesCost = district.PhoneUsageRate;
+                        report.DistirctPromotionalItemRate = district.PromotionalItemCostCents;
                     }
 
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
@@ -430,12 +436,14 @@ namespace Repository
                                 #endregion
 
                                 #region District Total Section
-                                //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: reportCountyData.Tut, matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours]", replace: reportCountyData.DistrictTutoringHourCost, matchCase: false);
-                                //TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[dist_tutoring_rate]", replace: reportCountyData.DistrictTutoringHourlyRate, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_cost_ht]", replace: string.Format("{0:n}", reportCountyData.DistrictTotalCost), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_hours]", replace: string.Format("{0:n}", reportCountyData.DistrictTutoringHourCost), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_tutoring_rate]", replace: string.Format("{0:n}", reportCountyData.DistrictTutoringHours), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st]", replace: string.Format("{0:n0}", reportCountyData.DistrictPromotionalItemStudents), matchCase: false);
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: string.Format("{0:n0}", reportCountyData.DistirctPromotionalItemRate), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_st_rate]", replace: string.Format("{0:n}", reportCountyData.DistirctPromotionalItemRate), matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph]", replace: string.Format("{0:n}", reportCountyData.DistrictPromotionalItemCost), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#dist_ph_percent]", replace: string.Format("{0:n}", reportCountyData.DistrictPhonesPercentOfUsage), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "$[#dist_percent_usage]", replace: string.Format("{0:n}", reportCountyData.DistrictPhonesCost), matchCase: false);
                                 #endregion
 
                                 #region Charts

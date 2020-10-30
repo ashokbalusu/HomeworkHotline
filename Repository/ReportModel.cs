@@ -24,13 +24,21 @@ namespace Repository
         public long TotalIndividualStudentsParents { get { return TotalIndividualParents + TotalIndividualStudents; } }
         public int TotalMinutesFreeTutoring { get; set; }
         public int TotalTeacherPositionsPerWeek { get; set; }
-        public string DistrictTutoringHourCost { get; set; }
-        public string DistrictTutoringHourlyRate { get; set; }
+        public double DistrictTutoringHourCost { get; set; }
+        public double DistrictTutoringHours { get; set; }
         public long DistrictPromotionalItemStudents { get; set; }
+        public double DistrictPromotionalItemStudentRate { get; set; }
         public double DistrictPromotionalItemCost { get; set; }
-        public double DistirctPromotionalItemRate { get { return 100 * DistrictPromotionalItemCost > 0 && DistrictPromotionalItemStudents > 0 ? DistrictPromotionalItemCost / DistrictPromotionalItemStudents : 0; } }
+        public double DistirctPromotionalItemRate { get; set; }
         public double DistrictPhonesPercentOfUsage { get; set; }
         public double DistrictPhonesCost { get; set; }
+        public double DistrictTotalCost
+        {
+            get
+            {
+                return DistrictTutoringHourCost + DistrictPromotionalItemCost + DistrictPhonesCost;
+            }
+        }
         public List<ChartModel> StudentsAndSessions { get; set; }
         public List<ChartModel> SessionResults { get; set; }
         public List<ChartModel> SubjectBreakdown { get; set; }
