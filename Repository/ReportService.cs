@@ -347,7 +347,7 @@ namespace Repository
 
                     if (district != null)
                     {
-                        report.DistrictPromotionalItemCost = string.Format("{0:n}", district.TotalPromotionalItems);
+                        report.DistrictPromotionalItemCost = district.TotalPromotionalItems;
                         report.DistrictTutoringHourCost = string.Format("{0:n}", district.TotalTutoringHours);
                     }
 
