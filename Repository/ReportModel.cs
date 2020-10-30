@@ -13,7 +13,7 @@ namespace Repository
         public string CountyName { get; set; }
         public string TotalMinutes { get; set; }
         public string TutoringProvided { get; set; }
-        public int SeesionsPreviousYearComparison { get; set; }
+        public int SessionsPreviousYearComparison { get; set; }
         public string PreviousYearRange { get; set; }
         public string CurrentYearRange { get; set; }
         public string QuarterMidYearName { get; set; }

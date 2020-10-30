@@ -106,6 +106,7 @@ namespace Repository
                 var greenSection = new GreenSection();
                 var districts = new List<District>();
                 var schools = new List<ReportModels.School>();
+                var ytds = new List<SessionsYTD>();
 
                 #region Result Set 1 - Totals
 
@@ -135,6 +136,30 @@ namespace Repository
                 #endregion
 
                 #region Result Set 2 - SessionsFromYTD
+
+                while (reader.Read())
+                {
+                    var columnOrdinal = 0;
+
+                    var ytd = new SessionsYTD();
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    ytd.CountyId = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("PreviousYear");
+                    ytd.PreviousYear = reader.GetString(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("CurrentYear");
+                    ytd.CurrentYear = reader.GetString(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("YTDSessions");
+                    ytd.Sessions = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("CurrentQuarter");
+                    ytd.Quarter = reader.GetString(columnOrdinal);
+
+                    ytds.Add(ytd);
+                }
 
                 reader.NextResult();
                 #endregion
@@ -387,6 +412,13 @@ namespace Repository
                     report.SubjectBreakdown = subjectBreakdownsChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.SessionsPerGrade = sessionsPerGradeChartData.Where(c => c.CountyId == report.CountyId).ToList();
                     report.Schools = schools.Where(s => s.CountyId == report.CountyId).ToList();
+
+                    var ytd = ytds.First();
+
+                    report.CurrentYearRange = ytd.CurrentYear;
+                    report.PreviousYearRange = ytd.PreviousYear;
+                    report.SessionsPreviousYearComparison = ytd.Sessions;
+                    report.QuarterMidYearName = ytd.Quarter;
                 }
             }
             finally
@@ -423,6 +455,17 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_lcase]", replace: reportCountyData.CountyName, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#scholl_total]", replace: reportCountyData.TotalMinutes, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#tutoring_provided]", replace: reportCountyData.TutoringProvided, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#total_sessions]", replace: reportCountyData.SessionsPreviousYearComparison.ToString(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#ytd_yyyy_yy]", replace: reportCountyData.PreviousYearRange, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#hotline_year_yyyy_yy] ", replace: reportCountyData.PreviousYearRange, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#schoolYear_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#firstSemester_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
+
+                                var relativeModifier = reportCountyData.TotalSessions < 0 ? "fewer" : "more";
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#hotline_usage]", replace: $"{reportCountyData.SessionsPreviousYearComparison} {relativeModifier}", matchCase: false);
+
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#quarter]", replace: reportCountyData.QuarterMidYearName, matchCase: false);
+
                                 #endregion
 
                                 #region Green Total Section

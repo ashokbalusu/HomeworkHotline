@@ -100,6 +100,7 @@
     <Compile Include="ReportModels\GreenSection.cs" />
     <Compile Include="ReportModels\School.cs" />
     <Compile Include="ReportModels\Total.cs" />
+    <Compile Include="ReportModels\SessionsYTD.cs" />
     <Compile Include="SchoolSessionStudentGrid.cs" />
     <Compile Include="County.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
