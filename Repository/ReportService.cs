@@ -104,6 +104,7 @@ namespace Repository
 
                 var totals = new List<Total>();
                 var greenSection = new GreenSection();
+                var districts = new List<District>();
 
                 #region Result Set 1 - Totals
 
@@ -230,6 +231,7 @@ namespace Repository
                 }
                 reader.NextResult();
                 #endregion
+
                 #region Result Set 6 - Green Section
 
                 while (reader.Read())
@@ -257,11 +259,47 @@ namespace Repository
 
                 reader.NextResult();
                 #endregion
+
                 #region Result Set 7 - Total District Tutoring Hours
+
+                while (reader.Read())
+                {
+                    var columnOrdinal = 0;
+
+                    var district = new District();
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    district.CountyId = reader.GetInt32(columnOrdinal);
+
+                    columnOrdinal = reader.GetOrdinal("TotalDistrictTutoringHours");
+                    district.TotalTutoringHours = reader.GetDouble(columnOrdinal);
+
+                    districts.Add(district);
+                }
 
                 reader.NextResult();
                 #endregion
                 #region Result Set 8 - Total District Promotional Items and Current Year Students
+                while (reader.Read())
+                {
+                    var columnOrdinal = 0;
+
+                    columnOrdinal = reader.GetOrdinal("CountyID");
+                    var district = districts.SingleOrDefault(d => d.CountyId == reader.GetInt32(columnOrdinal));
+
+                    if (district != null)
+                    {
+                        columnOrdinal = reader.GetOrdinal("DistrictName");
+                        district.DistrictName = reader.GetString(columnOrdinal);
+
+                        columnOrdinal = reader.GetOrdinal("TotalDistrictPromotionalItems");
+                        district.TotalPromotionalItems = reader.GetDouble(columnOrdinal);
+
+                        columnOrdinal = reader.GetOrdinal("CurrentYearStudents");
+                        district.CurrentYearStudents = reader.GetInt64(columnOrdinal);
+                    }
+                }
+
                 reader.NextResult();
                 #endregion
                 #region Result Set 9 - Sessions per Grade Chart
@@ -305,6 +343,13 @@ namespace Repository
                     report.TotalIndividualParents = greenSection.Parents;
                     report.TotalMinutesFreeTutoring = Convert.ToInt32(greenSection.Minutes);
                     report.TotalTeacherPositionsPerWeek = greenSection.TeacherPositionsPerWeek;
+                    var district = districts.SingleOrDefault(d => d.CountyId == report.CountyId);
+
+                    if (district != null)
+                    {
+                        report.DistrictPromotionalItemCost = string.Format("{0:n}", district.TotalPromotionalItems);
+                        report.DistrictTutoringHourCost = string.Format("{0:n}", district.TotalTutoringHours);
+                    }
 
                     report.StudentsAndSessions = studentsChartData.Union(sessionsChartData).Where(c => c.CountyId == report.CountyId).ToList();
                     report.SessionResults = sessionsResultsChartData.Where(c => c.CountyId == report.CountyId).ToList();
@@ -374,7 +419,7 @@ namespace Repository
                                 };
 
                                 ChartUpdater.UpdateChart(wordDoc, "Chart4", sessionsPerGradeChartData);
-                              
+
                                 AddTable(wordDoc, new string[,]
                                         { { "Texas", "TX" },
                                         { "California", "CA" },
