@@ -231,7 +231,9 @@ namespace Repository
                             mem.Write(byteArray, 0, (int)byteArray.Length);
                             using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(mem, true))
                             {
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName.ToUpper(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_lcase]", replace: reportCountyData.CountyName, matchCase: false);
+
                                 var dummySeries = new string[] { "dummy" };
 
                                 var studentsSessionsChartData = new ChartData
