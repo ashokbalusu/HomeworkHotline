@@ -18,8 +18,9 @@ using DocumentFormat.OpenXml.Packaging;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using OpenXmlPowerTools;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using Repository.ReportModels;
-using iTextSharp.text.pdf.parser.clipper;
 
 namespace Repository
 {
@@ -342,7 +343,9 @@ namespace Repository
                             mem.Write(byteArray, 0, (int)byteArray.Length);
                             using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(mem, true))
                             {
-                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_ucase]", replace: reportCountyData.CountyName.ToUpper(), matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#countyschools_lcase]", replace: reportCountyData.CountyName, matchCase: false);
+
                                 var dummySeries = new string[] { "dummy" };
 
                                 var studentsSessionsChartData = new ChartData
@@ -364,6 +367,22 @@ namespace Repository
                                 };
 
                                 ChartUpdater.UpdateChart(wordDoc, "Chart3", subjectBreakdownChartData);
+
+                                var sessionsPerGradeChartData = new ChartData
+                                {
+                                    SeriesNames = dummySeries,
+                                    CategoryDataType = ChartDataType.String,
+                                    CategoryNames = reportCountyData.SessionsPerGrade.Select(s => s.ChartElementName).ToArray(),
+                                    Values = new double[][] { reportCountyData.SessionsPerGrade.Select(s => s.ChartElementValue).ToArray() }
+                                };
+
+                                ChartUpdater.UpdateChart(wordDoc, "Chart4", sessionsPerGradeChartData);
+                              
+                                AddTable(wordDoc, new string[,]
+                                        { { "Texas", "TX" },
+                                        { "California", "CA" },
+                                        { "New York", "NY" },
+                                        { "Massachusetts", "MA" } });
 
                                 wordDoc.Save();
                                 wordDoc.SaveAs(generatedFilePath).Close();
@@ -390,6 +409,71 @@ namespace Repository
             }
 
             return outStream;
+        }
+
+        // Take the data from a two-dimensional array and build a table at the 
+        // end of the supplied document.
+        public static void AddTable(WordprocessingDocument document, string[,] data)
+        {
+            var doc = document.MainDocumentPart.Document;
+
+            DocumentFormat.OpenXml.Wordprocessing.Table table = new DocumentFormat.OpenXml.Wordprocessing.Table();
+
+            TableProperties props = new TableProperties(
+                new TableBorders(
+                new TopBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                },
+                new BottomBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                },
+                new LeftBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                },
+                new RightBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                },
+                new InsideHorizontalBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                },
+                new InsideVerticalBorder
+                {
+                    Val = new EnumValue<BorderValues>(BorderValues.Single),
+                    Size = 12
+                }),
+                new WrapNone());
+
+            table.AppendChild<TableProperties>(props);
+
+            for (var i = 0; i <= data.GetUpperBound(0); i++)
+            {
+                var tr = new DocumentFormat.OpenXml.Wordprocessing.TableRow();
+                for (var j = 0; j <= data.GetUpperBound(1); j++)
+                {
+                    var tc = new DocumentFormat.OpenXml.Wordprocessing.TableCell();
+                    tc.Append(new Paragraph(new Run(new Text(data[i, j]))));
+
+                    // Assume you want columns that are automatically sized.
+                    tc.Append(new TableCellProperties(
+                        new TableCellWidth { Type = TableWidthUnitValues.Auto }));
+
+                    tr.Append(tc);
+                }
+                table.Append(tr);
+            }
+
+            doc.Body.Append((IEnumerable<OpenXmlElement>)table);
+            doc.Save();
         }
 
         public void Dispose()
