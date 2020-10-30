@@ -18,8 +18,8 @@ namespace Repository
         public string QuarterMidYearName { get; set; }
         public string ThroughDate { get; set; }
         public int TotalSessions { get; set; }
-        public int TotalIndividualStudents { get; set; }
-        public int TotalIndividualParents { get; set; }
+        public long TotalIndividualStudents { get; set; }
+        public long TotalIndividualParents { get; set; }
         public int TotalMinutesFreeTutoring { get; set; }
         public int TotalTeacherPositionsPerWeek { get; set; }
         public string DistrictTutoringHourCost { get; set; }
