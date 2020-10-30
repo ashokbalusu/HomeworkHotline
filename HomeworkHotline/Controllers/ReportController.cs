@@ -53,14 +53,20 @@ namespace HomeworkHotline.Controllers
         [HttpPost]
         public ActionResult OverallReport(OverallReportParametersViewModel parameters)
         {
-            GetCountiesDropdownData();
+            if (ModelState.IsValid)
+            {
+                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
 
-            var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
-
-            string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
-            var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
-            reportZipStream.Seek(0, System.IO.SeekOrigin.Begin);
-            return File(reportZipStream, "application/zip", "Reports.zip");
+                string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
+                var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
+                reportZipStream.Seek(0, System.IO.SeekOrigin.Begin);
+                return File(reportZipStream, "application/zip", "Reports.zip");
+            }
+            else
+            {
+                GetCountiesDropdownData();
+                return View(parameters);
+            }
         }
 
         //    MyDataSet ds = new MyDataSet();
