@@ -52,8 +52,8 @@ namespace Repository
             endDateParam.Value = endDate;
             cmd.Parameters.Add(endDateParam);
 
-            var aggregateParam = new SqlParameter("Aggregate", SqlDbType.Bit);
-            aggregateParam.Value = isAggregate;
+            var aggregateParam = new SqlParameter("Aggregate", SqlDbType.VarChar);
+            aggregateParam.Value = isAggregate ? "All" : "Individual";
             cmd.Parameters.Add(aggregateParam);
 
             if (countyIds != null && countyIds.Count > 0)
