@@ -6,10 +6,10 @@
     ViewBag.Title = "Timesheets";
     var totalCount = @ViewBag.TotalCount;
 }
-<div style="margin-top:-75px; margin-bottom:50px;">
+<div class="text-center">
     @if (User.IsInRole("Teacher") || User.IsInRole("Administrator"))
     {
-        <div><a style="margin:auto; width:165px;"  href="@Url.Action("Index", "Student", new { area = "" })" class="btn btn-block take-a-call">Take a Call</a></div>
+        <a  href="@Url.Action("Index", "Student", new { area = "" })" class="btn btn-lg take-a-call">Take a Call</a>
     }
 </div>
 
