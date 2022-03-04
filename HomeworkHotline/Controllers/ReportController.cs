@@ -6,7 +6,6 @@ using System.Data;
 using System.Web.UI.WebControls;
 using HomeworkHotline.Models;
 using Repository;
-using System.Collections.Generic;
 
 namespace HomeworkHotline.Controllers
 {
@@ -53,14 +52,34 @@ namespace HomeworkHotline.Controllers
         [HttpPost]
         public ActionResult OverallReport(OverallReportParametersViewModel parameters)
         {
+            const string mimeType = "application/zip";
+            const string fileName = "Reports.zip";
+
+            if (parameters.StartDate != null && parameters.EndDate != null && parameters.StartDate > parameters.EndDate)
+            {
+                ModelState.AddModelError("StartDate", "Must be before to date");
+                ModelState.AddModelError("EndDate", "Must be after from date");
+            }
+
             if (ModelState.IsValid)
             {
-                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties, parameters.AggregationType == OverallReportAggregationType.Aggregate);
+                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
 
                 string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
                 var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
-                reportZipStream.Seek(0, System.IO.SeekOrigin.Begin);
-                return File(reportZipStream, "application/zip", "Reports.zip");
+
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+                    // for example foo.bak
+                    FileName = fileName,
+
+                    // always prompt the user for downloading, set to true if you want 
+                    // the browser to try to show the file inline
+                    Inline = false,
+                };
+                Response.AppendHeader("Content-Disposition", cd.ToString());
+
+                return File(reportZipStream, mimeType, fileName);
             }
             else
             {
