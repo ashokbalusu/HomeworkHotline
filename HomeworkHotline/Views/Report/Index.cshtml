@@ -1,10 +1,16 @@
-﻿ @*@using ReportViewerForMvc;*@
+﻿@*@using ReportViewerForMvc;*@
 
-@{
-    ViewBag.Title = "Index";
+@{ ViewBag.Title = "Index"; }
+
+@if (User.IsInRole("Administrator"))
+{
+    <a href="Report/OverallReport" class="btn btn-primary">Where the Magic Happens <i class="glyphicon glyphicon-sunglasses"></i></a>
+}
+else
+{
+    <p>Work in progress... coming soon.</p>
 }
 
-Work in progress... coming soon.
 
 @*@Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)*@
 
