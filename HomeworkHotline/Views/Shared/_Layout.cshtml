@@ -45,7 +45,7 @@
         <div class="container">
             <div class="row" style="margin:25px 0;">
                 <div class="col-sm-5"><a href="@Url.Action("Index","Home")"><img src="~/Images/hhLogo.png" style="width:200px;"></a></div>
-               @if (User.IsInRole("Teacher") || User.IsInRole("Administrator"))
+               @if (User.Identity.IsAuthenticated && (User.IsInRole("Teacher") || User.IsInRole("Administrator")))
                 {
                 <div class="col-sm-2 text-right"></div>
                 }
