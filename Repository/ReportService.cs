@@ -579,6 +579,7 @@ namespace Repository
                 outStream.Close();
             }
 
+            outStream.Position = 0;
             return outStream;
         }
 
