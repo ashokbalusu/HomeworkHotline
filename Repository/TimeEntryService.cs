@@ -127,7 +127,7 @@ namespace Repository
 
                 entity.TimeEntryID = timeEntry.TimeEntryID;
                 entity.UserID = timeEntry.UserID;
-                entity.EntryDate = timeEntry.EntryDate;
+                entity.EntryDate = timeEntry.EntryDate.Value;
                 entity.StartTime = timeEntry.StartTime;
                 entity.EndTime = GetEndTime(timeEntry.EndTime, timeEntry.StartTime, timeEntry.UserID);
                 entity.IsLocked = timeEntry.IsLocked;

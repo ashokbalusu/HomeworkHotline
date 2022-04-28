@@ -90,7 +90,7 @@ namespace Repository
         {
             if (te != null)
             {
-                DateTime dte = te.EntryDate.Value;
+                DateTime dte = te.EntryDate;
                 te.EndTime = dte.Date.AddHours(23).AddMinutes(58).AddSeconds(00);
                 te.ActualEndTime = dte.Date.AddHours(23).AddMinutes(58).AddSeconds(00);
                 db.SaveChanges();

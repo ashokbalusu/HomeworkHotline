@@ -51,5 +51,6 @@ namespace Repository
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<CallLog> CallLogs { get; set; }
         public virtual DbSet<DonorGiving> DonorGivings { get; set; }
+        public virtual DbSet<AppSetting> AppSettings { get; set; }
     }
 }
