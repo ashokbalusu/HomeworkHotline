@@ -1209,9 +1209,9 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
             <End Role="Donor" EntitySet="Donors" />
             <End Role="DonorGiving" EntitySet="DonorGivings" />
           </AssociationSet>
-          <EntitySet Name="GradeLevels" EntityType="HomeworkHotlineModel.GradeLevel" />
           <EntitySet Name="SubjectClassifications" EntityType="HomeworkHotlineModel.SubjectClassification" />
           <EntitySet Name="AppSettings" EntityType="HomeworkHotlineModel.AppSetting" />
+          <EntitySet Name="GradeLevels" EntityType="HomeworkHotlineModel.GradeLevel" />
         </EntityContainer>
         <EntityType Name="Prize">
           <Key>
@@ -1491,16 +1491,6 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <Property Name="SettingValue" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="GradeLevel">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GradeText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GradeLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="SubjectClassification">
           <Key>
             <PropertyRef Name="ID" />
@@ -1509,6 +1499,16 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <Property Name="SpecificSubject" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="SubjectGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="SubjectSelectionList" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="GradeLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeLevel1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
@@ -1547,7 +1547,7 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeLevel" ColumnName="GradeLevel" />
                 <ScalarProperty Name="SubjectOther" ColumnName="SubjectOther" />
                 <ScalarProperty Name="MainSubject" ColumnName="MainSubject" />
                 <ScalarProperty Name="Volunteer" ColumnName="Volunteer" />
@@ -1878,17 +1878,6 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GradeLevels">
-            <EntityTypeMapping TypeName="HomeworkHotlineModel.GradeLevel">
-              <MappingFragment StoreEntitySet="GradeLevel">
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
-                <ScalarProperty Name="GradeText" ColumnName="GradeText" />
-                <ScalarProperty Name="Grade" ColumnName="Grade" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SubjectClassifications">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.SubjectClassification">
               <MappingFragment StoreEntitySet="SubjectClassification">
@@ -1896,6 +1885,7 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
                 <ScalarProperty Name="SubjectSelectionList" ColumnName="SubjectSelectionList" />
                 <ScalarProperty Name="SubjectGroup" ColumnName="SubjectGroup" />
                 <ScalarProperty Name="SpecificSubject" ColumnName="SpecificSubject" />
+				<ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1905,6 +1895,17 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
                 <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GradeLevels">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.GradeLevel">
+              <MappingFragment StoreEntitySet="GradeLevel">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeText" ColumnName="GradeText" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

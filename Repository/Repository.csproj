@@ -99,22 +99,9 @@
     <Compile Include="CallLogs.cs" />
     <Compile Include="CallLogService.cs" />
     <Compile Include="CallLogStudentModel.cs" />
-    <Compile Include="GradeLevel.cs">
-      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GradeModel.cs" />
-    <Compile Include="ReportModels\District.cs" />
-    <Compile Include="ReportModels\GreenSection.cs" />
-    <Compile Include="ReportModels\School.cs" />
-    <Compile Include="ReportModels\Total.cs" />
-    <Compile Include="ReportModels\SessionsYTD.cs" />
-    <Compile Include="SchoolSessionStudentGrid.cs" />
     <Compile Include="County.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChartModel.cs" />
-    <Compile Include="ReportModel.cs" />
-    <Compile Include="CountyModel.cs" />
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
@@ -124,51 +111,57 @@
     <Compile Include="DonorGiving.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DonorModel.cs" />
-    <Compile Include="DonorGivingService.cs" />
-    <Compile Include="DonorService.cs" />
     <Compile Include="EvalEnd.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EvalEndModel.cs" />
     <Compile Include="EvalStart.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EvalStartModel.cs" />
+    <Compile Include="GradeLevel.cs">
+      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GradeModel.cs" />
     <Compile Include="LanguageType.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="LanguageTypeModel.cs" />
     <Compile Include="Material.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MnpsQuadrant.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MnpsQuadrantModel.cs" />
     <Compile Include="Person.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ReportService.cs" />
-    <Compile Include="SubjecClassificationModel.cs" />
-    <Compile Include="SubjectClassification.cs">
-      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SubjectTypeModel.cs" />
-    <Compile Include="TeacherService.cs" />
-    <Compile Include="StudentService.cs" />
     <Compile Include="Prize.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ReferredType.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ReportModels\District.cs" />
+    <Compile Include="ReportModels\GreenSection.cs" />
+    <Compile Include="ReportModels\School.cs" />
+    <Compile Include="ReportModels\Total.cs" />
+    <Compile Include="ReportModels\SessionsYTD.cs" />
     <Compile Include="School.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SchoolDistrict.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SchoolSessionStudentGrid.cs" />
+    <Compile Include="ChartModel.cs" />
+    <Compile Include="ReportModel.cs" />
+    <Compile Include="CountyModel.cs" />
+    <Compile Include="DonorModel.cs" />
+    <Compile Include="DonorGivingService.cs" />
+    <Compile Include="DonorService.cs" />
+    <Compile Include="EvalEndModel.cs" />
+    <Compile Include="EvalStartModel.cs" />
+    <Compile Include="LanguageTypeModel.cs" />
+    <Compile Include="MnpsQuadrantModel.cs" />
+    <Compile Include="ReportService.cs" />
     <Compile Include="SchoolType.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
@@ -178,12 +171,19 @@
     <Compile Include="Student.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SubjecClassificationModel.cs" />
     <Compile Include="Subject.cs">
+      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubjectClassification.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SubjectType.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SubjectTypeModel.cs" />
+    <Compile Include="TeacherService.cs" />
+    <Compile Include="StudentService.cs" />
     <Compile Include="TeacherModel.cs" />
     <Compile Include="Teachers.cs" />
     <Compile Include="PrincipalModel.cs" />
