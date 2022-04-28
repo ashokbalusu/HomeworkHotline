@@ -74,10 +74,16 @@ namespace HomeworkHotline.Controllers
             GetAdminWeeklySummary(selectedStart, endDate);
             AdminWeeklySummary summary = CallLogs.GetAdminWeeklySummary(selectedStart, endDate);
             var sessions = CallLogs.GetSessionsByGrade(selectedStart, endDate).ToList();
-            var k = sessions.Single(s => s.Grade.ToLower() == "k");
-            sessions.Remove(k);
-            sessions = sessions.OrderBy(s => int.Parse(s.Grade)).ToList();
-            sessions.Insert(0, k);
+            if (sessions.Any())
+            {
+                var k = sessions.SingleOrDefault(s => s.Grade.ToLower() == "k");
+                if (k != null)
+                {
+                    sessions.Remove(k);
+                }
+                sessions = sessions.OrderBy(s => int.Parse(s.Grade)).ToList();
+                sessions.Insert(0, k);
+            }
             return View(sessions);
         }
 
