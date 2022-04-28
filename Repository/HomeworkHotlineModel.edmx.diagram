@@ -51,9 +51,9 @@
         <AssociationConnector Association="HomeworkHotlineModel.FK_PhoneCall_Subject1" />
         <EntityTypeShape EntityType="HomeworkHotlineModel.DonorGiving" Width="1.5" PointX="14.375" PointY="0.75" />
         <AssociationConnector Association="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2" />
-        <EntityTypeShape EntityType="HomeworkHotlineModel.GradeLevel" Width="1.5" PointX="15.375" PointY="4.75" />
-        <EntityTypeShape EntityType="HomeworkHotlineModel.SubjectClassification" Width="1.5" PointX="15.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HomeworkHotlineModel.SubjectClassification" Width="1.5" PointX="18.375" PointY="4.625" />
         <EntityTypeShape EntityType="HomeworkHotlineModel.AppSetting" Width="1.5" PointX="14.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HomeworkHotlineModel.GradeLevel" Width="1.5" PointX="16.25" PointY="4.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
