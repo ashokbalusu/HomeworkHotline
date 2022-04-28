@@ -212,6 +212,9 @@ namespace Repository
                     columnOrdinal = reader.GetOrdinal("CurrentYear");
                     ytd.CurrentYear = reader.GetString(columnOrdinal);
 
+                    columnOrdinal = reader.GetOrdinal("CurrentSeason");
+                    ytd.CurrentSeason = reader.GetString(columnOrdinal);
+
                     columnOrdinal = reader.GetOrdinal("YTDSessions");
                     ytd.Sessions = reader.GetInt32(columnOrdinal);
 
@@ -476,6 +479,9 @@ namespace Repository
                     var ytd = ytds.First();
 
                     report.CurrentYearRange = ytd.CurrentYear;
+                    report.CurrentSeason = ytd.CurrentSeason;
+                    report.SelectedGrades = gradeIds != null ? String.Join(", ", gradeIds) : String.Empty;
+                    report.SelectedSubjects = subjectIds != null ? String.Join(", ", subjectIds) : String.Empty;
                     report.PreviousYearRange = ytd.PreviousYear;
                     report.SessionsPreviousYearComparison = ytd.Sessions;
                     report.QuarterMidYearName = ytd.Quarter;
@@ -519,6 +525,26 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#ytd_yyyy_yy]", replace: reportCountyData.PreviousYearRange, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#hotline_year_yyyy_yy] ", replace: reportCountyData.PreviousYearRange, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#schoolYear_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
+                                TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#season_year]", replace: reportCountyData.CurrentSeason, matchCase: false);
+
+                                if (reportCountyData.SelectedGrades != null && reportCountyData.SelectedGrades != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#grades_chosen]", replace: "Grade(s): " + reportCountyData.SelectedGrades, matchCase: false);
+                                }
+                                else
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#grades_chosen]");
+                                }
+
+                                if (reportCountyData.SelectedSubjects != null && reportCountyData.SelectedSubjects != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#subjects_chosen]", replace: "Subject(s): " + reportCountyData.SelectedSubjects, matchCase: false);
+                                }
+                                else
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#subjects_chosen]");
+                                }
+
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#firstSemester_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
 
                                 var relativeModifier = reportCountyData.SessionsPreviousYearComparison < 0 ? "fewer" : "more";
@@ -587,7 +613,7 @@ namespace Repository
                                 {
                                     SeriesNames = dummySeries,
                                     CategoryDataType = ChartDataType.String,
-                                    CategoryNames = reportCountyData.SessionsPerGrade.Select(s => s.ChartElementName).ToArray(),
+                                    CategoryNames = reportCountyData.SessionsPerGrade.Select(s => "Grade " + s.ChartElementName).ToArray(),
                                     Values = new double[][] { reportCountyData.SessionsPerGrade.Select(s => s.ChartElementValue).ToArray() }
                                 };
 
@@ -637,6 +663,24 @@ namespace Repository
 
             outStream.Position = 0;
             return outStream;
+        }
+
+        private void RemoveTextBoxContentLine(WordprocessingDocument wordDoc, string contentText)
+        {
+            var body = wordDoc.MainDocumentPart.Document.Body;
+            var textBoxContents = body.Descendants<TextBoxContent>();
+
+            foreach (var textBoxContent in textBoxContents)
+            {
+                if (textBoxContent.HasChildren)
+                {
+                    var childElement = textBoxContent.Where(t => t.InnerText == contentText).FirstOrDefault();
+                    if (childElement != null)
+                    {
+                        textBoxContent.RemoveChild(childElement);
+                    }
+                }
+            }
         }
 
         public int? TryGetInt(string item)

@@ -10,6 +10,9 @@ namespace Repository.ReportModels
     {
         public string PreviousYear { get; set; }
         public string CurrentYear { get; set; }
+        public string CurrentSeason { get; set; }
+        public string SelectedGrades { get; set; }
+        public string SelectedSubjects { get; set; }
         public int CountyId { get; set; }
         public int Sessions { get; set; }
         public string Quarter { get; set; }
