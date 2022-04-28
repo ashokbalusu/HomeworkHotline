@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ebd4d6b94bc9450d8182266b05213d7c" Name="Diagram1">
+      <Diagram DiagramId="ebd4d6b94bc9450d8182266b05213d7c" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="HomeworkHotlineModel.AspNetRole" Width="1.5" PointX="5.75" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="HomeworkHotlineModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HomeworkHotlineModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="11.25" IsExpanded="true" />
@@ -51,6 +51,9 @@
         <AssociationConnector Association="HomeworkHotlineModel.FK_PhoneCall_Subject1" />
         <EntityTypeShape EntityType="HomeworkHotlineModel.DonorGiving" Width="1.5" PointX="14.375" PointY="0.75" />
         <AssociationConnector Association="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2" />
+        <EntityTypeShape EntityType="HomeworkHotlineModel.GradeLevel" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HomeworkHotlineModel.SubjectClassification" Width="1.5" PointX="15.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HomeworkHotlineModel.AppSetting" Width="1.5" PointX="14.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HomeworkHotlineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HomeworkHotlineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -14,6 +14,15 @@
           <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AppSettings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SettingName" Type="varchar" MaxLength="500" />
+          <Property Name="SettingValue" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -146,9 +155,9 @@
           <Key>
             <PropertyRef Name="DonorGivingID" />
           </Key>
-          <Property Name="DonorGivingID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DonorGivingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DonorID" Type="int" Nullable="false" />
-          <Property Name="AmountGiven" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AmountGiven" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="DateGiven" Type="datetime" Nullable="false" />
           <Property Name="InKind" Type="bit" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -159,6 +168,7 @@
           </Key>
           <Property Name="EvalEndID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EvalEndDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EvalStart">
           <Key>
@@ -166,6 +176,17 @@
           </Key>
           <Property Name="EvalStartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EvalStartDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GradeLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Grade" Type="varchar" MaxLength="50" />
+          <Property Name="GradeText" Type="varchar" MaxLength="50" />
+          <Property Name="GradeLevel" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="LanguageType">
           <Key>
@@ -174,6 +195,7 @@
           <Property Name="LanguageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LanguageName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="LanguageCode" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="ListPriority" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -205,6 +227,7 @@
           </Key>
           <Property Name="PrizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PrizeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ReferredType">
           <Key>
@@ -305,6 +328,16 @@
           <Property Name="SubjectName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SubjectClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecificSubject" Type="varchar" MaxLength="500" />
+          <Property Name="SubjectGroup" Type="varchar" MaxLength="500" />
+          <Property Name="SubjectSelectionList" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="SubjectType">
           <Key>
             <PropertyRef Name="SubjectTypeID" />
@@ -318,7 +351,7 @@
           </Key>
           <Property Name="TimeEntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="EntryDate" Type="datetime" />
+          <Property Name="EntryDate" Type="date" Nullable="false" />
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
           <Property Name="IsLocked" Type="bit" Nullable="false" />
@@ -327,7 +360,7 @@
           <Property Name="ActualEndTime" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_PrincipalList">
           <Key>
             <PropertyRef Name="SchoolID" />
@@ -341,7 +374,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <Property Name="SchoolID" Type="int" Nullable="false" />
           <Property Name="PrincipalEmail" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <Association Name="FK__DonorGivi__Donor__3C34F16F">
+        <Association Name="FK__DonorGivi__Donor__3D2915A8">
           <End Role="Donor" Type="Self.Donor" Multiplicity="1" />
           <End Role="DonorGiving" Type="Self.DonorGiving" Multiplicity="*" />
           <ReferentialConstraint>
@@ -603,6 +636,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
         </Association>
         <EntityContainer Name="HomeworkHotlineModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppSettings" EntityType="Self.AppSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -614,6 +648,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySet Name="DonorGiving" EntityType="Self.DonorGiving" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvalEnd" EntityType="Self.EvalEnd" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvalStart" EntityType="Self.EvalStart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GradeLevel" EntityType="Self.GradeLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanguageType" EntityType="Self.LanguageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MnpsQuadrant" EntityType="Self.MnpsQuadrant" Schema="dbo" store:Type="Tables" />
@@ -626,6 +661,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectClassification" EntityType="Self.SubjectClassification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubjectType" EntityType="Self.SubjectType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeEntry" EntityType="Self.TimeEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_PrincipalList" EntityType="Self.vw_PrincipalList" store:Type="Views" store:Schema="dbo">
@@ -640,7 +676,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
     [vw_PrincipalList].[PrincipalEmail] AS [PrincipalEmail]
     FROM [dbo].[vw_PrincipalList] AS [vw_PrincipalList]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__DonorGivi__Donor__3C34F16F" Association="Self.FK__DonorGivi__Donor__3C34F16F">
+          <AssociationSet Name="FK__DonorGivi__Donor__3D2915A8" Association="Self.FK__DonorGivi__Donor__3D2915A8">
             <End Role="Donor" EntitySet="Donor" />
             <End Role="DonorGiving" EntitySet="DonorGiving" />
           </AssociationSet>
@@ -807,6 +843,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <Property Name="EvalEndID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EvalEndDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalEnd" FromRole="EvalEnd" ToRole="CallLog" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EvalStart">
           <Key>
@@ -815,6 +852,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <Property Name="EvalStartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EvalStartDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_EvalStart" FromRole="EvalStart" ToRole="CallLog" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="LanguageType">
           <Key>
@@ -825,6 +863,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <Property Name="LanguageCode" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Student_LanguageType" FromRole="LanguageType" ToRole="Student" />
           <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_PhoneCall_LanguageType" FromRole="LanguageType" ToRole="CallLog" />
+          <Property Name="ListPriority" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -950,7 +989,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           </Key>
           <Property Name="TimeEntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EntryDate" Type="DateTime" Precision="3" />
+          <Property Name="EntryDate" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
           <Property Name="IsLocked" Type="Boolean" Nullable="false" />
@@ -1170,6 +1209,9 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
             <End Role="Donor" EntitySet="Donors" />
             <End Role="DonorGiving" EntitySet="DonorGivings" />
           </AssociationSet>
+          <EntitySet Name="GradeLevels" EntityType="HomeworkHotlineModel.GradeLevel" />
+          <EntitySet Name="SubjectClassifications" EntityType="HomeworkHotlineModel.SubjectClassification" />
+          <EntitySet Name="AppSettings" EntityType="HomeworkHotlineModel.AppSetting" />
         </EntityContainer>
         <EntityType Name="Prize">
           <Key>
@@ -1178,6 +1220,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <Property Name="PrizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PrizeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CallLogs" Relationship="HomeworkHotlineModel.FK_CallLog_Prize" FromRole="Prize" ToRole="CallLog" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="SchoolDistrict">
           <Key>
@@ -1421,7 +1464,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           </Key>
           <Property Name="DonorGivingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DonorID" Type="Int32" Nullable="false" />
-          <Property Name="AmountGiven" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="AmountGiven" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
           <Property Name="DateGiven" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="InKind" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Donor" Relationship="HomeworkHotlineModel.FK__DonorGivi__Donor__46B27FE2" FromRole="DonorGiving" ToRole="Donor" />
@@ -1439,6 +1482,35 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AppSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SettingName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SettingValue" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="GradeLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SubjectClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecificSubject" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectSelectionList" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1475,7 +1547,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="GradeLevel" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
                 <ScalarProperty Name="SubjectOther" ColumnName="SubjectOther" />
                 <ScalarProperty Name="MainSubject" ColumnName="MainSubject" />
                 <ScalarProperty Name="Volunteer" ColumnName="Volunteer" />
@@ -1513,6 +1585,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySetMapping Name="EvalEnds">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.EvalEnd">
               <MappingFragment StoreEntitySet="EvalEnd">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="EvalEndID" ColumnName="EvalEndID" />
                 <ScalarProperty Name="EvalEndDescription" ColumnName="EvalEndDescription" />
               </MappingFragment>
@@ -1521,6 +1594,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySetMapping Name="EvalStarts">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.EvalStart">
               <MappingFragment StoreEntitySet="EvalStart">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="EvalStartID" ColumnName="EvalStartID" />
                 <ScalarProperty Name="EvalStartDescription" ColumnName="EvalStartDescription" />
               </MappingFragment>
@@ -1529,6 +1603,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySetMapping Name="LanguageTypes">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.LanguageType">
               <MappingFragment StoreEntitySet="LanguageType">
+                <ScalarProperty Name="ListPriority" ColumnName="ListPriority" />
                 <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
                 <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
                 <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
@@ -1673,6 +1748,7 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
           <EntitySetMapping Name="Prizes">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.Prize">
               <MappingFragment StoreEntitySet="Prize">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />
                 <ScalarProperty Name="PrizeID" ColumnName="PrizeID" />
               </MappingFragment>
@@ -1799,6 +1875,37 @@ warning 6002: The table/view 'HomeworkHotline.dbo.vw_PrincipalList' does not hav
                 <ScalarProperty Name="AmountGiven" ColumnName="AmountGiven" />
                 <ScalarProperty Name="DonorID" ColumnName="DonorID" />
                 <ScalarProperty Name="DonorGivingID" ColumnName="DonorGivingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GradeLevels">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.GradeLevel">
+              <MappingFragment StoreEntitySet="GradeLevel">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeText" ColumnName="GradeText" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectClassifications">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.SubjectClassification">
+              <MappingFragment StoreEntitySet="SubjectClassification">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SubjectSelectionList" ColumnName="SubjectSelectionList" />
+                <ScalarProperty Name="SubjectGroup" ColumnName="SubjectGroup" />
+                <ScalarProperty Name="SpecificSubject" ColumnName="SpecificSubject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppSettings">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.AppSetting">
+              <MappingFragment StoreEntitySet="AppSettings">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+                <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

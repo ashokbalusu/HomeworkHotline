@@ -77,6 +77,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSetting.cs">
+      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetRole.cs">
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
     <Compile Include="CallLogs.cs" />
     <Compile Include="CallLogService.cs" />
     <Compile Include="CallLogStudentModel.cs" />
+    <Compile Include="GradeLevel.cs">
+      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GradeModel.cs" />
     <Compile Include="ReportModels\District.cs" />
     <Compile Include="ReportModels\GreenSection.cs" />
     <Compile Include="ReportModels\School.cs" />
@@ -143,6 +150,10 @@
       <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportService.cs" />
+    <Compile Include="SubjecClassificationModel.cs" />
+    <Compile Include="SubjectClassification.cs">
+      <DependentUpon>HomeworkHotlineModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubjectTypeModel.cs" />
     <Compile Include="TeacherService.cs" />
     <Compile Include="StudentService.cs" />

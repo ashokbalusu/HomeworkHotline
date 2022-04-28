@@ -16,7 +16,7 @@ namespace Repository
     {
         public int TimeEntryID { get; set; }
         public string UserID { get; set; }
-        public Nullable<System.DateTime> EntryDate { get; set; }
+        public System.DateTime EntryDate { get; set; }
         public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public bool IsLocked { get; set; }

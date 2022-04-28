@@ -22,6 +22,7 @@ namespace Repository
     
         public int EvalEndID { get; set; }
         public string EvalEndDescription { get; set; }
+        public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CallLog> CallLogs { get; set; }
