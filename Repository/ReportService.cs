@@ -167,9 +167,6 @@ namespace Repository
                 var districts = new List<District>();
                 var schools = new List<ReportModels.School>();
                 var ytds = new List<SessionsYTD>();
-                
-                // TO DO - REMOVE
-                reader.NextResult();
 
                 #region Result Set 1 - Totals
 
@@ -483,8 +480,8 @@ namespace Repository
 
                     report.CurrentYearRange = ytd.CurrentYear;
                     report.CurrentSeason = ytd.CurrentSeason;
-                    report.SelectedGrades = "K, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12";
-                    report.SelectedSubjects = "Math, Science, Other, Non - Academic, Language Arts, History, Foreign Language, Elementary";
+                    report.SelectedGrades = String.Join(", ", gradeIds);
+                    report.SelectedSubjects = String.Join(", ", subjectIds);
                     report.PreviousYearRange = ytd.PreviousYear;
                     report.SessionsPreviousYearComparison = ytd.Sessions;
                     report.QuarterMidYearName = ytd.Quarter;
