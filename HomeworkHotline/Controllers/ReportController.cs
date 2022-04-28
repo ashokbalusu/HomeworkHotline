@@ -40,9 +40,40 @@ namespace HomeworkHotline.Controllers
                 .OrderBy(c => c.CountyName);
         }
 
+        private void GetGradesDropdownData()
+        {
+            ViewData["Grades"] = _homeworkHotlineEntities
+                .GradeLevels
+                .Select(c => new GradeModel
+                {
+                    GradeID = c.Grade,
+                    GradeText = c.GradeText,
+                    GradeLevel = c.GradeLevel1
+                })
+                .OrderByDescending(c => c.GradeID);
+        }
+
+
+        private void GetSubjectsDropdownData()
+        {
+            ViewData["Subjects"] = _homeworkHotlineEntities
+                .SubjectClassifications
+                .Select(c => new SubjectClassificationModel
+                {
+                    SubjectID = c.SubjectGroup,
+                    SubjectName = c.SubjectGroup
+                }).Distinct()
+                .OrderBy(c => c.SubjectName);
+        }
+
+
         public ActionResult OverallReport()
         {
             GetCountiesDropdownData();
+
+            GetGradesDropdownData();
+
+            GetSubjectsDropdownData();
 
             var parameters = new OverallReportParametersViewModel();
 
@@ -63,7 +94,7 @@ namespace HomeworkHotline.Controllers
 
             if (ModelState.IsValid)
             {
-                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties);
+                var reportData = _reportService.GetReportData(parameters.StartDate.Value, parameters.EndDate.Value, parameters.Counties, parameters.Grades, parameters.Subjects);
 
                 string reportTemplatePath = ControllerContext.HttpContext.Server.MapPath("~/Documents/Report_Template.docx");
                 var reportZipStream = _reportService.GetReportZip(reportData, reportTemplatePath);
@@ -84,6 +115,8 @@ namespace HomeworkHotline.Controllers
             else
             {
                 GetCountiesDropdownData();
+                GetGradesDropdownData();
+                GetSubjectsDropdownData();
                 return View(parameters);
             }
         }

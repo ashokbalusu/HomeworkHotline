@@ -178,6 +178,16 @@
           <Property Name="EvalStartDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="GradeLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Grade" Type="varchar" MaxLength="50" />
+          <Property Name="GradeText" Type="varchar" MaxLength="50" />
+          <Property Name="GradeLevel" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="LanguageType">
           <Key>
             <PropertyRef Name="LanguageID" />
@@ -317,6 +327,16 @@
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
           <Property Name="SubjectName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubjectClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecificSubject" Type="varchar" MaxLength="500" />
+          <Property Name="SubjectGroup" Type="varchar" MaxLength="500" />
+          <Property Name="SubjectSelectionList" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="SubjectType">
           <Key>
@@ -628,6 +648,7 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <EntitySet Name="DonorGiving" EntityType="Self.DonorGiving" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvalEnd" EntityType="Self.EvalEnd" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EvalStart" EntityType="Self.EvalStart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GradeLevel" EntityType="Self.GradeLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanguageType" EntityType="Self.LanguageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MnpsQuadrant" EntityType="Self.MnpsQuadrant" Schema="dbo" store:Type="Tables" />
@@ -640,6 +661,7 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectClassification" EntityType="Self.SubjectClassification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubjectType" EntityType="Self.SubjectType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeEntry" EntityType="Self.TimeEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_PrincipalList" EntityType="Self.vw_PrincipalList" store:Type="Views" store:Schema="dbo">
@@ -1187,6 +1209,8 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
             <End Role="Donor" EntitySet="Donors" />
             <End Role="DonorGiving" EntitySet="DonorGivings" />
           </AssociationSet>
+          <EntitySet Name="GradeLevels" EntityType="HomeworkHotlineModel.GradeLevel" />
+          <EntitySet Name="SubjectClassifications" EntityType="HomeworkHotlineModel.SubjectClassification" />
           <EntitySet Name="AppSettings" EntityType="HomeworkHotlineModel.AppSetting" />
         </EntityContainer>
         <EntityType Name="Prize">
@@ -1467,6 +1491,26 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <Property Name="SettingValue" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="GradeLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GradeLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SubjectClassification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecificSubject" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectGroup" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectSelectionList" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1503,7 +1547,7 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="HomeworkHotlineModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="GradeLevel" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
                 <ScalarProperty Name="SubjectOther" ColumnName="SubjectOther" />
                 <ScalarProperty Name="MainSubject" ColumnName="MainSubject" />
                 <ScalarProperty Name="Volunteer" ColumnName="Volunteer" />
@@ -1831,6 +1875,27 @@ warning 6002: The table/view 'HomeworkHotline_Staging.dbo.vw_PrincipalList' does
                 <ScalarProperty Name="AmountGiven" ColumnName="AmountGiven" />
                 <ScalarProperty Name="DonorID" ColumnName="DonorID" />
                 <ScalarProperty Name="DonorGivingID" ColumnName="DonorGivingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GradeLevels">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.GradeLevel">
+              <MappingFragment StoreEntitySet="GradeLevel">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="GradeLevel1" ColumnName="GradeLevel" />
+                <ScalarProperty Name="GradeText" ColumnName="GradeText" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectClassifications">
+            <EntityTypeMapping TypeName="HomeworkHotlineModel.SubjectClassification">
+              <MappingFragment StoreEntitySet="SubjectClassification">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SubjectSelectionList" ColumnName="SubjectSelectionList" />
+                <ScalarProperty Name="SubjectGroup" ColumnName="SubjectGroup" />
+                <ScalarProperty Name="SpecificSubject" ColumnName="SpecificSubject" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

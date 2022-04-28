@@ -34,7 +34,7 @@ namespace Repository
             this.entities = entities;
         }
 
-        public List<ReportModel> GetReportData(DateTime startDate, DateTime endDate, List<int> countyIds = null, bool isAggregate = false)
+        public List<ReportModel> GetReportData(DateTime startDate, DateTime endDate, List<int> countyIds = null, List<string> gradeIds = null, List<string> subjectIds = null, bool isAggregate = false)
         {
             var reportData = new List<ReportModel>();
             entities.Database.Initialize(force: false);
@@ -84,6 +84,62 @@ namespace Repository
                 };
 
                 cmd.Parameters.Add(countyIdParam);
+            }
+
+            if (gradeIds != null && gradeIds.Count > 0)
+            {
+                var gradeIdsTableSchema = new List<SqlMetaData>()
+                    {
+                            new SqlMetaData("GradesText", SqlDbType.VarChar, 1000)
+                     }.ToArray();
+
+                var gradeIdsTable = new List<SqlDataRecord>();
+
+                foreach (var gradeId in gradeIds)
+                {
+                    var tableRow = new SqlDataRecord(gradeIdsTableSchema);
+                    tableRow.SetValue(0, gradeId);
+                    gradeIdsTable.Add(tableRow);
+                }
+
+                var gradeIdParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Structured,
+                    Direction = ParameterDirection.Input,
+                    ParameterName = "GradeListText",
+                    TypeName = "[dbo].[GradeList]",
+                    Value = gradeIdsTable
+                };
+
+                cmd.Parameters.Add(gradeIdParam);
+            }
+
+            if (subjectIds != null && subjectIds.Count > 0)
+            {
+                var subjectIdsTableSchema = new List<SqlMetaData>(0)
+                    {
+                            new SqlMetaData("SubjectName", SqlDbType.VarChar, 1000)
+                     }.ToArray();
+
+                var subjectIdsTable = new List<SqlDataRecord>();
+
+                foreach (var SubjectId in subjectIds)
+                {
+                    var tableRow = new SqlDataRecord(subjectIdsTableSchema);
+                    tableRow.SetValue(0, SubjectId);
+                    subjectIdsTable.Add(tableRow);
+                }
+
+                var subjectIdParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Structured,
+                    Direction = ParameterDirection.Input,
+                    ParameterName = "SubjectListText",
+                    TypeName = "[dbo].[SubjectList]",
+                    Value = subjectIdsTable
+                };
+
+                cmd.Parameters.Add(subjectIdParam);
             }
 
             try
