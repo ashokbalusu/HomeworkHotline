@@ -53,5 +53,6 @@ namespace Repository
         public virtual DbSet<DonorGiving> DonorGivings { get; set; }
         public virtual DbSet<GradeLevel> GradeLevels { get; set; }
         public virtual DbSet<SubjectClassification> SubjectClassifications { get; set; }
+        public virtual DbSet<AppSetting> AppSettings { get; set; }
     }
 }
