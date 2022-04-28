@@ -18,6 +18,10 @@ namespace HomeworkHotline.Models
         [Display(Name = "Counties")]
         [Required(ErrorMessage = "Please select one or more counties")]
         public List<int> Counties { get; set; }
+        [Display(Name = "Grades")]
+        public List<string> Grades { get; set; }
+        [Display(Name = "Subjects")]
+        public List<string> Subjects { get; set; }
         [Display(Name = "Report Aggregation")]
         public OverallReportAggregationType AggregationType { get; set; }
     }

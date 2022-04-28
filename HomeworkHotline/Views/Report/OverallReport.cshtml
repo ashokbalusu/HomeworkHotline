@@ -31,10 +31,7 @@
         </div>
     </div>
     <div class="row">
-        @*<div class="col-md-4">
-                @Html.LabelFor(m => m.Districts)
-                @Html.Kendo().MultiSelectFor(model => model.Districts).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Districts"], "SchoolDistrictID", "DistrictName")).Placeholder("Select Districts...").Name("Districts")
-            </div>*@
+
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(m => m.Counties, new { @class = "control-label" })
@@ -42,11 +39,31 @@
                 @Html.ValidationMessageFor(m => m.Counties, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="col-md-4">
-                @Html.LabelFor(m => m.Teachers)
-                @Html.Kendo().MultiSelectFor(model => model.Teachers).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Teachers"], "UserId", "FullName")).Placeholder("Select Teachers").Name("Teachers")
-            </div>*@
+
     </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Grades, new { @class = "control-label" })
+                @Html.Kendo().MultiSelectFor(model => model.Grades).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Grades"], "GradeId", "GradeText")).Placeholder("Select Grades").Name("Grades").AutoClose(false)
+                @Html.ValidationMessageFor(m => m.Grades, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Subjects, new { @class = "control-label" })
+                @Html.Kendo().MultiSelectFor(model => model.Subjects).BindTo(new SelectList((System.Collections.IEnumerable)ViewData["Subjects"], "SubjectID", "SubjectName")).Placeholder("Select Subjects").Name("Subjects").AutoClose(false)
+                @Html.ValidationMessageFor(m => m.Subjects, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
