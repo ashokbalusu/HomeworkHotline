@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Repository.StudentModel>
+@using Repository;
+
+@{
+    ViewBag.Title = "Students Import";
+}
+<h3>Import Total State Students from Excel (.xls) file</h3>
+
+<label for="file-upload" class="custom-file-upload btn btn-primary">
+    <i class="fa fa-cloud-upload"></i> Choose File
+</label>
+<input id="file-upload" type="file" accept=".xlsx" />
+<br/>
+Acceptable file type: .xlsx
+
+<br />
+<br />
+
+<a class="btn btn-primary"> <i class="glyphicon glyphicon-upload"></i> Upload File</a>
+
+@*<a href="Report/OverallReport" class="btn btn-primary">Where the Magic Happens <i class="glyphicon glyphicon-sunglasses"></i></a>*@
+
+<input type="hidden" value="@ViewBag.Message" id="hdnFlag" />

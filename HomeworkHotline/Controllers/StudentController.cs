@@ -25,6 +25,13 @@ namespace HomeworkHotline.Controllers
             return View();
         }
 
+        public ActionResult Import()
+        {
+            ViewBag.IsAdmin = User.IsInRole("Administrator");
+            return View();
+        }
+
+
         public ActionResult List()
         {
             GetDropdownData();
