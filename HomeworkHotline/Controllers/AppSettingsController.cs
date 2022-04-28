@@ -10,6 +10,7 @@ using Repository;
 
 namespace HomeworkHotline.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AppSettingsController : Controller
     {
         private HomeworkHotlineEntities db = new HomeworkHotlineEntities();
