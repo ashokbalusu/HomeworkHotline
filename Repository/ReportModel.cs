@@ -16,6 +16,9 @@ namespace Repository
         public int SessionsPreviousYearComparison { get; set; }
         public string PreviousYearRange { get; set; }
         public string CurrentYearRange { get; set; }
+        public string CurrentSeason { get; set; }
+        public string SelectedGrades { get; set; }
+        public string SelectedSubjects { get; set; }
         public string QuarterMidYearName { get; set; }
         public string ThroughDate { get; set; }
         public int TotalSessions { get; set; }
