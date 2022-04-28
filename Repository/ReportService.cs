@@ -480,8 +480,8 @@ namespace Repository
 
                     report.CurrentYearRange = ytd.CurrentYear;
                     report.CurrentSeason = ytd.CurrentSeason;
-                    report.SelectedGrades = String.Join(", ", gradeIds);
-                    report.SelectedSubjects = String.Join(", ", subjectIds);
+                    report.SelectedGrades = gradeIds != null ? String.Join(", ", gradeIds) : String.Empty;
+                    report.SelectedSubjects = subjectIds != null ? String.Join(", ", subjectIds) : String.Empty;
                     report.PreviousYearRange = ytd.PreviousYear;
                     report.SessionsPreviousYearComparison = ytd.Sessions;
                     report.QuarterMidYearName = ytd.Quarter;
