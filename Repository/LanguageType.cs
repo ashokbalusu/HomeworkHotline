@@ -24,6 +24,7 @@ namespace Repository
         public int LanguageID { get; set; }
         public string LanguageName { get; set; }
         public string LanguageCode { get; set; }
+        public short ListPriority { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Student> Students { get; set; }

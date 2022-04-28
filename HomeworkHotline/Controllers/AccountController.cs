@@ -100,9 +100,9 @@ namespace HomeworkHotline.Controllers
                         return View(model);
                     }
                     TimeEntry openTimeEntry = TimeEntries.GetOpenTimeEntriesByUser(userId);
-                    if(openTimeEntry != null && openTimeEntry.EntryDate.Value.Date == DateTime.Today)//user is still logged in for today, redirect to timesheets without logging in a second time.
+                    if(openTimeEntry != null && openTimeEntry.EntryDate.Date == DateTime.Today)//user is still logged in for today, redirect to timesheets without logging in a second time.
                         return RedirectToLocal(returnUrl);
-                    if (openTimeEntry != null && openTimeEntry.EntryDate.Value.Date < DateTime.Today)//user is still logged in for yesterday, log out, back in and redirect to timesheets
+                    if (openTimeEntry != null && openTimeEntry.EntryDate.Date < DateTime.Today)//user is still logged in for yesterday, log out, back in and redirect to timesheets
                         TimeEntries.ClockOutAtEndOfDay(userId, openTimeEntry);
                     TimeEntries.ClockIn(userId);
                     return RedirectToLocal(returnUrl);                 
