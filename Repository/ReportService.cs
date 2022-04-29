@@ -527,24 +527,6 @@ namespace Repository
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#schoolYear_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#season_year]", replace: reportCountyData.CurrentSeason, matchCase: false);
 
-                                if (reportCountyData.SelectedGrades != null && reportCountyData.SelectedGrades != "")
-                                {
-                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#grades_chosen]", replace: "Grade(s): " + reportCountyData.SelectedGrades, matchCase: false);
-                                }
-                                else
-                                {
-                                    RemoveTextBoxContentLine(wordDoc, "[#grades_chosen]");
-                                }
-
-                                if (reportCountyData.SelectedSubjects != null && reportCountyData.SelectedSubjects != "")
-                                {
-                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#subjects_chosen]", replace: "Subject(s): " + reportCountyData.SelectedSubjects, matchCase: false);
-                                }
-                                else
-                                {
-                                    RemoveTextBoxContentLine(wordDoc, "[#subjects_chosen]");
-                                }
-
                                 TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#firstSemester_yyyy_yy]", replace: reportCountyData.CurrentYearRange, matchCase: false);
 
                                 var relativeModifier = reportCountyData.SessionsPreviousYearComparison < 0 ? "fewer" : "more";
@@ -636,6 +618,25 @@ namespace Repository
                                     }
                                 }
                                 #endregion
+
+                                // Keep This At The Bottom - Line Removal Done by RemoveTextBoxContentLine Causes Issues with XML Power Tools
+                                if (reportCountyData.SelectedGrades != null && reportCountyData.SelectedGrades != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#grades_chosen]", replace: "Grade(s): " + reportCountyData.SelectedGrades, matchCase: false);
+                                }
+                                else
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#grades_chosen]");
+                                }
+
+                                if (reportCountyData.SelectedSubjects != null && reportCountyData.SelectedSubjects != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#subjects_chosen]", replace: "Subject(s): " + reportCountyData.SelectedSubjects, matchCase: false);
+                                }
+                                else
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#subjects_chosen]");
+                                }
 
                                 wordDoc.Save();
                                 wordDoc.SaveAs(generatedFilePath).Close();
