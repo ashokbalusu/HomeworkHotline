@@ -334,25 +334,12 @@ namespace Repository
 
                 while (reader.Read())
                 {
-                    var columnOrdinal = 0;
-
-                    columnOrdinal = reader.GetOrdinal("GreenThroughDate");
-                    greenSection.ThroughDate = reader.GetString(columnOrdinal);
-
-                    columnOrdinal = reader.GetOrdinal("GreenSessions");
-                    greenSection.Sessions = reader.GetInt32(columnOrdinal);
-
-                    columnOrdinal = reader.GetOrdinal("GreenStudents");
-                    greenSection.Students = reader.GetInt64(columnOrdinal);
-
-                    columnOrdinal = reader.GetOrdinal("GreenParents");
-                    greenSection.Parents = reader.GetInt64(columnOrdinal);
-
-                    columnOrdinal = reader.GetOrdinal("GreenMinutes");
-                    greenSection.Minutes = reader.GetDouble(columnOrdinal);
-
-                    columnOrdinal = reader.GetOrdinal("TeacherPositionsPerWeek");
-                    greenSection.TeacherPositionsPerWeek = reader.GetInt32(columnOrdinal);
+                    greenSection.ThroughDate = CheckNull<string>(reader["GreenThroughDate"]);
+                    greenSection.Sessions = CheckNull<int>(reader["GreenSessions"]);
+                    greenSection.Students = CheckNull<long>(reader["GreenStudents"]);
+                    greenSection.Parents = CheckNull<long>(reader["GreenParents"]);
+                    greenSection.Minutes = CheckNull<double>(reader["GreenMinutes"]);
+                    greenSection.TeacherPositionsPerWeek = CheckNull<int>(reader["TeacherPositionsPerWeek"]);
                 }
 
                 reader.NextResult();
@@ -603,6 +590,27 @@ namespace Repository
 
                                 #endregion
 
+                                if (reportCountyData.SelectedGrades != null && reportCountyData.SelectedGrades != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#grades_chosen]", replace: "Grade(s): " + reportCountyData.SelectedGrades, matchCase: false);
+                                }
+
+                                if (reportCountyData.SelectedSubjects != null && reportCountyData.SelectedSubjects != "")
+                                {
+                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#subjects_chosen]", replace: "Subject(s): " + reportCountyData.SelectedSubjects, matchCase: false);
+                                }
+
+                                if (reportCountyData.SelectedSubjects == null || reportCountyData.SelectedSubjects == "")
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#subjects_chosen]");
+                                }
+
+                                if (reportCountyData.SelectedGrades == null || reportCountyData.SelectedGrades == "")
+                                {
+                                    RemoveTextBoxContentLine(wordDoc, "[#grades_chosen]");
+                                }
+
+
                                 #region Table
                                 Body bod = wordDoc.MainDocumentPart.Document.Body;
 
@@ -618,25 +626,6 @@ namespace Repository
                                     }
                                 }
                                 #endregion
-
-                                // Keep This At The Bottom - Line Removal Done by RemoveTextBoxContentLine Causes Issues with XML Power Tools
-                                if (reportCountyData.SelectedGrades != null && reportCountyData.SelectedGrades != "")
-                                {
-                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#grades_chosen]", replace: "Grade(s): " + reportCountyData.SelectedGrades, matchCase: false);
-                                }
-                                else
-                                {
-                                    RemoveTextBoxContentLine(wordDoc, "[#grades_chosen]");
-                                }
-
-                                if (reportCountyData.SelectedSubjects != null && reportCountyData.SelectedSubjects != "")
-                                {
-                                    TextReplacer.SearchAndReplace(wordDoc: wordDoc, search: "[#subjects_chosen]", replace: "Subject(s): " + reportCountyData.SelectedSubjects, matchCase: false);
-                                }
-                                else
-                                {
-                                    RemoveTextBoxContentLine(wordDoc, "[#subjects_chosen]");
-                                }
 
                                 wordDoc.Save();
                                 wordDoc.SaveAs(generatedFilePath).Close();
@@ -664,6 +653,10 @@ namespace Repository
 
             outStream.Position = 0;
             return outStream;
+        }
+        private T CheckNull<T>(object obj)
+        {
+            return (obj == DBNull.Value ? default(T) : (T)obj);
         }
 
         private void RemoveTextBoxContentLine(WordprocessingDocument wordDoc, string contentText)
